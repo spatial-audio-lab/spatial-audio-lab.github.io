@@ -1,4 +1,42 @@
-![Logotypy KPO i UE](KPO.jpg)
+
+![Zestawienie logotypów KPO, RP i UE](KPO.jpg)
+
+# Spatial Audio Lab: archiwum VR dla edukacji teatralnej
+
+### O projekcie
+„Spatial Audio Lab” to projekt stypendialny skupiony na tworzeniu profesjonalnego archiwum dźwięku przestrzennego. W ramach działań powstaje baza nagrań w technologii Virtual Reality (VR), która łączy nowoczesną inżynierię dźwięku z klasyczną edukacją teatralną i technikami uważności (mindfulness).
+
+---
+
+##  Główne cele i zadania
+* **Stworzenie cyfrowego archiwum:** Opracowanie 15 scenografii dźwiękowych oraz 5 materiałów relaksacyjnych w formacie dźwięku 3D (binauralnym i ambisonicznym).
+* **Edukacja i rozwój:** Podniesienie kompetencji stypendysty poprzez specjalistyczne kursy międzynarodowe (m.in. LSBA, ASSR).
+* **Współpraca z ekspertami:** Przeprowadzenie 5 konsultacji i wywiadów z liderami branży audio i teatru, aby zachować najwyższą jakość merytoryczną archiwum.
+* **Popularyzacja technologii:** Udostępnienie zebranych materiałów studentom i pedagogom do bezpłatnego użytku edukacyjnego.
+
+##  Grupy docelowe
+Projekt jest skierowany do:
+* **Studentów szkół teatralnych i artystycznych**, poszukujących nowoczesnych narzędzi do pracy nad rolą i głosem.
+* **Pedagogów i wykładowców**, chcących wzbogacić warsztat nauczania o technologie immersyjne.
+* **Twórców teatralnych i dźwiękowych**, zainteresowanych wykorzystaniem dźwięku przestrzennego w sztuce.
+
+##  Koszt przedsięwzięcia
+Realizacja projektu jest możliwa dzięki wsparciu finansowemu z funduszy europejskich.
+* **Całkowita wartość przedsięwzięcia:** 36 000,00 zł brutto
+* **Wartość dofinansowania z Unii Europejskiej (NextGenerationEU):** 36 000,00 zł brutto
+
+##  Efekty i korzyści
+Dzięki realizacji projektu sektor kultury zyskuje:
+1. **Bezpłatną bazę wiedzy** o dźwięku przestrzennym w teatrze.
+2. **Narzędzia relaksacyjne** oparte na technologii VR, wspierające higienę pracy twórczej.
+3. **Zbiór inspiracji dźwiękowych**, które mogą być wykorzystane w przyszłych spektaklach i słuchowiskach.
+4. **Wzrost kompetencji cyfrowych** w środowisku artystycznym.
+
+---
+*Projekt sfinansowany przez Unię Europejską – NextGenerationEU. Wsparcie udzielone w ramach Krajowego Planu Odbudowy i Zwiększania Odporności, Inwestycja A2.5.1: Program wspierania działalności podmiotów sektora kultury i przemysłów kreatywnych na rzecz stymulowania ich rozwoju.*
+
+![Zestawienie logotypów KPO, RP i UE](KPO.jpg)
+
 
 # Spatial Audio Lab: archiwum VR dla edukacji teatralnej
 **Projekt stypendialny Oskara Hamerskiego**
@@ -19,14 +57,14 @@ Projekt jest realizowany w ramach programu stypendialnego **Krajowego Planu Odbu
 
 ---
 
-## 🎯 Cel Projektu
+##  Cel Projektu
 **Spatial Audio Lab** to innowacyjne archiwum dźwięku przestrzennego (VR/Immersive Audio) dedykowane edukacji teatralnej. Celem projektu jest demokratyzacja dostępu do nowoczesnych technologii audio oraz stworzenie bazy materiałów dla studentów, pedagogów i twórców teatralnych.
 
 Projekt łączy praktykę aktorską z najnowszymi osiągnięciami inżynierii dźwięku (ambisonia, dźwięk binauralny) oraz technikami mindfulness.
 
 ---
 
-## 📦 Zawartość Archiwum (Wskaźniki Projektowe)
+##  Zawartość Archiwum (Wskaźniki Projektowe)
 
 Archiwum zostało podzielone na cztery główne filary merytoryczne:
 
@@ -50,7 +88,7 @@ Unikalna seria rozmów w formacie audio przestrzennego z liderami branży audio 
 
 ---
 
-## 🎓 Kompetencje i Certyfikaty
+##  Kompetencje i Certyfikaty
 W ramach stypendium podniesiono kwalifikacje zawodowe poprzez ukończenie kursów:
 * **Mindfulness** (Universiteit Leiden / Coursera)
 * **REAPER DAW** (Udemy)
@@ -59,12 +97,12 @@ W ramach stypendium podniesiono kwalifikacje zawodowe poprzez ukończenie kursó
 
 ---
 
-## 🛠️ Informacje Techniczne
+##  Informacje Techniczne
 Większość materiałów w tym archiwum została zrealizowana w technice **binauralnej**. Aby uzyskać pełny efekt immersji i dźwięku 3D, **należy słuchać nagrań wyłącznie na słuchawkach**.
 
 ---
 
-## 📩 Kontakt
+##  Kontakt
 **Oskar Hamerski**
 *Stypendysta KPO dla Kultury 2025/2026*
-[Link do strony projektu / Twoja strona WWW]
+[oskar.hamerski@gmail.com]
