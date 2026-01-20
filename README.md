@@ -52,8 +52,6 @@ Projekt jest realizowany w ramach programu stypendialnego **Krajowego Planu Odbu
 * **Instytucja Wspierająca:** Narodowy Instytut Muzyki i Tańca (NIMiT).
 * **Finansowanie:** Sfinansowane przez Unię Europejską – NextGenerationEU.
 
-> ![KPO Logo](https://www.kpodlakultury.pl/wp-content/uploads/2024/07/Logotypy-KPO-NIMiT-UE.png)
-> *[Miejsce na oficjalne zestawienie logotypów: KPO, Rzeczpospolita Polska, Unia Europejska]*
 
 ---
 
