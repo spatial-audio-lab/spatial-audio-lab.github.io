@@ -1,7 +1,8 @@
+![Logotypy KPO i UE](KPO.jpg)
 
 # Spatial Audio Lab: archiwum VR dla edukacji teatralnej
-
-### Projekt stypendialny Oskara Hamerskiego
+**Projekt stypendialny Oskara Hamerskiego**
+*Umowa nr: 143/KPO. STYPENDIA/NIMIT/2025*
 
 ---
 
