@@ -2,11 +2,12 @@
 
 # Spatial Audio Lab: archiwum VR dla edukacji teatralnej
 **Projekt stypendialny Oskara Hamerskiego**
+
 *Umowa nr: 143/KPO. STYPENDIA/NIMIT/2025*
 
 ---
 
-## 🇪🇺 Informacja o finansowaniu
+## Informacja o finansowaniu
 Projekt jest realizowany w ramach programu stypendialnego **Krajowego Planu Odbudowy i Zwiększania Odporności (KPO)**.
 
 * **Program:** Inwestycja A2.5.1: Program wspierania działalności podmiotów sektora kultury i przemysłów kreatywnych na rzecz stymulowania ich rozwoju.
