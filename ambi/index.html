@@ -1211,23 +1211,24 @@
                 `Alpha: ${Math.round(alpha)}° | Beta: ${Math.round(beta)}° | Gamma: ${Math.round(gamma)}°`;
 
             // Convert alpha (0-360) to yaw (-180 to +180)
-            // 0° = North (front), 90° = East (right), 180° = South (back), 270° = West (left)
-            let yaw = alpha;
-            if (yaw > 180) {
-                yaw = yaw - 360;  // Convert 181-360 to -179 to 0
+            // NEGATED: rotating phone left = looking left = sound from front moves to RIGHT ear
+            let yaw = -alpha;
+            if (yaw < -180) {
+                yaw = yaw + 360;  // Convert -360 to -181 → 0 to 179
             }
             
             // Beta maps to pitch, but clamp to -90/+90
-            let pitch = Math.max(-90, Math.min(90, beta));
+            // NEGATED: tilting phone forward = looking down
+            let pitch = Math.max(-90, Math.min(90, -beta));
             
-            // Gamma maps to roll (already -90 to 90, negate for intuitive direction)
-            let roll = -gamma;
+            // Gamma maps to roll
+            let roll = gamma;
 
             state.rotationX = pitch;
             state.rotationY = yaw;
             state.rotationZ = roll;
 
-            // Update sliders (they will clamp to their own ranges)
+            // Update sliders
             document.getElementById('rotationY').value = Math.round(yaw);
             document.getElementById('rotationX').value = Math.round(pitch);
             document.getElementById('rotationZ').value = Math.max(-180, Math.min(180, Math.round(roll)));
