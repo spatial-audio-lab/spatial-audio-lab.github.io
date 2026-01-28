@@ -1203,22 +1203,40 @@
         function onDeviceOrientation(event) {
             if (state.rotationMode !== 'gyroscope') return;
 
-            const alpha = event.alpha || 0;
-            const beta = event.beta || 0;
-            const gamma = event.gamma || 0;
+            const alpha = event.alpha || 0;  // 0-360° (compass heading)
+            const beta = event.beta || 0;    // -180 to 180° (front/back tilt)
+            const gamma = event.gamma || 0;  // -90 to 90° (left/right tilt)
 
             document.getElementById('orientationDisplay').textContent =
                 `Alpha: ${Math.round(alpha)}° | Beta: ${Math.round(beta)}° | Gamma: ${Math.round(gamma)}°`;
 
-            state.rotationX = beta;
-            state.rotationY = alpha;
-            state.rotationZ = -gamma;
+            // Convert alpha (0-360) to yaw (-180 to +180)
+            // 0° = North (front), 90° = East (right), 180° = South (back), 270° = West (left)
+            let yaw = alpha;
+            if (yaw > 180) {
+                yaw = yaw - 360;  // Convert 181-360 to -179 to 0
+            }
+            
+            // Beta maps to pitch, but clamp to -90/+90
+            let pitch = Math.max(-90, Math.min(90, beta));
+            
+            // Gamma maps to roll (already -90 to 90, negate for intuitive direction)
+            let roll = -gamma;
 
-            document.getElementById('rotationX').value = Math.max(-180, Math.min(180, state.rotationX));
-            document.getElementById('rotationY').value = Math.max(-180, Math.min(180, state.rotationY));
-            document.getElementById('rotationZ').value = Math.max(-180, Math.min(180, state.rotationZ));
+            state.rotationX = pitch;
+            state.rotationY = yaw;
+            state.rotationZ = roll;
 
-            updateRotationFromSliders();
+            // Update sliders (they will clamp to their own ranges)
+            document.getElementById('rotationY').value = Math.round(yaw);
+            document.getElementById('rotationX').value = Math.round(pitch);
+            document.getElementById('rotationZ').value = Math.max(-180, Math.min(180, Math.round(roll)));
+
+            document.getElementById('rotYValue').textContent = Math.round(yaw) + '°';
+            document.getElementById('rotXValue').textContent = Math.round(pitch) + '°';
+            document.getElementById('rotZValue').textContent = Math.round(roll) + '°';
+
+            applyRotation();
         }
 
         // ===========================================
