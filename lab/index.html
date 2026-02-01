@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambisonic Web Player</title>
+    <style>
+        :root {
+            --color-bg-primary: #0f172a;
+            --color-bg-secondary: #1e293b;
+            --color-text-primary: #f1f5f9;
+            --color-text-secondary: #cbd5e1;
+            --color-accent: #38bdf8;
+            --color-accent-hover: #0ea5e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--color-bg-secondary);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            color: var(--color-text-secondary);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input-group input[type="file"],
+        .input-group input[type="text"] {
+            flex: 1;
+            padding: 10px 12px;
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            color: var(--color-text-primary);
+            font-size: 14px;
+        }
+
+        .input-group input[type="text"]::placeholder {
+            color: var(--color-text-secondary);
+        }
+
+        .input-group input[type="file"]:focus,
+        .input-group input[type="text"]:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        .button {
+            padding: 10px 16px;
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .playback-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: 12px;
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background-color: var(--color-accent-hover);
+        }
+
+        .control-btn:disabled {
+            background-color: rgba(56, 189, 248, 0.3);
+            cursor: not-allowed;
+        }
+
+        .info-panel {
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--color-text-secondary);
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: var(--color-bg-primary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .orientation-display {
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            text-align: center;
+            color: var(--color-accent);
+        }
+
+        .status {
+            padding: 10px 12px;
+            background-color: var(--color-bg-primary);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            text-align: center;
+            word-break: break-all;
+        }
+
+        .status.loading {
+            color: var(--color-accent);
+        }
+
+        .status.error {
+            color: #ff6b6b;
+        }
+
+        .status.success {
+            color: #51cf66;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .slider-group {
+            margin-bottom: 20px;
+        }
+
+        .slider-item {
+            margin-bottom: 15px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        .slider-label-name {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: var(--color-accent-hover);
+            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.5);
+            transform: scale(1.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            background: var(--color-accent-hover);
+            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.5);
+            transform: scale(1.2);
+        }
+
+        .visualization-container {
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #canvas3d {
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
+        }
+
+        .visualization-info {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            text-align: center;
+            width: 100%;
+        }
+
+        .rotation-mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 8px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 8px;
+            background-color: transparent;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--color-text-secondary);
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn.active {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-bg-primary);
+        }
+
+        .mode-btn:hover:not(.active) {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            #canvas3d {
+                width: 100%;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎧 Ambisonic Web Player</h1>
+            <p>FOA Binaural Audio with Gyroscope Control</p>
+        </div>
+
+        <div class="section">
+            <h2>📁 Załaduj plik</h2>
+            <div class="input-group">
+                <input type="file" id="fileInput" accept=".wav,.mp3,.ogg,.opus,.flac" />
+                <button class="button" onclick="loadFileFromDisk()">Załaduj</button>
+            </div>
+            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 8px;">
+                Wspierane: WAV, MP3, OGG, Opus, FLAC (AmbiX B-format FOA)
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🌐 Lub z linku</h2>
+            <div class="input-group">
+                <input type="text" id="urlInput" placeholder="Wpisz URL do pliku audio..." />
+                <button class="button" onclick="loadFileFromURL()">Załaduj</button>
+            </div>
+        </div>
+
+        <div class="status" id="status">Gotów do załadowania pliku...</div>
+
+        <div class="playback-controls hidden" id="playbackControls">
+            <button class="control-btn" id="playBtn" onclick="togglePlayPause()">▶ Odtwórz</button>
+            <button class="control-btn" id="stopBtn" onclick="stopAudio()">■ Stop</button>
+        </div>
+
+        <div class="info-panel hidden" id="infoPanel">
+            <div class="info-item">
+                <span class="info-label">Czas:</span>
+                <span id="timeDisplay">0:00 / 0:00</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Orientacja (Gyro):</span>
+                <span id="gyroStatus">Oczekiwanie na sensor...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Kanały:</span>
+                <span id="channelCount">-</span>
+            </div>
+        </div>
+
+        <div class="section hidden" id="rotationControlSection">
+            <h2>🎛️ Rotacja ręczna (FOA)</h2>
+            <div class="rotation-mode-toggle">
+                <button class="mode-btn active" onclick="setRotationMode(event, 'manual')">Ręczna (Slider)</button>
+                <button class="mode-btn" onclick="setRotationMode(event, 'gyroscope')">Żyroskop</button>
+                <button class="mode-btn" onclick="setRotationMode(event, 'auto')">Auto Spin</button>
+            </div>
+
+            <div class="slider-group" id="sliderGroup">
+                <div class="slider-item">
+                    <div class="slider-label">
+                        <span class="slider-label-name">Oś X (Przód-Tył)</span>
+                        <span id="rotXValue">0°</span>
+                    </div>
+                    <input type="range" id="rotationX" min="-180" max="180" value="0" step="1" 
+                           oninput="updateRotationFromSliders()" />
+                </div>
+
+                <div class="slider-item">
+                    <div class="slider-label">
+                        <span class="slider-label-name">Oś Y (Lewo-Prawo)</span>
+                        <span id="rotYValue">0°</span>
+                    </div>
+                    <input type="range" id="rotationY" min="-180" max="180" value="0" step="1" 
+                           oninput="updateRotationFromSliders()" />
+                </div>
+
+                <div class="slider-item">
+                    <div class="slider-label">
+                        <span class="slider-label-name">Oś Z (Góra-Dół)</span>
+                        <span id="rotZValue">0°</span>
+                    </div>
+                    <input type="range" id="rotationZ" min="-180" max="180" value="0" step="1" 
+                           oninput="updateRotationFromSliders()" />
+                </div>
+            </div>
+        </div>
+
+        <div class="section hidden" id="visualizationSection">
+            <h2>📊 Wizualizacja 3D</h2>
+            <div class="visualization-container">
+                <canvas id="canvas3d" width="500" height="300"></canvas>
+                <div class="visualization-info">
+                    Sfera reprezentuje pole dźwiękowe FOA. Osie X(czerwona), Y(zielona), Z(niebieska) pokazują orientację.
+                </div>
+            </div>
+        </div>
+
+        <div class="section hidden" id="orientationSection">
+            <h2>📐 Orientacja urządzenia</h2>
+            <div class="orientation-display" id="orientationDisplay">
+                Alpha: 0° | Beta: 0° | Gamma: 0°
+            </div>
+            <div style="font-size: 12px; color: var(--color-text-secondary); margin-top: 8px;">
+                Obracaj urządzenie, aby zmieniać kierunek dźwięku. Wymaga żyroskopu.
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; font-size: 12px; color: var(--color-text-secondary);">
+            <p>Wymagane słuchawki do odtworzenia dźwięku binauralnego</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/omnitone@2.3.9/build/omnitone.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+
+    <script>
+        // Global state
+        const state = {
+            audioContext: null,
+            source: null,
+            buffer: null,
+            isPlaying: false,
+            rotator: null,
+            decoder: null,
+            analyser: null,
+            rotationMode: 'manual', // manual, gyroscope, auto
+            autoSpinAngle: 0,
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0
+        };
+
+        // Initialize Audio Context
+        function initializeAudioContext() {
+            if (!state.audioContext) {
+                state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                setupAmbisonic();
+            }
+        }
+
+        // Setup Omnitone FOA Ambisonic Decoder
+        function setupAmbisonic() {
+            const context = state.audioContext;
+
+            // Create FOA rotator
+            state.rotator = Omnitone.createFOARotator(context);
+
+            // Create FOA binaural decoder
+            state.decoder = Omnitone.createFOADecoder(context, {
+                HRTFSetUrl: 'https://cdn.jsdelivr.net/npm/omnitone@2.3.9/build/resources/IRs/',
+                postGainDB: 0
+            });
+
+            // Chain: Rotator → Decoder → Destination
+            state.rotator.output.connect(state.decoder.input);
+            state.decoder.output.connect(context.destination);
+
+            // Optional analyser
+            state.analyser = context.createAnalyser();
+            state.rotator.output.connect(state.analyser);
+
+            updateStatus('Audio Context inicjalizowany (Omnitone załadowany)', 'success');
+        }
+
+        // Load file from disk
+        function loadFileFromDisk() {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                updateStatus('Wybierz plik!', 'error');
+                return;
+            }
+
+            initializeAudioContext();
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                decodeAudioFile(event.target.result, file.name);
+            };
+            reader.readAsArrayBuffer(file);
+            updateStatus('Załadowywanie pliku...', 'loading');
+        }
+
+        // Load file from URL
+        function loadFileFromURL() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (!url) {
+                updateStatus('Wpisz URL!', 'error');
+                return;
+            }
+
+            initializeAudioContext();
+            updateStatus('Pobieranie pliku z sieci...', 'loading');
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Błąd pobierania pliku');
+                    return response.arrayBuffer();
+                })
+                .then(arrayBuffer => {
+                    decodeAudioFile(arrayBuffer, url.split('/').pop() || 'audio');
+                })
+                .catch(error => {
+                    updateStatus('Błąd: ' + error.message, 'error');
+                });
+        }
+
+        // Decode audio file
+        function decodeAudioFile(arrayBuffer, fileName) {
+            const context = state.audioContext;
+
+            context.decodeAudioData(
+                arrayBuffer,
+                (decodedBuffer) => {
+                    state.buffer = decodedBuffer;
+                    document.getElementById('channelCount').textContent = decodedBuffer.numberOfChannels;
+
+                    if (decodedBuffer.numberOfChannels !== 4) {
+                        updateStatus(
+                            `⚠️ Plik ma ${decodedBuffer.numberOfChannels} kanały (oczekiwano 4 - FOA AmbiX)`,
+                            'error'
+                        );
+                    } else {
+                        updateStatus(`✓ Załadowano: ${fileName}`, 'success');
+                    }
+
+                    showPlaybackControls();
+                    showOrientationSection();
+                },
+                (error) => {
+                    updateStatus('Błąd dekodowania: ' + error.message, 'error');
+                }
+            );
+        }
+
+        // Toggle play/pause
+        function togglePlayPause() {
+            const context = state.audioContext;
+            if (!state.buffer) return;
+
+            if (state.isPlaying) {
+                context.suspend();
+                state.isPlaying = false;
+                document.getElementById('playBtn').textContent = '▶ Odtwórz';
+            } else {
+                context.resume();
+
+                if (!state.source) {
+                    state.source = context.createBufferSource();
+                    state.source.buffer = state.buffer;
+                    state.source.connect(state.rotator.input);
+
+                    state.source.onended = () => {
+                        state.isPlaying = false;
+                        document.getElementById('playBtn').textContent = '▶ Odtwórz';
+                        updateTimeDisplay(0, state.buffer.duration);
+                    };
+
+                    state.source.start(0);
+                }
+
+                state.isPlaying = true;
+                document.getElementById('playBtn').textContent = '⏸ Pauza';
+                startTimeUpdate();
+            }
+        }
+
+        // Stop audio
+        function stopAudio() {
+            if (state.source) {
+                state.source.stop();
+                state.source = null;
+            }
+            state.isPlaying = false;
+            document.getElementById('playBtn').textContent = '▶ Odtwórz';
+            if (state.buffer) {
+                updateTimeDisplay(0, state.buffer.duration);
+                updateProgressBar(0, state.buffer.duration);
+            }
+        }
+
+        // Update time display
+        let timeUpdateInterval;
+        function startTimeUpdate() {
+            clearInterval(timeUpdateInterval);
+            timeUpdateInterval = setInterval(() => {
+                if (state.audioContext && state.buffer && state.isPlaying) {
+                    updateTimeDisplay(
+                        state.audioContext.currentTime,
+                        state.buffer.duration
+                    );
+                    updateProgressBar(
+                        state.audioContext.currentTime,
+                        state.buffer.duration
+                    );
+                }
+            }, 100);
+        }
+
+        function updateTimeDisplay(current, duration) {
+            const format = (sec) => {
+                const mins = Math.floor(sec / 60);
+                const secs = Math.floor(sec % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            };
+            document.getElementById('timeDisplay').textContent =
+                `${format(current)} / ${format(duration)}`;
+        }
+
+        function updateProgressBar(current, duration) {
+            const percentage = (current / duration) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        // Update status message
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+
+        // Show controls/sections
+        function showPlaybackControls() {
+            document.getElementById('playbackControls').classList.remove('hidden');
+            document.getElementById('infoPanel').classList.remove('hidden');
+        }
+
+        function showOrientationSection() {
+            document.getElementById('rotationControlSection').classList.remove('hidden');
+            document.getElementById('visualizationSection').classList.remove('hidden');
+
+            if (window.DeviceOrientationEvent) {
+                document.getElementById('orientationSection').classList.remove('hidden');
+                initializeDeviceOrientation();
+            }
+        }
+
+        // Rotation mode
+        function setRotationMode(evt, mode) {
+            state.rotationMode = mode;
+
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            evt.target.classList.add('active');
+
+            if (mode === 'auto') {
+                startAutoSpin();
+            } else {
+                stopAutoSpin();
+            }
+        }
+
+        // Update rotation from sliders
+        function updateRotationFromSliders() {
+            state.rotationX = parseFloat(document.getElementById('rotationX').value);
+            state.rotationY = parseFloat(document.getElementById('rotationY').value);
+            state.rotationZ = parseFloat(document.getElementById('rotationZ').value);
+
+            document.getElementById('rotXValue').textContent = state.rotationX + '°';
+            document.getElementById('rotYValue').textContent = state.rotationY + '°';
+            document.getElementById('rotZValue').textContent = state.rotationZ + '°';
+
+            applyRotation();
+        }
+
+        // Apply rotation to Omnitone
+        function applyRotation() {
+            if (!state.rotator) return;
+
+            const xRad = THREE.MathUtils.degToRad(state.rotationX);
+            const yRad = THREE.MathUtils.degToRad(state.rotationY);
+            const zRad = THREE.MathUtils.degToRad(state.rotationZ);
+
+            const euler = new THREE.Euler(xRad, yRad, zRad, 'YXZ');
+            const quaternion = new THREE.Quaternion();
+            quaternion.setFromEuler(euler);
+
+            const rotationMatrix = new THREE.Matrix4();
+            rotationMatrix.makeRotationFromQuaternion(quaternion);
+
+            state.rotator.setRotationMatrix4(rotationMatrix.elements);
+        }
+
+        // Auto spin
+        let autoSpinInterval = null;
+        function startAutoSpin() {
+            if (autoSpinInterval) return;
+            autoSpinInterval = setInterval(() => {
+                state.autoSpinAngle = (state.autoSpinAngle + 1) % 360;
+                document.getElementById('rotationY').value = state.autoSpinAngle;
+                updateRotationFromSliders();
+            }, 50);
+        }
+
+        function stopAutoSpin() {
+            if (autoSpinInterval) {
+                clearInterval(autoSpinInterval);
+                autoSpinInterval = null;
+            }
+        }
+
+        // Device orientation
+        function initializeDeviceOrientation() {
+            const gyroStatus = document.getElementById('gyroStatus');
+
+            if (typeof DeviceOrientationEvent !== 'undefined'
+                && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                // iOS 13+
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', onDeviceOrientation, true);
+                            gyroStatus.textContent = 'Aktywny ✓';
+                        } else {
+                            gyroStatus.textContent = 'Brak dostępu (odmowa)';
+                        }
+                    })
+                    .catch(() => {
+                        gyroStatus.textContent = 'Błąd żądania uprawnień';
+                    });
+            } else if (typeof DeviceOrientationEvent !== 'undefined') {
+                // Android / inne
+                window.addEventListener('deviceorientation', onDeviceOrientation, true);
+                gyroStatus.textContent = 'Aktywny ✓';
+            } else {
+                gyroStatus.textContent = 'Brak sensora';
+            }
+        }
+
+        function onDeviceOrientation(event) {
+            if (state.rotationMode !== 'gyroscope') return;
+
+            const alpha = event.alpha || 0;
+            const beta = event.beta || 0;
+            const gamma = event.gamma || 0;
+
+            document.getElementById('orientationDisplay').textContent =
+                `Alpha: ${Math.round(alpha)}° | Beta: ${Math.round(beta)}° | Gamma: ${Math.round(gamma)}°`;
+
+            state.rotationX = beta;
+            state.rotationY = alpha;
+            state.rotationZ = -gamma;
+
+            document.getElementById('rotationX').value = state.rotationX;
+            document.getElementById('rotationY').value = state.rotationY;
+            document.getElementById('rotationZ').value = state.rotationZ;
+
+            updateRotationFromSliders();
+        }
+
+        // 2D "3D" visualization
+        function draw3DVisualization() {
+            const canvas = document.getElementById('canvas3d');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 80;
+
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+            ctx.translate(centerX, centerY);
+
+            // Base sphere
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(0, 0, radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Rotate according to Y for a bit of depth illusion
+            const yRad = THREE.MathUtils.degToRad(state.rotationY);
+            ctx.rotate(yRad);
+
+            // X axis (red)
+            ctx.strokeStyle = '#ff6b6b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(radius, 0);
+            ctx.stroke();
+            ctx.fillStyle = '#ff6b6b';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.fillText('X', radius + 10, 5);
+
+            // Y axis (green)
+            ctx.strokeStyle = '#51cf66';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, radius);
+            ctx.stroke();
+            ctx.fillStyle = '#51cf66';
+            ctx.fillText('Y', 5, radius + 15);
+
+            // Z axis (blue, dashed circle)
+            ctx.strokeStyle = '#38bdf8';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 5]);
+            ctx.beginPath();
+            ctx.arc(0, 0, radius * 0.6, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.restore();
+
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.8)';
+            ctx.font = '12px monospace';
+            ctx.fillText(`Rot X: ${Math.round(state.rotationX)}°`, 10, 20);
+            ctx.fillText(`Rot Y: ${Math.round(state.rotationY)}°`, 10, 35);
+            ctx.fillText(`Rot Z: ${Math.round(state.rotationZ)}°`, 10, 50);
+        }
+
+        function animationLoop() {
+            draw3DVisualization();
+            requestAnimationFrame(animationLoop);
+        }
+
+        // On load
+        window.addEventListener('load', () => {
+            updateStatus('Gotów. Załaduj plik audio (4-kanałowy AmbiX FOA)', 'info');
+            animationLoop();
+        });
+
+        // Resume audio on user gesture (autoplay policy)
+        document.addEventListener('click', () => {
+            if (state.audioContext && state.audioContext.state === 'suspended') {
+                state.audioContext.resume();
+            }
+        });
+    </script>
+</body>
+</html>

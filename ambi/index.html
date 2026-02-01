@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ambisonic Web Player</title>
+    <style>
+        :root {
+            --color-bg-primary: #0f172a;
+            --color-bg-secondary: #1e293b;
+            --color-text-primary: #f1f5f9;
+            --color-text-secondary: #cbd5e1;
+            --color-accent: #38bdf8;
+            --color-accent-hover: #0ea5e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--color-bg-secondary);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            color: var(--color-text-secondary);
+        }
+
+        .demo-section {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(14, 165, 233, 0.05));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .demo-section h3 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: var(--color-accent);
+        }
+
+        .demo-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: var(--color-bg-primary);
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .demo-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input-group input[type="file"],
+        .input-group input[type="text"] {
+            flex: 1;
+            padding: 10px 12px;
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            color: var(--color-text-primary);
+            font-size: 14px;
+        }
+
+        .input-group input[type="text"]::placeholder {
+            color: var(--color-text-secondary);
+        }
+
+        .input-group input[type="file"]:focus,
+        .input-group input[type="text"]:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        .button {
+            padding: 10px 16px;
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .playback-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: 14px;
+            background-color: var(--color-accent);
+            color: var(--color-bg-primary);
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background-color: var(--color-accent-hover);
+        }
+
+        .control-btn:disabled {
+            background-color: rgba(56, 189, 248, 0.3);
+            cursor: not-allowed;
+        }
+
+        .info-panel {
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--color-text-secondary);
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .progress-container {
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(148, 163, 184, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-bar:hover {
+            height: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+            width: 0%;
+            transition: width 0.1s linear;
+            border-radius: 4px;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(148, 163, 184, 0.1);
+        }
+
+        .volume-control label {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            min-width: 60px;
+        }
+
+        .volume-slider {
+            flex: 1;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(148, 163, 184, 0.2);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            cursor: pointer;
+        }
+
+        .orientation-display {
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            text-align: center;
+            color: var(--color-accent);
+        }
+
+        .status {
+            padding: 12px 14px;
+            background-color: var(--color-bg-primary);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            text-align: center;
+            word-break: break-all;
+            margin-bottom: 20px;
+        }
+
+        .status.loading {
+            color: var(--color-accent);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .status.error {
+            color: #ff6b6b;
+            background-color: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .status.success {
+            color: #51cf66;
+            background-color: rgba(81, 207, 102, 0.1);
+            border: 1px solid rgba(81, 207, 102, 0.3);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .slider-group {
+            margin-bottom: 20px;
+        }
+
+        .slider-item {
+            margin-bottom: 15px;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        .slider-label-name {
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: var(--color-accent-hover);
+            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.5);
+            transform: scale(1.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        input[type="range"]::-moz-range-thumb:hover {
+            background: var(--color-accent-hover);
+            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.5);
+            transform: scale(1.2);
+        }
+
+        .visualization-container {
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #canvas3d {
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 4px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8), rgba(30, 41, 59, 0.8));
+        }
+
+        .visualization-info {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            text-align: center;
+            width: 100%;
+        }
+
+        .rotation-mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background-color: var(--color-bg-primary);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            border-radius: 6px;
+            padding: 8px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 8px;
+            background-color: transparent;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: var(--color-text-secondary);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn.active {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-bg-primary);
+        }
+
+        .mode-btn:hover:not(.active) {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+        }
+
+        .separator {
+            height: 1px;
+            background: rgba(148, 163, 184, 0.2);
+            margin: 25px 0;
+        }
+
+        .file-info {
+            font-size: 12px;
+            color: var(--color-text-secondary);
+            margin-top: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            #canvas3d {
+                width: 100%;
+                max-width: 280px;
+                height: auto;
+                aspect-ratio: 1;
+            }
+
+            .mode-btn {
+                font-size: 11px;
+                padding: 8px 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎧 Ambisonic Web Player</h1>
+            <p>FOA Binaural Audio with Gyroscope Control</p>
+        </div>
+
+        <!-- Demo Section -->
+        <div class="demo-section">
+            <h3>🚂 Demo: Pociąg (Ambisonic FOA)</h3>
+            <button class="demo-btn" id="loadDemoBtn" onclick="loadDemoFile()">
+                <span>▶</span> Załaduj demonstrację
+            </button>
+            <div class="file-info">4-kanałowy plik Opus ~ 6.4 MB</div>
+            <div class="file-info" style="color: #fbbf24; margin-top: 4px;" id="demoWarning"></div>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- File Upload Section -->
+        <div class="section">
+            <h2>📁 Lub załaduj własny plik</h2>
+            <div class="input-group">
+                <input type="file" id="fileInput" accept=".wav,.mp3,.ogg,.opus,.flac,.m4a" />
+                <button class="button" onclick="loadFileFromDisk()">Załaduj</button>
+            </div>
+            <div class="file-info">
+                Wspierane: WAV, MP3, OGG, Opus, FLAC, M4A (AmbiX B-format FOA - 4 kanały)
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="status" id="status">Gotów. Kliknij "Załaduj demonstrację" lub wybierz własny plik.</div>
+
+        <!-- Playback Controls -->
+        <div class="playback-controls hidden" id="playbackControls">
+            <button class="control-btn" id="playBtn" onclick="togglePlayPause()">▶ Odtwórz</button>
+            <button class="control-btn" id="stopBtn" onclick="stopAudio()">■ Stop</button>
+        </div>
+
+        <!-- Info Panel -->
+        <div class="info-panel hidden" id="infoPanel">
+            <div class="info-item">
+                <span class="info-label">Plik:</span>
+                <span id="fileName">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Kanały:</span>
+                <span id="channelCount">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Sample Rate:</span>
+                <span id="sampleRate">-</span>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar" onclick="seekAudio(event)">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Czas:</span>
+                <span id="timeDisplay">0:00 / 0:00</span>
+            </div>
+            <div class="volume-control">
+                <label>🔊 Głośność:</label>
+                <input type="range" class="volume-slider" id="volumeSlider" 
+                       min="0" max="1" step="0.01" value="1" oninput="setVolume(this.value)">
+                <span id="volumeValue">100%</span>
+            </div>
+        </div>
+
+        <!-- Rotation Controls -->
+        <div class="section hidden" id="rotationControlSection">
+            <h2>🎛️ Kontrola rotacji (FOA)</h2>
+            <div class="rotation-mode-toggle">
+                <button class="mode-btn active" onclick="setRotationMode(event, 'manual')">Ręczna</button>
+                <button class="mode-btn" onclick="setRotationMode(event, 'gyroscope')">Żyroskop</button>
+                <button class="mode-btn" onclick="setRotationMode(event, 'auto')">Auto</button>
+            </div>
+
+            <div class="slider-group" id="sliderGroup">
+                <div class="slider-item">
+                    <div class="slider-label">
+                        <span class="slider-label-name">Yaw (← lewo / prawo →)</span>
+                        <span id="rotYValue">0°</span>
+                    </div>
+                    <input type="range" id="rotationY" min="-180" max="180" value="0" step="1" 
+                           oninput="updateRotationFromSliders()" />
+                </div>
+
+                <div class="slider-item">
+                    <div class="slider-label">
+                        <span class="slider-label-name">Pitch (↑ góra / dół ↓)</span>
+                        <span id="rotXValue">0°</span>
+                    </div>
+                    <input type="range" id="rotationX" min="-90" max="90" value="0" step="1" 
+                           oninput="updateRotationFromSliders()" />
+                </div>
+
+                <div class="slider-item">
+                    <div class="slider-label">
+                        <span class="slider-label-name">Roll (przechył głowy)</span>
+                        <span id="rotZValue">0°</span>
+                    </div>
+                    <input type="range" id="rotationZ" min="-180" max="180" value="0" step="1" 
+                           oninput="updateRotationFromSliders()" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Visualization -->
+        <div class="section hidden" id="visualizationSection">
+            <h2>👤 Pozycja słuchacza</h2>
+            <div class="visualization-container">
+                <canvas id="canvas3d" width="300" height="300"></canvas>
+                <div class="visualization-info">
+                    Widok z góry. Głowa (okrąg) obraca się w polu dźwiękowym.<br>
+                    F = Front, B = Back, L = Left, R = Right
+                </div>
+            </div>
+        </div>
+
+        <!-- Device Orientation -->
+        <div class="section hidden" id="orientationSection">
+            <h2>📐 Orientacja urządzenia</h2>
+            <div class="orientation-display" id="orientationDisplay">
+                Alpha: 0° | Beta: 0° | Gamma: 0°
+            </div>
+            <div class="file-info">
+                Obracaj urządzenie, aby zmieniać kierunek dźwięku. Wymaga żyroskopu i trybu "Żyroskop".
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; font-size: 12px; color: var(--color-text-secondary);">
+            <p>🎧 Wymagane słuchawki do odtworzenia dźwięku binauralnego</p>
+        </div>
+    </div>
+
+    <!-- Three.js for rotation math -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+
+    <script>
+        // ===========================================
+        // DYNAMIC LIBRARY LOADER WITH FALLBACKS
+        // ===========================================
+        
+        const OMNITONE_SOURCES = [
+            'https://cdn.jsdelivr.net/npm/omnitone/build/omnitone.min.js',
+            'https://cdn.jsdelivr.net/npm/omnitone@1.3.1/build/omnitone.min.js',
+            'https://unpkg.com/omnitone/build/omnitone.min.js',
+            'https://unpkg.com/omnitone@1.3.1/build/omnitone.min.js',
+            'https://cdnjs.cloudflare.com/ajax/libs/omnitone/1.3.1/omnitone.min.js'
+        ];
+
+        let omnitoneLoadAttempt = 0;
+        let omnitoneLoaded = false;
+
+        function loadOmnitone() {
+            return new Promise((resolve, reject) => {
+                if (typeof Omnitone !== 'undefined') {
+                    omnitoneLoaded = true;
+                    resolve();
+                    return;
+                }
+
+                function tryNextSource() {
+                    if (omnitoneLoadAttempt >= OMNITONE_SOURCES.length) {
+                        reject(new Error('Nie udało się załadować biblioteki Omnitone z żadnego źródła.'));
+                        return;
+                    }
+
+                    const script = document.createElement('script');
+                    script.src = OMNITONE_SOURCES[omnitoneLoadAttempt];
+                    
+                    script.onload = () => {
+                        if (typeof Omnitone !== 'undefined') {
+                            console.log('Omnitone loaded from:', OMNITONE_SOURCES[omnitoneLoadAttempt]);
+                            omnitoneLoaded = true;
+                            resolve();
+                        } else {
+                            omnitoneLoadAttempt++;
+                            tryNextSource();
+                        }
+                    };
+                    
+                    script.onerror = () => {
+                        console.warn('Failed to load Omnitone from:', OMNITONE_SOURCES[omnitoneLoadAttempt]);
+                        omnitoneLoadAttempt++;
+                        tryNextSource();
+                    };
+
+                    document.head.appendChild(script);
+                }
+
+                tryNextSource();
+            });
+        }
+
+        // Start loading Omnitone immediately
+        const omnitonePromise = loadOmnitone();
+    </script>
+
+    <script>
+        // ===========================================
+        // CONFIGURATION
+        // ===========================================
+        
+        // Demo file path - change this if your file has a different name
+        const DEMO_FILE_PATH = 'pociag.opus';
+        
+        // ===========================================
+        // GLOBAL STATE
+        // ===========================================
+        
+        const state = {
+            audioContext: null,
+            source: null,
+            buffer: null,
+            gainNode: null,
+            foaRenderer: null,
+            isPlaying: false,
+            isPaused: false,
+            isOmnitoneReady: false,
+            startTime: 0,           // AudioContext time when playback started
+            pauseTime: 0,           // Position in buffer when paused
+            currentFileName: '',
+            rotationMode: 'manual',
+            autoSpinAngle: 0,
+            rotationX: 0,
+            rotationY: 0,
+            rotationZ: 0
+        };
+
+        // ===========================================
+        // AUDIO CONTEXT & OMNITONE INITIALIZATION
+        // ===========================================
+        
+        async function initializeAudioContext() {
+            if (state.audioContext) {
+                // Resume if suspended
+                if (state.audioContext.state === 'suspended') {
+                    await state.audioContext.resume();
+                }
+                return;
+            }
+
+            // Wait for Omnitone to load
+            try {
+                updateStatus('Ładowanie biblioteki Omnitone...', 'loading');
+                await omnitonePromise;
+            } catch (error) {
+                updateStatus('Błąd: ' + error.message, 'error');
+                throw error;
+            }
+
+            // Double-check if Omnitone is available
+            if (typeof Omnitone === 'undefined') {
+                throw new Error('Biblioteka Omnitone nie została załadowana. Sprawdź połączenie internetowe i odśwież stronę.');
+            }
+
+            try {
+                state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Create gain node for volume control
+                state.gainNode = state.audioContext.createGain();
+                state.gainNode.gain.value = 1.0;
+                
+                updateStatus('Inicjalizacja Omnitone...', 'loading');
+                
+                // Create FOA renderer (includes decoder)
+                state.foaRenderer = Omnitone.createFOARenderer(state.audioContext, {
+                    // Default HRTF from Omnitone package
+                });
+                
+                // Initialize the renderer (loads HRTF data)
+                await state.foaRenderer.initialize();
+                
+                // Connect gain node to renderer input, renderer output to destination
+                state.gainNode.connect(state.foaRenderer.input);
+                state.foaRenderer.output.connect(state.audioContext.destination);
+                
+                state.isOmnitoneReady = true;
+                updateStatus('Omnitone gotowy! Załaduj plik audio.', 'success');
+                
+                console.log('Omnitone FOA Renderer initialized successfully');
+                
+            } catch (error) {
+                console.error('Error initializing Omnitone:', error);
+                updateStatus('Błąd inicjalizacji Omnitone: ' + error.message, 'error');
+                throw error;
+            }
+        }
+
+        // ===========================================
+        // FILE LOADING
+        // ===========================================
+        
+        async function loadDemoFile() {
+            const btn = document.getElementById('loadDemoBtn');
+            btn.disabled = true;
+            
+            // Check if running from file:// protocol
+            if (window.location.protocol === 'file:') {
+                updateStatus('⚠️ Demo nie działa lokalnie (file://). Wgraj plik ręcznie lub uruchom na serwerze (np. GitHub Pages).', 'error');
+                btn.disabled = false;
+                return;
+            }
+            
+            try {
+                await initializeAudioContext();
+                updateStatus('Pobieranie pliku demonstracyjnego...', 'loading');
+                
+                const response = await fetch(DEMO_FILE_PATH);
+                if (!response.ok) {
+                    throw new Error(`Nie można załadować pliku demo (HTTP ${response.status}). Upewnij się, że plik "${DEMO_FILE_PATH}" znajduje się w tym samym folderze.`);
+                }
+                
+                const arrayBuffer = await response.arrayBuffer();
+                await decodeAudioFile(arrayBuffer, 'pociag.opus (Demo)');
+                
+            } catch (error) {
+                console.error('Error loading demo:', error);
+                if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                    updateStatus('⚠️ Błąd sieciowy. Upewnij się, że strona jest hostowana na serwerze (nie file://).', 'error');
+                } else {
+                    updateStatus('Błąd: ' + error.message, 'error');
+                }
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        async function loadFileFromDisk() {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                updateStatus('Wybierz plik!', 'error');
+                return;
+            }
+
+            try {
+                await initializeAudioContext();
+                updateStatus('Ładowanie pliku...', 'loading');
+                
+                const arrayBuffer = await file.arrayBuffer();
+                await decodeAudioFile(arrayBuffer, file.name);
+                
+            } catch (error) {
+                console.error('Error loading file:', error);
+                updateStatus('Błąd: ' + error.message, 'error');
+            }
+        }
+
+        async function loadFileFromURL() {
+            const url = document.getElementById('urlInput').value.trim();
+            if (!url) {
+                updateStatus('Wpisz URL!', 'error');
+                return;
+            }
+
+            try {
+                await initializeAudioContext();
+                updateStatus('Pobieranie pliku z sieci...', 'loading');
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`Błąd pobierania (${response.status})`);
+                }
+                
+                const arrayBuffer = await response.arrayBuffer();
+                const fileName = url.split('/').pop() || 'audio z URL';
+                await decodeAudioFile(arrayBuffer, fileName);
+                
+            } catch (error) {
+                console.error('Error loading from URL:', error);
+                updateStatus('Błąd: ' + error.message, 'error');
+            }
+        }
+
+        // ===========================================
+        // AUDIO DECODING
+        // ===========================================
+        
+        async function decodeAudioFile(arrayBuffer, fileName) {
+            try {
+                updateStatus('Dekodowanie audio...', 'loading');
+                
+                const decodedBuffer = await state.audioContext.decodeAudioData(arrayBuffer);
+                
+                // Stop any current playback
+                stopAudio();
+                
+                state.buffer = decodedBuffer;
+                state.currentFileName = fileName;
+                state.pauseTime = 0;
+                
+                // Update UI
+                document.getElementById('fileName').textContent = fileName;
+                document.getElementById('channelCount').textContent = decodedBuffer.numberOfChannels;
+                document.getElementById('sampleRate').textContent = decodedBuffer.sampleRate + ' Hz';
+                updateTimeDisplay(0, decodedBuffer.duration);
+                updateProgressBar(0, decodedBuffer.duration);
+
+                if (decodedBuffer.numberOfChannels !== 4) {
+                    updateStatus(
+                        `⚠️ Uwaga: Plik ma ${decodedBuffer.numberOfChannels} kanały (FOA wymaga 4 kanałów AmbiX). Odtwarzanie może nie być prawidłowe.`,
+                        'error'
+                    );
+                } else {
+                    updateStatus(`✓ Załadowano: ${fileName} (${formatTime(decodedBuffer.duration)})`, 'success');
+                }
+
+                showPlaybackControls();
+                showOrientationSection();
+                
+            } catch (error) {
+                console.error('Decode error:', error);
+                updateStatus('Błąd dekodowania: ' + error.message, 'error');
+            }
+        }
+
+        // ===========================================
+        // PLAYBACK CONTROLS
+        // ===========================================
+        
+        function togglePlayPause() {
+            if (!state.buffer || !state.isOmnitoneReady) return;
+
+            if (state.isPlaying) {
+                pauseAudio();
+            } else {
+                playAudio();
+            }
+        }
+
+        function playAudio() {
+            if (!state.buffer || !state.isOmnitoneReady) return;
+            
+            // Resume audio context if suspended
+            if (state.audioContext.state === 'suspended') {
+                state.audioContext.resume();
+            }
+
+            // Create new source (they are one-time use)
+            state.source = state.audioContext.createBufferSource();
+            state.source.buffer = state.buffer;
+            state.source.connect(state.gainNode);
+
+            // Handle end of playback
+            state.source.onended = () => {
+                if (state.isPlaying && !state.isPaused) {
+                    // Natural end of playback
+                    state.isPlaying = false;
+                    state.pauseTime = 0;
+                    document.getElementById('playBtn').textContent = '▶ Odtwórz';
+                    updateTimeDisplay(0, state.buffer.duration);
+                    updateProgressBar(0, state.buffer.duration);
+                }
+            };
+
+            // Start from pause position
+            state.startTime = state.audioContext.currentTime - state.pauseTime;
+            state.source.start(0, state.pauseTime);
+
+            state.isPlaying = true;
+            state.isPaused = false;
+            document.getElementById('playBtn').textContent = '⏸ Pauza';
+            
+            startTimeUpdate();
+        }
+
+        function pauseAudio() {
+            if (!state.source || !state.isPlaying) return;
+
+            // Calculate current position
+            state.pauseTime = state.audioContext.currentTime - state.startTime;
+            
+            // Clamp to buffer duration
+            if (state.pauseTime >= state.buffer.duration) {
+                state.pauseTime = 0;
+            }
+
+            state.isPaused = true;
+            state.isPlaying = false;
+            
+            // Stop the source
+            state.source.stop();
+            state.source = null;
+
+            document.getElementById('playBtn').textContent = '▶ Odtwórz';
+        }
+
+        function stopAudio() {
+            if (state.source) {
+                try {
+                    state.source.stop();
+                } catch (e) {
+                    // Ignore if already stopped
+                }
+                state.source = null;
+            }
+            
+            state.isPlaying = false;
+            state.isPaused = false;
+            state.pauseTime = 0;
+            
+            document.getElementById('playBtn').textContent = '▶ Odtwórz';
+            
+            if (state.buffer) {
+                updateTimeDisplay(0, state.buffer.duration);
+                updateProgressBar(0, state.buffer.duration);
+            }
+        }
+
+        function seekAudio(event) {
+            if (!state.buffer) return;
+            
+            const progressBar = document.getElementById('progressBar');
+            const rect = progressBar.getBoundingClientRect();
+            const clickPosition = (event.clientX - rect.left) / rect.width;
+            const seekTime = clickPosition * state.buffer.duration;
+            
+            const wasPlaying = state.isPlaying;
+            
+            if (state.source) {
+                state.isPaused = true; // Prevent onended from resetting
+                state.source.stop();
+                state.source = null;
+            }
+            
+            state.pauseTime = Math.max(0, Math.min(seekTime, state.buffer.duration));
+            state.isPlaying = false;
+            
+            updateTimeDisplay(state.pauseTime, state.buffer.duration);
+            updateProgressBar(state.pauseTime, state.buffer.duration);
+            
+            if (wasPlaying) {
+                playAudio();
+            }
+        }
+
+        function setVolume(value) {
+            if (state.gainNode) {
+                state.gainNode.gain.value = parseFloat(value);
+            }
+            document.getElementById('volumeValue').textContent = Math.round(value * 100) + '%';
+        }
+
+        // ===========================================
+        // TIME TRACKING
+        // ===========================================
+        
+        let timeUpdateInterval;
+        
+        function startTimeUpdate() {
+            clearInterval(timeUpdateInterval);
+            timeUpdateInterval = setInterval(() => {
+                if (state.audioContext && state.buffer && state.isPlaying) {
+                    const currentTime = state.audioContext.currentTime - state.startTime;
+                    
+                    if (currentTime <= state.buffer.duration) {
+                        updateTimeDisplay(currentTime, state.buffer.duration);
+                        updateProgressBar(currentTime, state.buffer.duration);
+                    }
+                }
+            }, 50);
+        }
+
+        function updateTimeDisplay(current, duration) {
+            document.getElementById('timeDisplay').textContent =
+                `${formatTime(current)} / ${formatTime(duration)}`;
+        }
+
+        function updateProgressBar(current, duration) {
+            const percentage = (current / duration) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // ===========================================
+        // UI UPDATES
+        // ===========================================
+        
+        function updateStatus(message, type = 'info') {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status ' + type;
+        }
+
+        function showPlaybackControls() {
+            document.getElementById('playbackControls').classList.remove('hidden');
+            document.getElementById('infoPanel').classList.remove('hidden');
+        }
+
+        function showOrientationSection() {
+            document.getElementById('rotationControlSection').classList.remove('hidden');
+            document.getElementById('visualizationSection').classList.remove('hidden');
+
+            if (window.DeviceOrientationEvent) {
+                document.getElementById('orientationSection').classList.remove('hidden');
+            }
+        }
+
+        // ===========================================
+        // ROTATION CONTROLS
+        // ===========================================
+        
+        function setRotationMode(evt, mode) {
+            state.rotationMode = mode;
+
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            evt.target.classList.add('active');
+
+            if (mode === 'auto') {
+                startAutoSpin();
+            } else {
+                stopAutoSpin();
+            }
+            
+            if (mode === 'gyroscope') {
+                requestGyroscopePermission();
+            }
+        }
+
+        function updateRotationFromSliders() {
+            state.rotationX = parseFloat(document.getElementById('rotationX').value);
+            state.rotationY = parseFloat(document.getElementById('rotationY').value);
+            state.rotationZ = parseFloat(document.getElementById('rotationZ').value);
+
+            document.getElementById('rotXValue').textContent = state.rotationX + '°';
+            document.getElementById('rotYValue').textContent = state.rotationY + '°';
+            document.getElementById('rotZValue').textContent = state.rotationZ + '°';
+
+            applyRotation();
+        }
+
+        function applyRotation() {
+            if (!state.foaRenderer || !state.isOmnitoneReady) return;
+
+            const xRad = THREE.MathUtils.degToRad(state.rotationX);
+            const yRad = THREE.MathUtils.degToRad(state.rotationY);
+            const zRad = THREE.MathUtils.degToRad(state.rotationZ);
+
+            // Create rotation matrix using Three.js
+            const euler = new THREE.Euler(xRad, yRad, zRad, 'YXZ');
+            const quaternion = new THREE.Quaternion();
+            quaternion.setFromEuler(euler);
+
+            const rotationMatrix = new THREE.Matrix4();
+            rotationMatrix.makeRotationFromQuaternion(quaternion);
+
+            // Apply to Omnitone (expects 4x4 matrix as array)
+            state.foaRenderer.setRotationMatrix4(rotationMatrix.elements);
+        }
+
+        // ===========================================
+        // AUTO SPIN
+        // ===========================================
+        
+        let autoSpinInterval = null;
+        
+        function startAutoSpin() {
+            if (autoSpinInterval) return;
+            autoSpinInterval = setInterval(() => {
+                state.autoSpinAngle = (state.autoSpinAngle + 1) % 360;
+                document.getElementById('rotationY').value = state.autoSpinAngle;
+                updateRotationFromSliders();
+            }, 50);
+        }
+
+        function stopAutoSpin() {
+            if (autoSpinInterval) {
+                clearInterval(autoSpinInterval);
+                autoSpinInterval = null;
+            }
+        }
+
+        // ===========================================
+        // DEVICE ORIENTATION (GYROSCOPE)
+        // ===========================================
+        
+        function requestGyroscopePermission() {
+            if (typeof DeviceOrientationEvent !== 'undefined' &&
+                typeof DeviceOrientationEvent.requestPermission === 'function') {
+                // iOS 13+
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', onDeviceOrientation, true);
+                            updateStatus('Żyroskop aktywny', 'success');
+                        } else {
+                            updateStatus('Brak dostępu do żyroskopu', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Gyroscope permission error:', error);
+                    });
+            } else if (typeof DeviceOrientationEvent !== 'undefined') {
+                // Android / Desktop
+                window.addEventListener('deviceorientation', onDeviceOrientation, true);
+            }
+        }
+
+        function onDeviceOrientation(event) {
+            if (state.rotationMode !== 'gyroscope') return;
+
+            const alpha = event.alpha || 0;  // 0-360° (compass heading)
+            const beta = event.beta || 0;    // -180 to 180° (front/back tilt)
+            const gamma = event.gamma || 0;  // -90 to 90° (left/right tilt)
+
+            document.getElementById('orientationDisplay').textContent =
+                `Alpha: ${Math.round(alpha)}° | Beta: ${Math.round(beta)}° | Gamma: ${Math.round(gamma)}°`;
+
+            // Convert alpha (0-360) to yaw (-180 to +180)
+            // NEGATED: rotating phone left = looking left = sound from front moves to RIGHT ear
+            let yaw = -alpha;
+            if (yaw < -180) {
+                yaw = yaw + 360;  // Convert -360 to -181 → 0 to 179
+            }
+            
+            // Beta maps to pitch, but clamp to -90/+90
+            // NEGATED: tilting phone forward = looking down
+            let pitch = Math.max(-90, Math.min(90, -beta));
+            
+            // Gamma maps to roll
+            let roll = gamma;
+
+            state.rotationX = pitch;
+            state.rotationY = yaw;
+            state.rotationZ = roll;
+
+            // Update sliders
+            document.getElementById('rotationY').value = Math.round(yaw);
+            document.getElementById('rotationX').value = Math.round(pitch);
+            document.getElementById('rotationZ').value = Math.max(-180, Math.min(180, Math.round(roll)));
+
+            document.getElementById('rotYValue').textContent = Math.round(yaw) + '°';
+            document.getElementById('rotXValue').textContent = Math.round(pitch) + '°';
+            document.getElementById('rotZValue').textContent = Math.round(roll) + '°';
+
+            applyRotation();
+        }
+
+        // ===========================================
+        // 3D VISUALIZATION - HEAD TRACKER
+        // ===========================================
+        
+        function draw3DVisualization() {
+            const canvas = document.getElementById('canvas3d');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const fieldRadius = 120;  // Sound field circle
+            const headRadius = 35;    // Head size
+            
+            // Get rotation values
+            const yaw = state.rotationY;      // Left-right rotation
+            const pitch = state.rotationX;    // Up-down tilt
+            const roll = state.rotationZ;     // Head tilt
+            const yawRad = THREE.MathUtils.degToRad(yaw);
+
+            // === CLEAR CANVAS ===
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // === SOUND FIELD (stationary) ===
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            
+            // Outer circle - sound field boundary
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.arc(0, 0, fieldRadius, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Grid circles
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(0, 0, fieldRadius * 0.66, 0, Math.PI * 2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(0, 0, fieldRadius * 0.33, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Direction labels (fixed in space)
+            ctx.font = 'bold 14px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Front (top)
+            ctx.fillStyle = '#51cf66';
+            ctx.fillText('F', 0, -fieldRadius - 15);
+            
+            // Back (bottom)
+            ctx.fillStyle = '#868e96';
+            ctx.fillText('B', 0, fieldRadius + 15);
+            
+            // Left
+            ctx.fillStyle = '#fcc419';
+            ctx.fillText('L', -fieldRadius - 15, 0);
+            
+            // Right
+            ctx.fillStyle = '#ff6b6b';
+            ctx.fillText('R', fieldRadius + 15, 0);
+
+            // === HEAD (rotates with yaw only) ===
+            ctx.save();
+            ctx.rotate(yawRad);      // Apply yaw rotation only
+            
+            // Roll effect: calculate ear displacement and size
+            const rollFactor = roll / 90;  // -1 to 1
+            const leftEarScale = 1 + rollFactor * 0.4;   // Left ear bigger when roll > 0
+            const rightEarScale = 1 - rollFactor * 0.4;  // Right ear bigger when roll < 0
+            const earVerticalShift = rollFactor * 12;    // Ears shift vertically
+            
+            // Head shadow (for depth)
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.beginPath();
+            ctx.arc(3, 3, headRadius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Head circle
+            const headGradient = ctx.createRadialGradient(
+                -headRadius * 0.3, -headRadius * 0.3, 0,
+                0, 0, headRadius
+            );
+            headGradient.addColorStop(0, '#475569');
+            headGradient.addColorStop(1, '#1e293b');
+            ctx.fillStyle = headGradient;
+            ctx.beginPath();
+            ctx.arc(0, 0, headRadius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Head outline
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            // Left ear (affected by roll)
+            ctx.fillStyle = roll > 20 ? '#475569' : '#334155';  // Lighter when closer
+            ctx.beginPath();
+            ctx.ellipse(
+                -headRadius - 5, 
+                -earVerticalShift,           // Shift up when roll > 0
+                6 * leftEarScale, 
+                10 * leftEarScale, 
+                0, 0, Math.PI * 2
+            );
+            ctx.fill();
+            ctx.strokeStyle = '#64748b';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            
+            // Right ear (affected by roll)
+            ctx.fillStyle = roll < -20 ? '#475569' : '#334155';  // Lighter when closer
+            ctx.beginPath();
+            ctx.ellipse(
+                headRadius + 5, 
+                earVerticalShift,            // Shift down when roll > 0
+                6 * rightEarScale, 
+                10 * rightEarScale, 
+                0, 0, Math.PI * 2
+            );
+            ctx.fill();
+            ctx.stroke();
+            
+            // Nose (pointing forward/up)
+            ctx.fillStyle = '#38bdf8';
+            ctx.beginPath();
+            ctx.moveTo(0, -headRadius - 8);
+            ctx.lineTo(-10, -headRadius + 10);
+            ctx.lineTo(10, -headRadius + 10);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Nose glow based on pitch
+            const pitchIntensity = Math.abs(pitch) / 90;
+            const noseColor = pitch > 0 
+                ? `rgba(81, 207, 102, ${0.3 + pitchIntensity * 0.7})`  // Looking up = green
+                : `rgba(255, 107, 107, ${0.3 + pitchIntensity * 0.7})`; // Looking down = red
+            
+            if (Math.abs(pitch) > 5) {
+                ctx.fillStyle = noseColor;
+                ctx.beginPath();
+                ctx.arc(0, -headRadius - 2, 6, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Eyes (shift with roll to show tilt)
+            const eyeShift = rollFactor * 6;
+            ctx.fillStyle = '#94a3b8';
+            ctx.beginPath();
+            ctx.arc(-12, -8 - eyeShift, 4, 0, Math.PI * 2);  // Left eye
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(12, -8 + eyeShift, 4, 0, Math.PI * 2);   // Right eye
+            ctx.fill();
+            
+            ctx.restore(); // End head rotation
+
+            ctx.restore(); // End field translation
+
+            // === INFO PANEL ===
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.9)';
+            ctx.font = '12px monospace';
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'top';
+            
+            const infoX = 10;
+            const infoY = 10;
+            ctx.fillText(`Yaw:   ${yaw >= 0 ? '+' : ''}${Math.round(yaw)}°`, infoX, infoY);
+            ctx.fillText(`Pitch: ${pitch >= 0 ? '+' : ''}${Math.round(pitch)}°`, infoX, infoY + 16);
+            ctx.fillText(`Roll:  ${roll >= 0 ? '+' : ''}${Math.round(roll)}°`, infoX, infoY + 32);
+            
+            // Pitch indicator (vertical bar on the right)
+            const barX = canvas.width - 25;
+            const barY = 40;
+            const barHeight = 100;
+            const barWidth = 10;
+            
+            // Bar background
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.1)';
+            ctx.fillRect(barX, barY, barWidth, barHeight);
+            
+            // Bar center line
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(barX, barY + barHeight / 2);
+            ctx.lineTo(barX + barWidth, barY + barHeight / 2);
+            ctx.stroke();
+            
+            // Pitch indicator position
+            const pitchPos = barY + barHeight / 2 - (pitch / 90) * (barHeight / 2);
+            ctx.fillStyle = pitch > 0 ? '#51cf66' : pitch < 0 ? '#ff6b6b' : '#38bdf8';
+            ctx.beginPath();
+            ctx.arc(barX + barWidth / 2, pitchPos, 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Labels for pitch bar
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+            ctx.font = '10px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('↑', barX + barWidth / 2, barY - 8);
+            ctx.fillText('↓', barX + barWidth / 2, barY + barHeight + 12);
+            
+            // Roll indicator (horizontal bar at bottom)
+            const rollBarX = 50;
+            const rollBarY = canvas.height - 25;
+            const rollBarWidth = 100;
+            const rollBarHeight = 10;
+            
+            // Bar background
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.1)';
+            ctx.fillRect(rollBarX, rollBarY, rollBarWidth, rollBarHeight);
+            
+            // Bar center line
+            ctx.strokeStyle = 'rgba(56, 189, 248, 0.3)';
+            ctx.beginPath();
+            ctx.moveTo(rollBarX + rollBarWidth / 2, rollBarY);
+            ctx.lineTo(rollBarX + rollBarWidth / 2, rollBarY + rollBarHeight);
+            ctx.stroke();
+            
+            // Roll indicator position
+            const rollPos = rollBarX + rollBarWidth / 2 + (roll / 180) * (rollBarWidth / 2);
+            ctx.fillStyle = '#a855f7';  // Purple for roll
+            ctx.beginPath();
+            ctx.arc(rollPos, rollBarY + rollBarHeight / 2, 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Labels for roll bar
+            ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
+            ctx.font = '10px sans-serif';
+            ctx.fillText('⟲', rollBarX - 12, rollBarY + rollBarHeight / 2 + 3);
+            ctx.fillText('⟳', rollBarX + rollBarWidth + 12, rollBarY + rollBarHeight / 2 + 3);
+        }
+
+        function animationLoop() {
+            draw3DVisualization();
+            requestAnimationFrame(animationLoop);
+        }
+
+        // ===========================================
+        // INITIALIZATION
+        // ===========================================
+        
+        window.addEventListener('load', () => {
+            // Check if running from file:// protocol
+            if (window.location.protocol === 'file:') {
+                document.getElementById('demoWarning').textContent = '⚠️ Demo wymaga serwera HTTP (np. GitHub Pages)';
+                updateStatus('Tryb lokalny (file://). Demo niedostępne, ale możesz załadować własny plik.', 'info');
+            } else {
+                updateStatus('Ładowanie bibliotek...', 'loading');
+            }
+            
+            // Check Omnitone loading status
+            omnitonePromise
+                .then(() => {
+                    if (window.location.protocol !== 'file:') {
+                        updateStatus('Gotów. Kliknij "Załaduj demonstrację" lub wybierz własny plik.', 'info');
+                    } else {
+                        updateStatus('Gotów. Załaduj własny plik audio.', 'info');
+                    }
+                })
+                .catch((error) => {
+                    updateStatus('Błąd ładowania: ' + error.message, 'error');
+                });
+            
+            animationLoop();
+        });
+
+        // Handle autoplay policy - resume on any user interaction
+        document.addEventListener('click', () => {
+            if (state.audioContext && state.audioContext.state === 'suspended') {
+                state.audioContext.resume();
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>
