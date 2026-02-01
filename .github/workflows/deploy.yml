@@ -1,8 +1,8 @@
-name: Deploy Multiple Projects
+name: Deploy Audio Shapes to Subfolder
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
 
 permissions:
   contents: read
@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: true
 
 jobs:
@@ -24,37 +24,38 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "npm"
-          cache-dependency-path: "./audio-shapes/package-lock.json"
+          cache: 'npm'
+          # Wskazujemy ścieżkę do lockfile w podfolderze
+          cache-dependency-path: './audio-shapes/package-lock.json'
 
       - name: Install dependencies
         run: npm ci
         working-directory: ./audio-shapes
 
-      - name: Build Audio Shapes
+      - name: Build
         run: npm run build
         working-directory: ./audio-shapes
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
-      - name: Merge Projects for Deployment
-        # Ten krok przygotowuje finalną strukturę strony
+      - name: Prepare Deployment Folder
+        # To jest najważniejszy krok! Tworzymy strukturę docelową.
         run: |
-          mkdir -p public_deployment
-
-          # 1. Kopiujemy obecną stronę główną (wszystko poza folderem audio-shapes i .git)
-          # Używamy rsync, aby precyzyjnie przenieść pliki
-          rsync -av --exclude='audio-shapes' --exclude='.git' --exclude='.github' --exclude='public_deployment' ./ public_deployment/
-
-          # 2. Tworzymy folder dla nowego programu i kopiujemy tam zbudowane pliki
           mkdir -p public_deployment/audio-shapes
+          
+          # 1. Kopiujemy Twoją stronę główną (root)
+          # Jeśli masz plik index.html w głównym folderze repozytorium:
+          rsync -av --exclude='audio-shapes' --exclude='.git' --exclude='.github' --exclude='public_deployment' ./ public_deployment/
+          
+          # 2. Kopiujemy ZBUDOWANĄ aplikację (z folderu dist) do podfolderu
           cp -r audio-shapes/dist/* public_deployment/audio-shapes/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "./public_deployment"
+          # Wysyłamy folder, który przygotowaliśmy powyżej
+          path: './public_deployment'
 
   deploy:
     environment:
