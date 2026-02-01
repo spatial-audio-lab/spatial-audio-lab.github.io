@@ -2,7 +2,7 @@ name: Deploy Audio Shapes to Subfolder
 
 on:
   push:
-    branches: ['main']
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -24,15 +24,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-<<<<<<< HEAD
           cache: "npm"
           # Wskazujemy ścieżkę do lockfile w podfolderze
           cache-dependency-path: "./audio-shapes/package-lock.json"
-=======
-          cache: 'npm'
-          # Wskazujemy ścieżkę do lockfile w podfolderze
-          cache-dependency-path: './audio-shapes/package-lock.json'
->>>>>>> a59833ad0f934819bd9d2ab27616894a990b5476
 
       - name: Install dependencies
         run: npm ci
@@ -49,19 +43,11 @@ jobs:
         # To jest najważniejszy krok! Tworzymy strukturę docelową.
         run: |
           mkdir -p public_deployment/audio-shapes
-<<<<<<< HEAD
 
           # 1. Kopiujemy Twoją stronę główną (root)
           # Jeśli masz plik index.html w głównym folderze repozytorium:
           rsync -av --exclude='audio-shapes' --exclude='.git' --exclude='.github' --exclude='public_deployment' ./ public_deployment/
 
-=======
-          
-          # 1. Kopiujemy Twoją stronę główną (root)
-          # Jeśli masz plik index.html w głównym folderze repozytorium:
-          rsync -av --exclude='audio-shapes' --exclude='.git' --exclude='.github' --exclude='public_deployment' ./ public_deployment/
-          
->>>>>>> a59833ad0f934819bd9d2ab27616894a990b5476
           # 2. Kopiujemy ZBUDOWANĄ aplikację (z folderu dist) do podfolderu
           cp -r audio-shapes/dist/* public_deployment/audio-shapes/
 
@@ -69,11 +55,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           # Wysyłamy folder, który przygotowaliśmy powyżej
-<<<<<<< HEAD
           path: "./public_deployment"
-=======
-          path: './public_deployment'
->>>>>>> a59833ad0f934819bd9d2ab27616894a990b5476
 
   deploy:
     environment:
