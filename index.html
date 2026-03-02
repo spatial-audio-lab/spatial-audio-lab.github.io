@@ -3,549 +3,702 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spatial Audio Lab - Archiwum VR</title>
-
-    <!-- POZIOM 2: PRZESTRZENNOŚĆ I GŁĘBIA
-    
-    DECYZJE ARTYSTYCZNE:
-    - Asymetryczny układ - naśladujący rozmieszczenie źródeł dźwięku w przestrzeni
-    - Animacje scroll-triggered - elementy "wchodzą" do przestrzeni akustycznej
-    - Parallax backgrounds - sugestia głębi pola dźwiękowego
-    - Gradient meshes - wizualizacja fal dźwiękowych
-    - Warstwowe cienie i efekty blur - przestrzeń atmosferyczna
-    - Motion choreography - staggered reveals (opóźnione wejścia)
-    
-    -->
+    <title>Spatial Audio Lab — Archiwum VR</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Azeret+Mono:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
 
     <style>
       :root {
-        --deep-blue: #0a1628;
-        --primary-blue: #1e3a5f;
-        --accent-cyan: #2dd4bf;
-        --accent-purple: #a78bfa;
-        --soft-gray: #f1f5f9;
-        --white-space: #ffffff;
-
-        --font-display: "Instrument Sans", sans-serif;
-        --font-body: "IBM Plex Sans", sans-serif;
-
-        --space-xs: 8px;
-        --space-sm: 13px;
-        --space-md: 21px;
-        --space-lg: 34px;
-        --space-xl: 55px;
-        --space-2xl: 89px;
+        --bg:          #080A07;
+        --bg2:         #0f120d;
+        --cream:       #F0EBE0;
+        --cream-dim:   #b8b2a8;
+        --acid:        #BEFF00;
+        --acid-dim:    rgba(190,255,0,0.18);
+        --acid-glow:   rgba(190,255,0,0.07);
+        --border:      rgba(190,255,0,0.15);
+        --border-soft: rgba(240,235,224,0.08);
+        --serif: 'Cormorant Garamond', serif;
+        --mono:  'Azeret Mono', monospace;
+        --ease:  cubic-bezier(0.23, 1, 0.32, 1);
       }
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+      html { scroll-behavior: smooth; }
+
+      body {
+        font-family: var(--mono);
+        font-weight: 300;
+        background: var(--bg);
+        color: var(--cream);
+        overflow-x: hidden;
+        cursor: none;
       }
 
-      /* STATYCZNY BANER KPO NA GÓRZE */
-      .kpo-top-banner {
+      /* CURSOR */
+      .cursor-dot {
+        width: 6px; height: 6px;
+        background: var(--acid);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        top: 0; left: 0;
+      }
+      .cursor-ring {
+        width: 28px; height: 28px;
+        border: 1px solid rgba(190,255,0,0.5);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        top: 0; left: 0;
+        transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s;
+      }
+      .cursor-ring.hover {
+        width: 48px; height: 48px;
+        border-color: var(--acid);
+      }
+
+      /* SCAN LINES */
+      body::before {
+        content: '';
+        position: fixed; inset: 0;
+        background: repeating-linear-gradient(
+          0deg, transparent, transparent 2px,
+          rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px
+        );
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      /* GRAIN */
+      body::after {
+        content: '';
+        position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 99;
+        opacity: 0.35;
+      }
+
+      /* KPO BANNER */
+      .kpo-banner {
         width: 100%;
-        background: white;
-        padding: var(--space-sm) 0;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        padding: 10px 0;
+        border-bottom: 1px solid #e0e0e0;
+        position: relative;
+        z-index: 200;
       }
-
-      .kpo-top-banner img {
+      .kpo-banner img {
         display: block;
         margin: 0 auto;
-        max-width: 1000px;
+        max-width: 960px;
         width: 90%;
-        height: auto;
-        max-height: 74px;
+        max-height: 68px;
         object-fit: contain;
       }
 
-      body {
-        font-family: var(--font-body);
-        font-weight: 300;
-        line-height: 1.75;
-        color: var(--deep-blue);
-        background: var(--deep-blue);
-        overflow-x: hidden;
+      /* HERO */
+      .hero {
+        min-height: 100svh;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        padding: 80px 64px 80px 80px;
         position: relative;
+        overflow: hidden;
       }
-
-      /* CONTAINER - asymetryczny z marginesami */
-      .container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: var(--space-2xl) var(--space-lg);
-        position: relative;
-        z-index: 1;
+      .hero-bg-grid {
+        position: absolute; inset: 0;
+        background-image:
+          linear-gradient(rgba(190,255,0,0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(190,255,0,0.04) 1px, transparent 1px);
+        background-size: 48px 48px;
+        mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+        pointer-events: none;
       }
+      .hero-left { z-index: 2; position: relative; }
 
-      /* HEADER - asymetryczna kompozycja */
-      header {
-        margin-bottom: var(--space-2xl);
+      .hero-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        color: var(--acid);
+        text-transform: uppercase;
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
         opacity: 0;
-        animation: fade-in-up 1s ease forwards;
+        animation: slide-in 0.8s var(--ease) 0.2s forwards;
       }
-
-      @keyframes fade-in-up {
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
+      .hero-label::before {
+        content: '';
+        display: block;
+        width: 32px; height: 1px;
+        background: var(--acid);
       }
 
       h1 {
-        font-family: var(--font-display);
-        font-size: clamp(3rem, 7vw, 5.5rem);
-        font-weight: 700;
-        color: var(--white-space);
-        margin-bottom: var(--space-sm);
-        letter-spacing: -0.04em;
-        line-height: 1;
+        font-family: var(--serif);
+        font-weight: 300;
+        font-size: clamp(3.5rem, 7vw, 6.5rem);
+        line-height: 0.95;
+        letter-spacing: -0.02em;
+        color: var(--cream);
+        margin-bottom: 16px;
+        opacity: 0;
+        animation: slide-in 0.9s var(--ease) 0.4s forwards;
+      }
+      h1 em {
+        font-style: italic;
+        color: var(--acid);
+        display: block;
+      }
 
-        background: linear-gradient(
-          135deg,
-          #ffffff 0%,
-          var(--accent-cyan) 100%
-        );
+      .hero-sub {
+        font-family: var(--serif);
+        font-size: clamp(1.1rem, 2vw, 1.45rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--cream-dim);
+        margin: 24px 0 48px;
+        line-height: 1.5;
+        max-width: 460px;
+        opacity: 0;
+        animation: slide-in 0.9s var(--ease) 0.6s forwards;
+      }
+
+      .hero-meta {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        opacity: 0;
+        animation: slide-in 0.9s var(--ease) 0.8s forwards;
+      }
+      .meta-row {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+      }
+      .meta-key { color: var(--acid); min-width: 120px; }
+      .meta-val { color: var(--cream-dim); }
+
+      /* SPHERE */
+      .hero-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        position: relative;
+      }
+      .sphere-wrapper {
+        position: relative;
+        width: 420px; height: 420px;
+        opacity: 0;
+        animation: fade-in 1.2s var(--ease) 1s forwards;
+      }
+      .sphere-label {
+        position: absolute;
+        font-size: 0.6rem;
+        letter-spacing: 0.15em;
+        color: var(--acid);
+        text-transform: uppercase;
+      }
+      .sphere-label.top    { top: -24px; left: 50%; transform: translateX(-50%); }
+      .sphere-label.bottom { bottom: -24px; left: 50%; transform: translateX(-50%); }
+      .sphere-label.left   { left: -40px; top: 50%; transform: translateY(-50%); }
+      .sphere-label.right  { right: -40px; top: 50%; transform: translateY(-50%); }
+      .sphere-svg { width: 100%; height: 100%; }
+
+      /* SPECS */
+      .specs-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--border-soft);
+        margin-bottom: 1px;
+      }
+      .spec-cell {
+        background: var(--bg2);
+        padding: 40px 48px;
+      }
+      .spec-val {
+        font-family: var(--serif);
+        font-size: clamp(2.5rem, 4vw, 4rem);
+        font-weight: 300;
+        color: var(--acid);
+        line-height: 1;
+        margin-bottom: 8px;
+      }
+      .spec-key {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--cream-dim);
+      }
+
+      /* GRID */
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border-soft);
+        margin-bottom: 1px;
+      }
+      .grid-cell {
+        background: var(--bg);
+        padding: 64px 72px;
+        position: relative;
+        overflow: hidden;
+      }
+      .grid-cell::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse at 0% 0%, var(--acid-glow) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.8s ease;
+        pointer-events: none;
+      }
+      .grid-cell:hover::before { opacity: 1; }
+
+      .cell-index {
+        font-size: 0.6rem;
+        letter-spacing: 0.25em;
+        color: var(--acid);
+        text-transform: uppercase;
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .cell-index::before {
+        content: '';
+        display: inline-block;
+        width: 20px; height: 1px;
+        background: var(--acid);
+      }
+      .cell-num {
+        font-family: var(--serif);
+        font-size: clamp(4rem, 8vw, 7rem);
+        font-weight: 300;
+        line-height: 1;
+        margin-bottom: 16px;
+        background: linear-gradient(135deg, var(--acid-dim), transparent);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-
-        animation: fade-in-up 1s ease 0.2s forwards;
-        opacity: 0;
+        transition: all 0.4s ease;
       }
-
-      .subtitle {
-        font-family: var(--font-display);
-        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-        font-weight: 500;
-        color: var(--accent-cyan);
-        margin-bottom: var(--space-xl);
-        letter-spacing: 0.03em;
-        animation: fade-in-up 1s ease 0.4s forwards;
-        opacity: 0;
+      .grid-cell:hover .cell-num {
+        background: linear-gradient(135deg, var(--acid), rgba(190,255,0,0.4));
+        -webkit-background-clip: text;
+        background-clip: text;
       }
-
-      /* INTRO BOX - Floating glass morphism */
-      .intro {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        padding: var(--space-xl);
-        border-radius: 24px;
-        margin-bottom: var(--space-2xl);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-
-        box-shadow:
-          0 8px 32px rgba(0, 0, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-
-        position: relative;
-        overflow: hidden;
-
-        animation: fade-in-up 1s ease 0.8s forwards;
-        opacity: 0;
-
-        /* Asymetric positioning */
-        margin-left: 5%;
-        max-width: 90%;
-      }
-
-      /* Glow effect on hover */
-      .intro::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(
-          circle,
-          rgba(45, 212, 191, 0.1) 0%,
-          transparent 70%
-        );
-        opacity: 0;
-        transition: opacity 0.6s ease;
-      }
-
-      .intro:hover::before {
-        opacity: 1;
-      }
-
-      .intro p {
-        color: rgba(255, 255, 255, 0.9);
-        margin-bottom: var(--space-md);
+      .cell-title {
+        font-family: var(--serif);
+        font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+        font-weight: 400;
+        color: var(--cream);
+        margin-bottom: 24px;
+        line-height: 1.1;
         position: relative;
         z-index: 1;
       }
-
-      .intro p:last-child {
-        margin-bottom: 0;
+      .cell-desc {
+        font-size: 0.78rem;
+        line-height: 1.8;
+        color: var(--cream-dim);
+        margin-bottom: 32px;
+        position: relative;
+        z-index: 1;
       }
-
-      .funding-info {
-        font-size: 0.9em;
-        color: var(--accent-cyan);
-        padding-top: var(--space-md);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        margin-top: var(--space-md);
+      .item-list {
+        list-style: none;
+        position: relative;
+        z-index: 1;
       }
+      .item-list li {
+        font-size: 0.75rem;
+        line-height: 2;
+        color: var(--cream-dim);
+        border-bottom: 1px solid var(--border-soft);
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+      }
+      .item-list li:last-child { border-bottom: none; }
+      .item-status { color: var(--acid); font-size: 0.6rem; min-width: 12px; }
 
-      /* GRID - Asymmetric masonry-like */
-      .grid {
+      /* FULL WIDTH CELL */
+      .cell-full {
+        grid-column: 1 / -1;
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: var(--space-lg);
-        margin-top: var(--space-2xl);
-      }
-
-      /* Asymmetric card placement */
-      .card:nth-child(1) {
-        grid-column: 1 / 7;
-        animation: fade-in-up 1s ease 1s forwards;
-        opacity: 0;
-      }
-
-      .card:nth-child(2) {
-        grid-column: 7 / 13;
-        animation: fade-in-up 1s ease 1.2s forwards;
-        opacity: 0;
-      }
-
-      .card:nth-child(3) {
-        grid-column: 1 / 8;
-        animation: fade-in-up 1s ease 1.4s forwards;
-        opacity: 0;
-      }
-
-      .card:nth-child(4) {
-        grid-column: 8 / 13;
-        animation: fade-in-up 1s ease 1.6s forwards;
-        opacity: 0;
-      }
-
-      /* CARDS - Glass morphism with depth */
-      .card {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        padding: var(--space-xl);
-        border-radius: 20px;
-        text-decoration: none;
-        color: inherit;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-
-        box-shadow:
-          0 8px 32px rgba(0, 0, 0, 0.2),
-          inset 0 1px 0 rgba(255, 255, 255, 0.05);
-
-        /* OSOBNE KONTROLE CZASU */
-        transition:
-          transform 1s cubic-bezier(0.4, 0, 0.2, 1),
-          border-color 0.6s ease,
-          /* ramka */ box-shadow 0.6s ease; /* świecenie */
-
-        position: relative;
-        overflow: hidden;
-      }
-
-      /* Animated gradient overlay */
-      .card::before {
-        content: "";
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background:
-          radial-gradient(circle, rgba(45, 212, 191, 0.1) 0%, transparent 60%),
-          radial-gradient(
-            circle,
-            rgba(167, 139, 250, 0.08) 40%,
-            transparent 70%
-          );
-        opacity: 0;
-        /* SPOWOLNIONA ANIMACJA */
-        transition:
-          opacity 1s ease,
-          transform 1s ease;
-        pointer-events: none;
-      }
-
-      .card:hover {
-        transform: translateY(-12px) scale(1.02);
-        box-shadow:
-          0 16px 48px rgba(0, 0, 0, 0.3),
-          0 0 0 1px rgba(45, 212, 191, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        border-color: rgba(45, 212, 191, 0.4);
-      }
-
-      .card:hover::before {
-        opacity: 1;
-        transform: translate(10%, 10%);
-      }
-
-      .tag {
-        display: inline-block;
-        background: rgba(45, 212, 191, 0.15);
-        color: var(--accent-cyan);
-        padding: var(--space-xs) var(--space-sm);
-        border-radius: 8px;
-        font-size: 0.7em;
-        font-weight: 600;
-        font-family: var(--font-display);
-        margin-bottom: var(--space-md);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        border: 1px solid rgba(45, 212, 191, 0.2);
-        position: relative;
-        z-index: 1;
-      }
-
-      .card h3 {
-        font-family: var(--font-display);
-        font-size: 1.75rem;
-        font-weight: 600;
-        color: var(--white-space);
-        margin: 0 0 var(--space-md) 0;
-        letter-spacing: -0.02em;
-        position: relative;
-        z-index: 1;
-      }
-
-      .card p {
-        margin-bottom: var(--space-sm);
-        color: rgba(255, 255, 255, 0.8);
-        position: relative;
-        z-index: 1;
-      }
-
-      .card ul {
-        padding-left: var(--space-md);
-        margin: var(--space-md) 0;
-        position: relative;
-        z-index: 1;
-      }
-
-      .card li {
-        margin-bottom: var(--space-sm);
-        line-height: 1.6;
-        color: rgba(255, 255, 255, 0.75);
-      }
-
-      .card a {
-        color: var(--accent-cyan);
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        position: relative;
-      }
-
-      .card a::after {
-        content: "";
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 0;
-        height: 1px;
-        background: var(--accent-cyan);
-        transition: width 0.3s ease;
-      }
-
-      .card a:hover {
-        color: var(--white-space);
-      }
-
-      .card a:hover::after {
-        width: 100%;
+        grid-template-columns: 1fr 2fr;
+        align-items: start;
+        gap: 80px;
       }
 
       /* FOOTER */
-      .footer {
-        margin-top: var(--space-2xl);
-        padding: var(--space-xl) var(--space-lg);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        font-size: 0.85em;
-        color: rgba(255, 255, 255, 0.6);
-        line-height: 1.7;
-        text-align: center;
+      footer {
+        padding: 80px;
+        border-top: 1px solid var(--border-soft);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: end;
+        gap: 48px;
+      }
+      .footer-eu { display: flex; align-items: center; gap: 24px; }
+      .footer-eu img {
+        max-width: 240px;
+        height: auto;
+        background: white;
+        padding: 8px 12px;
+        border-radius: 4px;
+      }
+      .footer-text {
+        font-size: 0.65rem;
+        line-height: 1.8;
+        color: var(--cream-dim);
+        letter-spacing: 0.04em;
+        max-width: 480px;
+      }
+      .footer-contact { text-align: right; }
+      .footer-contact-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--acid);
+        margin-bottom: 8px;
+      }
+      .footer-contact-name {
+        font-family: var(--serif);
+        font-size: 1.4rem;
+        font-weight: 300;
+        color: var(--cream);
+        margin-bottom: 4px;
+      }
+      .footer-contact-email { font-size: 0.72rem; color: var(--cream-dim); }
+      .footer-contact-email a { color: var(--acid); text-decoration: none; }
 
-        animation: fade-in-up 1s ease 1.8s forwards;
+      .hero-about {
+        margin-top: 40px;
+        padding-top: 32px;
+        border-top: 1px solid var(--border-soft);
         opacity: 0;
+        animation: slide-in 0.9s var(--ease) 1s forwards;
+      }
+      .hero-about-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--acid);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .hero-about-label::before {
+        content: '';
+        display: inline-block;
+        width: 20px; height: 1px;
+        background: var(--acid);
+      }
+      .hero-about-text {
+        font-family: var(--serif);
+        font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+        font-weight: 300;
+        font-style: italic;
+        color: var(--cream-dim);
+        line-height: 1.7;
+        max-width: 500px;
       }
 
-      /* RESPONSYWNOŚĆ */
-      @media (max-width: 1024px) {
-        .card:nth-child(1),
-        .card:nth-child(2),
-        .card:nth-child(3),
-        .card:nth-child(4) {
-          grid-column: 1 / 13;
-        }
-
-        .intro {
-          margin-left: 0;
-          max-width: 100%;
-        }
+      /* KEYFRAMES */
+      @keyframes slide-in {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fade-in {
+        from { opacity: 0; }
+        to   { opacity: 1; }
       }
 
-      @media (max-width: 768px) {
-        .container {
-          padding: var(--space-lg) var(--space-md);
-        }
-
-        .grid {
-          gap: var(--space-md);
-        }
+      .footer-financing {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--border-soft);
+      }
+      .footer-financing-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--acid);
+        white-space: nowrap;
+      }
+      .footer-financing-val {
+        font-size: 0.72rem;
+        color: var(--cream-dim);
       }
 
-      /* Scroll-triggered animations */
-      @media (prefers-reduced-motion: no-preference) {
-        .card {
-          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+      /* RESPONSIVE */
+      @media (max-width: 1100px) {
+        .hero { grid-template-columns: 1fr; padding: 60px 40px; }
+        .hero-right { display: none; }
+        .main-grid { grid-template-columns: 1fr; }
+        .cell-full { grid-template-columns: 1fr; gap: 32px; }
+        .specs-row { grid-template-columns: 1fr 1fr; }
+        footer { padding: 60px 40px; grid-template-columns: 1fr; }
+        .footer-contact { text-align: left; }
+      }
+      @media (max-width: 640px) {
+        .hero { padding: 40px 24px; }
+        .grid-cell { padding: 40px 32px; }
+        footer { padding: 40px 24px; }
       }
     </style>
   </head>
   <body>
-    <!-- BANER KPO NA SAMEJ GÓRZE -->
-    <div class="kpo-top-banner">
-      <img src="KPO.jpg" alt="Krajowy Plan Odbudowy i Unii Europejskiej" />
+
+    <div class="cursor-dot" id="dot"></div>
+    <div class="cursor-ring" id="ring"></div>
+
+    <div class="kpo-banner">
+      <img src="KPO.jpg" alt="Logotypy KPO, Rzeczpospolita Polska i Unia Europejska" />
     </div>
 
-    <div class="container">
-      <header>
-        <h1>Spatial Audio Lab</h1>
-        <p class="subtitle">
-          Archiwum dźwięku przestrzennego dla edukacji teatralnej
-        </p>
-      </header>
+    <section class="hero">
+      <div class="hero-bg-grid"></div>
 
-      <div class="intro">
-        <p>
-          Projekt stypendialny Oskara Hamerskiego realizowany w ramach programu
-          KPO dla Kultury. Celem projektu jest stworzenie profesjonalnego
-          archiwum dźwięku przestrzennego do celów edukacyjnych i
-          relaksacyjnych.
-        </p>
-        <p class="funding-info">
-          <strong>Dofinansowanie UE:</strong> 36 000,00 zł brutto
-        </p>
-      </div>
+      <div class="hero-left">
+        <p class="hero-label">Projekt stypendialny KPO · 2025/2026</p>
 
-      <div class="grid">
-        <div class="card">
-          <span class="tag">Wskaźnik Przedsięwzięcia 1</span>
-          <h3>Kompetencje i Certyfikaty</h3>
-          <p>Ukończone specjalistyczne kursy:</p>
-          <ul>
-            <li>
-              ✅
-              <a href="certyfikaty/certyfikat_mindfulness.pdf"
-                >Mindfulness (Leiden University)</a
-              >
-            </li>
-            <li>
-              ✅
-              <a href="certyfikaty/certyfikat_reaper.pdf">REAPER DAW (Udemy)</a>
-            </li>
-            <li>
-              ✅
-              <a href="certyfikaty/certyfikat_lsba.pdf"
-                >Spatial Audio Processing (LSBA)</a
-              >
-            </li>
-            <li style="color: rgba(255, 255, 255, 0.5)">
-              ⏳ <em>W trakcie: Advanced Spatial Processing (ASSR)</em>
-            </li>
-          </ul>
+        <h1>Spatial<br>Audio<br><em>Lab</em></h1>
+
+        <p class="hero-sub">Archiwum dźwięku przestrzennego dla edukacji teatralnej.</p>
+
+        <div class="hero-meta">
+          <div class="meta-row">
+            <span class="meta-key">FORMAT</span>
+            <span class="meta-val">Binaural · Ambisonics B-Format</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">STYPENDYSTA</span>
+            <span class="meta-val">Oskar Hamerski</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-key">UMOWA</span>
+            <span class="meta-val">143/KPO.STYPENDIA/NIMIT/2025</span>
+          </div>
         </div>
 
-        <div class="card">
-          <span class="tag">Wskaźnik Własny 1</span>
-          <h3>Konsultacje i Wywiady</h3>
-          <p>Baza wiedzy od liderów branży:</p>
-          <ul>
-            <li><a href="wywiady/dluzyk.html">Izabela Dłużyk</a> (Natura)</li>
-            <li><a href="wywiady/calka.html">Zuzanna Całka</a> (Ambient)</li>
-            <li>
-              <a href="wywiady/ryterski.html">Rafał Ryterski</a> (Sound Design)
-            </li>
-            <li style="color: rgba(255, 255, 255, 0.5)">
-              📅 Andrzej Brzoska (w realizacji)
-            </li>
-            <li style="color: rgba(255, 255, 255, 0.5)">
-              📅 Krzysztof Garbaczewski (w realizacji)
-            </li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <span class="tag">Wskaźniki Własne 2 & 3</span>
-          <h3>Archiwum Dźwięku 3D</h3>
-          <p>Materiały immersyjne:</p>
-          <ul>
-            <li><strong>15 Scenografii VR</strong> (w opracowaniu)</li>
-            <li><strong>5 Materiałów Relaksacyjnych</strong></li>
-            <li><strong>5 Sesji "Sound Walking"</strong></li>
-          </ul>
-          <a
-            href="https://github.com/spatial-audio-lab/spatial-audio-lab.github.io/tree/main/archiwum-vr"
-            >Przeglądaj pliki surowe →</a
-          >
-        </div>
-
-        <div class="card">
-          <span class="tag">Informacje</span>
-          <h3>Dokumentacja Projektu</h3>
-          <p>Szczegółowe opisy i raporty:</p>
-          <ul>
-            <li><a href="README.md">Pełny opis projektu</a></li>
-            <li>
-              <a href="dokumentacja/instrukcja.html">Jak słuchać dźwięku VR?</a>
-            </li>
-            <li>
-              <a href="dokumentacja/raporty.html"
-                >Postępy (Raporty częściowe)</a
-              >
-            </li>
-          </ul>
+        <div class="hero-about">
+          <p class="hero-about-label">O projekcie</p>
+          <p class="hero-about-text">„Spatial Audio Lab" to projekt stypendialny skupiony na tworzeniu profesjonalnego archiwum dźwięku przestrzennego. W ramach działań powstaje baza nagrań w technologii Virtual Reality (VR), która łączy nowoczesną inżynierię dźwięku z edukacją teatralną i technikami uważności (mindfulness).</p>
         </div>
       </div>
 
-      <div class="footer">
-        <img
-          src="NGEUkol.jpg"
-          alt="Krajowy Plan Odbudowy"
-          style="
-            display: block;
-            margin: 0 auto var(--space-md) auto;
-            max-width: 300px;
-            height: auto;
-            background: white;
-            padding: var(--space-xs);
-            border-radius: 8px;
-          "
-        />
-        <p>
-          Projekt sfinansowany przez Unię Europejską — NextGenerationEU.<br />
-          Wsparcie udzielone w ramach Krajowego Planu Odbudowy i Zwiększania
-          Odporności, Inwestycja A2.5.1.
-        </p>
+      <div class="hero-right">
+        <div class="sphere-wrapper">
+          <span class="sphere-label top">+Z (Height)</span>
+          <span class="sphere-label bottom">−Z</span>
+          <span class="sphere-label left">W</span>
+          <span class="sphere-label right">X</span>
+          <svg class="sphere-svg" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <circle cx="210" cy="210" r="180" stroke="rgba(190,255,0,0.05)" stroke-width="80"/>
+            <circle cx="210" cy="210" r="160" stroke="rgba(190,255,0,0.12)" stroke-width="1"/>
+            <ellipse cx="210" cy="210" rx="160" ry="40" stroke="rgba(190,255,0,0.25)" stroke-width="1"/>
+            <ellipse cx="210" cy="210" rx="160" ry="55" stroke="rgba(190,255,0,0.4)" stroke-width="1.5" filter="url(#glow)">
+              <animateTransform attributeName="transform" type="rotate" from="0 210 210" to="360 210 210" dur="8s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="210" cy="210" rx="130" ry="40" stroke="rgba(190,255,0,0.3)" stroke-width="1" transform="rotate(40 210 210)">
+              <animateTransform attributeName="transform" type="rotate" from="40 210 210" to="400 210 210" dur="12s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="210" cy="210" rx="100" ry="30" stroke="rgba(190,255,0,0.2)" stroke-width="1" transform="rotate(-25 210 210)">
+              <animateTransform attributeName="transform" type="rotate" from="-25 210 210" to="335 210 210" dur="16s" repeatCount="indefinite" additive="sum"/>
+            </ellipse>
+            <line x1="210" y1="40" x2="210" y2="380" stroke="rgba(190,255,0,0.1)" stroke-width="1" stroke-dasharray="4 8"/>
+            <line x1="40" y1="210" x2="380" y2="210" stroke="rgba(190,255,0,0.1)" stroke-width="1" stroke-dasharray="4 8"/>
+            <ellipse id="path1" cx="210" cy="210" rx="160" ry="55"/>
+            <circle r="4" fill="var(--acid)" filter="url(#glow)">
+              <animateMotion dur="8s" repeatCount="indefinite"><mpath href="#path1"/></animateMotion>
+            </circle>
+            <ellipse id="path2" cx="210" cy="210" rx="130" ry="40" transform="rotate(40 210 210)"/>
+            <circle r="3" fill="rgba(190,255,0,0.6)" filter="url(#glow)">
+              <animateMotion dur="12s" repeatCount="indefinite" begin="3s"><mpath href="#path2"/></animateMotion>
+            </circle>
+            <circle cx="210" cy="210" r="5" fill="var(--acid)" opacity="0.9" filter="url(#glow)"/>
+            <circle cx="210" cy="210" r="2" fill="#080A07"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <div class="specs-row">
+      <div class="spec-cell">
+        <div class="spec-val">15</div>
+        <div class="spec-key">Scenografii dźwiękowych</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-val">05</div>
+        <div class="spec-key">Materiałów relaksacyjnych</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-val">05</div>
+        <div class="spec-key">Sesji ze studentami teatru</div>
+      </div>
+      <div class="spec-cell">
+        <div class="spec-val">05</div>
+        <div class="spec-key">Wywiadów z ekspertami</div>
       </div>
     </div>
+
+    <div class="main-grid">
+
+      <div class="grid-cell">
+        <div class="cell-index">Wskaźnik Przedsięwzięcia 01</div>
+        <div class="cell-num">01</div>
+        <h2 class="cell-title">Kompetencje<br>&amp; Certyfikaty</h2>
+        <p class="cell-desc">Specjalistyczne kursy podnoszące kwalifikacje zawodowe w obszarze immersywnego audio i mindfulness.</p>
+        <ul class="item-list">
+          <li><span class="item-status">✓</span><span>Mindfulness — Universiteit Leiden / Coursera</span></li>
+          <li><span class="item-status">✓</span><span>REAPER DAW — Udemy</span></li>
+          <li><span class="item-status">✓</span><span>Spatial Audio Processing — LSBA</span></li>
+          <li><span class="item-status">✓</span><span>Immersive Audio · Advanced Spatial Processing — ASSR</span></li>
+        </ul>
+      </div>
+
+      <div class="grid-cell">
+        <div class="cell-index">Wskaźniki Przedsięwzięcia 02 · Własny 01</div>
+        <div class="cell-num">02</div>
+        <h2 class="cell-title">Konsultacje<br>&amp; Wywiady</h2>
+        <p class="cell-desc">Rozmowy w formacie dźwięku przestrzennego z liderami branży audio i teatru.</p>
+        <ul class="item-list">
+          <li>
+            <span class="item-status">✓</span>
+            <span>Izabela Dłużyk</span>
+            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">Nagrania natury</span>
+          </li>
+          <li>
+            <span class="item-status">✓</span>
+            <span>Zuzanna Całka</span>
+            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">Muzyka ambient</span>
+          </li>
+          <li>
+            <span class="item-status">✓</span>
+            <span>Rafał Ryterski</span>
+            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">Sound design</span>
+          </li>
+          <li>
+            <span class="item-status">✓</span>
+            <span>Andrzej Brzoska</span>
+            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">Reżyseria dźwięku</span>
+          </li>
+          <li>
+            <span class="item-status">✓</span>
+            <span>Krzysztof Garbaczewski</span>
+            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">VR w teatrze</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="grid-cell cell-full">
+        <div>
+          <div class="cell-index">Wskaźniki Własne 02 · 03 · 04</div>
+          <div class="cell-num">03</div>
+          <h2 class="cell-title">Archiwum<br>Dźwięku 3D</h2>
+        </div>
+        <div>
+          <p class="cell-desc">Kolekcja profesjonalnych nagrań przestrzennych: od naturalnych pejzaży dźwiękowych po industrialne przestrzenie miejskie. Realizowane w technice binauralnej i ambisonicznej (B-Format). Słuchaj wyłącznie na słuchawkach.</p>
+          <ul class="item-list">
+            <li>
+              <span class="item-status">◈</span>
+              <span><strong style="color:var(--cream)">15 Scenografii dźwiękowych</strong> — Nagrania przestrzeni akustycznych w technice ambisonicznej i binauralnej</span>
+            </li>
+            <li>
+              <span class="item-status">◈</span>
+              <span><strong style="color:var(--cream)">5 Materiałów relaksacyjnych</strong> — Sesje mindfulness w audio przestrzennym</span>
+            </li>
+            <li>
+              <span class="item-status">◈</span>
+              <span><strong style="color:var(--cream)">5 Sesji nagraniowych ze studentami teatru</strong> — Praca z głosem i tekstem w przestrzeni immersyjnej</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <footer>
+      <div class="footer-eu">
+        <img src="NGEUkol.jpg" alt="NextGenerationEU" />
+        <div>
+          <p class="footer-text">
+            Projekt sfinansowany przez Unię Europejską — NextGenerationEU.<br>
+            Wsparcie udzielone w ramach Krajowego Planu Odbudowy i Zwiększania Odporności,<br>
+            Inwestycja A2.5.1: Program wspierania działalności podmiotów sektora kultury<br>
+            i przemysłów kreatywnych na rzecz stymulowania ich rozwoju.<br>
+            Instytucja Wspierająca: Narodowy Instytut Muzyki i Tańca (NIMiT).
+          </p>
+          <div class="footer-financing">
+            <span class="footer-financing-label">Finansowanie</span>
+            <span class="footer-financing-val">36 000,00 zł brutto · NextGenerationEU</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-contact">
+        <div class="footer-contact-label">Kontakt</div>
+        <div class="footer-contact-name">Oskar Hamerski</div>
+        <div class="footer-contact-email">
+          Stypendysta KPO dla Kultury 2025/2026<br>
+          <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const dot  = document.getElementById('dot');
+      const ring = document.getElementById('ring');
+      let mx = -100, my = -100, rx = -100, ry = -100;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX;
+        my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+
+      (function loop() {
+        rx += (mx - rx) * 0.1;
+        ry += (my - ry) * 0.1;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(loop);
+      })();
+
+      document.querySelectorAll('a, .grid-cell, .spec-cell').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+      });
+    </script>
   </body>
 </html>
