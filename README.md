@@ -6,6 +6,8 @@
 ### O projekcie
 „Spatial Audio Lab” to projekt stypendialny skupiony na tworzeniu profesjonalnego archiwum dźwięku przestrzennego. W ramach działań powstaje baza nagrań w technologii Virtual Reality (VR), która łączy nowoczesną inżynierię dźwięku z edukacją teatralną i technikami uważności (mindfulness).
 
+https://spatial-audio-lab.github.io/
+
 ---
 
 ##  Główne cele i zadania
