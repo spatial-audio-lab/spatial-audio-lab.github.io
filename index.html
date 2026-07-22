@@ -41,7 +41,8 @@
       }
 
       *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-      html { scroll-behavior: smooth; }
+      html { scroll-behavior: smooth; overflow-x: hidden; }
+      img, svg { max-width: 100%; }
 
       body {
         font-family: var(--mono);
@@ -138,7 +139,7 @@
         mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
         pointer-events: none;
       }
-      .hero-left { z-index: 2; position: relative; }
+      .hero-left { z-index: 2; position: relative; min-width: 0; }
 
       .hero-label {
         font-size: 0.65rem;
@@ -197,13 +198,14 @@
       }
       .meta-row {
         display: flex;
+        flex-wrap: wrap;
         align-items: baseline;
-        gap: 16px;
+        gap: 4px 16px;
         font-size: 0.72rem;
         letter-spacing: 0.08em;
       }
       .meta-key { color: var(--acid); min-width: 120px; }
-      .meta-val { color: var(--cream-dim); }
+      .meta-val { color: var(--cream-dim); min-width: 0; flex: 1 1 180px; overflow-wrap: break-word; }
 
       /* SPHERE */
       .hero-right {
@@ -243,6 +245,7 @@
       .spec-cell {
         background: var(--bg2);
         padding: 40px 48px;
+        min-width: 0;
       }
       .spec-val {
         font-family: var(--display);
@@ -272,6 +275,7 @@
         padding: 64px 72px;
         position: relative;
         overflow: hidden;
+        min-width: 0;
       }
       .grid-cell::before {
         content: '';
@@ -359,6 +363,7 @@
         align-items: start;
         gap: 80px;
       }
+      .cell-full > * { min-width: 0; }
 
       /* FOOTER */
       footer {
@@ -371,7 +376,8 @@
         position: relative;
         z-index: 150;
       }
-      .footer-eu { display: flex; align-items: center; gap: 24px; }
+      footer > * { min-width: 0; }
+      .footer-eu { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
       .footer-eu img {
         max-width: 240px;
         height: auto;
@@ -507,6 +513,70 @@
       }
       .top-nav-links a:hover { color: var(--acid); }
 
+      /* NAV TOGGLE (hamburger) — hidden on desktop */
+      .nav-toggle {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 32px;
+        height: 32px;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        z-index: 301;
+        flex-shrink: 0;
+      }
+      .nav-toggle span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background: var(--cream);
+        transition: transform 0.3s var(--ease), opacity 0.2s ease;
+      }
+      .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .nav-toggle.open span:nth-child(2) { opacity: 0; }
+      .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      @media (max-width: 860px) {
+        .nav-toggle { display: flex; }
+        .top-nav-links {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0;
+          background: rgba(8,10,7,0.98);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid var(--border-soft);
+          padding: 0 24px;
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition: max-height 0.35s var(--ease), opacity 0.25s ease, padding 0.35s var(--ease);
+        }
+        .top-nav-links.open {
+          max-height: 400px;
+          opacity: 1;
+          padding: 8px 24px 20px;
+        }
+        .top-nav-links a {
+          width: 100%;
+          padding: 14px 0;
+          font-size: 0.8rem;
+          border-bottom: 1px solid var(--border-soft);
+        }
+      }
+
+      /* Custom cursor is meaningless on touch/thumb navigation — turn it off */
+      @media (hover: none) and (pointer: coarse) {
+        body { cursor: auto; }
+        .cursor-dot, .cursor-ring { display: none; }
+      }
+
       /* SECTION HEADER (reused above narzędzia / archiwum sections) */
       .section-header {
         padding: 72px 80px 8px;
@@ -557,6 +627,7 @@
         position: relative;
         overflow: hidden;
         text-decoration: none;
+        min-width: 0;
       }
       .tool-card::before {
         content: '';
@@ -641,7 +712,10 @@
 
     <nav class="top-nav">
       <span class="top-nav-brand"><img src="/assets/brand/icon-192.png" alt="" />Spatial<em> </em>Audio<em> Lab</em></span>
-      <div class="top-nav-links">
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Otwórz menu" aria-expanded="false" aria-controls="topNavLinks">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="top-nav-links" id="topNavLinks">
         <a href="#o-projekcie">O projekcie</a>
         <a href="#narzedzia">Narzędzia</a>
         <a href="#archiwum">Archiwum</a>
@@ -904,28 +978,53 @@
     </footer>
 
     <script>
-      const dot  = document.getElementById('dot');
-      const ring = document.getElementById('ring');
-      let mx = -100, my = -100, rx = -100, ry = -100;
+      // Custom cursor: only makes sense for a real mouse pointer.
+      // On phones/tablets navigation happens with a thumb, so skip it entirely.
+      const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-      document.addEventListener('mousemove', e => {
-        mx = e.clientX;
-        my = e.clientY;
-        dot.style.left = mx + 'px';
-        dot.style.top  = my + 'px';
+      if (!isTouch) {
+        const dot  = document.getElementById('dot');
+        const ring = document.getElementById('ring');
+        let mx = -100, my = -100, rx = -100, ry = -100;
+
+        document.addEventListener('mousemove', e => {
+          mx = e.clientX;
+          my = e.clientY;
+          dot.style.left = mx + 'px';
+          dot.style.top  = my + 'px';
+        });
+
+        (function loop() {
+          rx += (mx - rx) * 0.1;
+          ry += (my - ry) * 0.1;
+          ring.style.left = rx + 'px';
+          ring.style.top  = ry + 'px';
+          requestAnimationFrame(loop);
+        })();
+
+        document.querySelectorAll('a, .grid-cell, .spec-cell').forEach(el => {
+          el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+          el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+        });
+      }
+
+      // Hamburger menu (mobile nav)
+      const navToggle = document.getElementById('navToggle');
+      const navLinks  = document.getElementById('topNavLinks');
+
+      navToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        navToggle.classList.toggle('open', isOpen);
+        navToggle.setAttribute('aria-expanded', isOpen);
       });
 
-      (function loop() {
-        rx += (mx - rx) * 0.1;
-        ry += (my - ry) * 0.1;
-        ring.style.left = rx + 'px';
-        ring.style.top  = ry + 'px';
-        requestAnimationFrame(loop);
-      })();
-
-      document.querySelectorAll('a, .grid-cell, .spec-cell').forEach(el => {
-        el.addEventListener('mouseenter', () => ring.classList.add('hover'));
-        el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+      // Close the menu automatically after tapping a link
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('open');
+          navToggle.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        });
       });
     </script>
   </body>
