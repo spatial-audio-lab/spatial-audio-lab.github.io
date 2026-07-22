@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Spatial Audio Lab — narzędziownia dźwięku przestrzennego</title>
 
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="Narzędziownia i archiwum dźwięku przestrzennego dla studentów, pedagogów i twórców teatralnych. Projekt stypendialny KPO 2025/2026." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Spatial Audio Lab — narzędziownia dźwięku przestrzennego" />
+    <meta property="og:description" content="Narzędziownia i archiwum dźwięku przestrzennego dla studentów, pedagogów i twórców teatralnych." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/" />
+    <meta name="twitter:card" content="summary_large_image" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -474,8 +486,12 @@
         font-size: 0.95rem;
         letter-spacing: 0.02em;
         color: var(--cream);
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
       .top-nav-brand em { color: var(--acid); font-style: normal; }
+      .top-nav-brand img { width: 24px; height: 24px; display: block; }
       .top-nav-links {
         display: flex;
         gap: 28px;
@@ -624,7 +640,7 @@
     </div>
 
     <nav class="top-nav">
-      <span class="top-nav-brand">Spatial<em> </em>Audio<em> Lab</em></span>
+      <span class="top-nav-brand"><img src="/assets/brand/icon-192.png" alt="" />Spatial<em> </em>Audio<em> Lab</em></span>
       <div class="top-nav-links">
         <a href="#o-projekcie">O projekcie</a>
         <a href="#narzedzia">Narzędzia</a>

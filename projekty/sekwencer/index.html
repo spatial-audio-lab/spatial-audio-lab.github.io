@@ -3,33 +3,41 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Harmonic Layers - 3D Spatial Engine</title>
+    <title>Sekwencer 3D — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=JetBrains+Mono&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&family=Azeret+Mono:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/assets/shared.css">
     <style>
       body {
-        font-family: "Outfit", sans-serif;
-        background: #080a0f;
-        color: #e2e8f0;
+        font-family: "Lexend", sans-serif;
+        background: #080A07;
+        color: #F0EBE0;
         overflow: hidden;
         height: 100vh;
       }
       .glass {
-        background: rgba(15, 23, 42, 0.6);
+        background: rgba(15, 18, 13, 0.6);
         backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(240, 235, 224, 0.08);
       }
       .indicator-glow {
-        box-shadow: 0 0 15px rgba(52, 211, 153, 0.5);
+        box-shadow: 0 0 15px rgba(190, 255, 0, 0.5);
       }
       input[type="range"] {
-        @apply h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500;
+        @apply h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-[#BEFF00];
       }
       select {
-        @apply bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-emerald-500 outline-none;
+        @apply bg-slate-900 border border-slate-700 rounded-lg p-2 text-sm focus:ring-2 focus:ring-[#BEFF00] outline-none;
       }
 
       /* Custom scrollbar dla panelu kontrolnego */
@@ -40,20 +48,25 @@
         background: transparent;
       }
       .custom-scroll::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(240, 235, 224, 0.15);
         border-radius: 10px;
       }
     </style>
   </head>
   <body class="flex flex-col items-center justify-center p-4 md:p-8">
+    <a href="/" class="sal-badge">
+      <img src="/assets/brand/icon-192.png" alt="" />
+      Wróć do hub-a
+    </a>
+
     <!-- Start Overlay -->
     <div
       id="startOverlay"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-[#080a0f]"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-[#080A07]"
     >
       <div class="text-center p-8 glass rounded-[40px] max-w-md">
         <h1
-          class="text-5xl font-bold mb-4 bg-gradient-to-br from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+          class="text-5xl font-bold mb-4 bg-gradient-to-br from-[#BEFF00] to-[#8fd400] bg-clip-text text-transparent"
         >
           Sekwencer 3D
         </h1>
@@ -62,7 +75,7 @@
         </p>
         <button
           id="btnStart"
-          class="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-2xl transition-all transform hover:scale-105 active:scale-95"
+          class="w-full py-4 bg-[#8fd400] hover:bg-[#BEFF00] text-black font-bold rounded-2xl transition-all transform hover:scale-105 active:scale-95"
         >
           Uruchom System
         </button>
@@ -80,7 +93,7 @@
         <div class="glass p-8 rounded-[32px] flex flex-col gap-6">
           <div class="flex items-center justify-between">
             <h2
-              class="text-sm font-bold text-emerald-400 uppercase tracking-widest"
+              class="text-sm font-bold text-[#BEFF00] uppercase tracking-widest"
             >
               Geometria Ruchu
             </h2>
@@ -155,7 +168,7 @@
 
         <!-- Sekcja: Orientacja i Barwa -->
         <div class="glass p-8 rounded-[32px] flex flex-col gap-6">
-          <h2 class="text-sm font-bold text-cyan-400 uppercase tracking-widest">
+          <h2 class="text-sm font-bold text-[#8fd400] uppercase tracking-widest">
             Przestrzeń i Barwa
           </h2>
 
@@ -204,7 +217,7 @@
             </div>
             <button
               id="btnToggleAudio"
-              class="w-full py-4 bg-emerald-500/10 border border-emerald-500/50 text-emerald-400 rounded-2xl hover:bg-emerald-500/20 transition-all font-bold uppercase tracking-widest text-xs"
+              class="w-full py-4 bg-[#BEFF00]/10 border border-[#BEFF00]/50 text-[#BEFF00] rounded-2xl hover:bg-[#BEFF00]/20 transition-all font-bold uppercase tracking-widest text-xs"
             >
               ODTWÓRZ / WYCISZ
             </button>
@@ -223,7 +236,7 @@
           <div class="relative">
             <canvas
               id="radarCanvas"
-              class="max-w-full aspect-square bg-[#020617]/50 rounded-full border border-white/5 shadow-2xl"
+              class="max-w-full aspect-square bg-[#080A07]/70 rounded-full border border-white/5 shadow-2xl"
             ></canvas>
 
             <!-- Etykiety kierunków (Zgodne z Web Audio) -->
@@ -266,13 +279,13 @@
               <!-- Wskaźnik wysokości -->
               <div
                 id="elevationIndicator"
-                class="absolute left-1/2 -translate-x-1/2 w-6 h-6 bg-emerald-400 rounded-full indicator-glow transition-all duration-75 border-4 border-slate-900"
+                class="absolute left-1/2 -translate-x-1/2 w-6 h-6 bg-[#BEFF00] rounded-full indicator-glow transition-all duration-75 border-4 border-slate-900"
                 style="bottom: 50%"
               ></div>
             </div>
             <div
               id="heightLabel"
-              class="text-xs font-mono mt-4 text-emerald-400 font-bold"
+              class="text-xs font-mono mt-4 text-[#BEFF00] font-bold"
             >
               0.0m
             </div>
@@ -283,12 +296,12 @@
         <div
           class="absolute bottom-10 left-12 font-mono text-[10px] text-slate-500 space-y-2 bg-black/30 p-4 rounded-2xl border border-white/5"
         >
-          <div id="debugCoords" class="text-emerald-300">
+          <div id="debugCoords" class="text-[#BEFF00]">
             XYZ: [0.00, 0.00, 0.00]
           </div>
           <div class="flex items-center gap-2">
             <span
-              class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"
+              class="w-2 h-2 rounded-full bg-[#8fd400] animate-pulse"
             ></span>
             <span>ENGINE: WEB_AUDIO_HRTF_V2</span>
           </div>
@@ -448,7 +461,7 @@
 
         // Podgląd trajektorii (Ghost Path)
         ctx.beginPath()
-        ctx.strokeStyle = "rgba(16, 185, 129, 0.1)"
+        ctx.strokeStyle = "rgba(190, 255, 0, 0.1)"
         ctx.setLineDash([5, 5])
         for (let i = 0; i < Math.PI * 2; i += 0.1) {
           let p = Trajectories[state.shape](i)
@@ -470,8 +483,8 @@
         const tz = cy + state.pos.z * zoom
 
         ctx.shadowBlur = 20
-        ctx.shadowColor = "#10b981"
-        ctx.fillStyle = "#10b981"
+        ctx.shadowColor = "#BEFF00"
+        ctx.fillStyle = "#BEFF00"
         ctx.beginPath()
         ctx.arc(tx, tz, 7, 0, Math.PI * 2)
         ctx.fill()
@@ -510,7 +523,7 @@
         const val = state.audioActive ? 0.35 : 0
         state.gain.gain.setTargetAtTime(val, state.ctx.currentTime, 0.1)
         document.getElementById("audioIndicator").className =
-          `w-2.5 h-2.5 rounded-full ${state.audioActive ? "bg-emerald-500 shadow-[0_0_10px_rgba(52,211,153,0.5)]" : "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]"}`
+          `w-2.5 h-2.5 rounded-full ${state.audioActive ? "bg-[#8fd400] shadow-[0_0_10px_rgba(190,255,0,0.5)]" : "bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.5)]"}`
       }
 
       document.getElementById("btnDirection").onclick = (e) => {
