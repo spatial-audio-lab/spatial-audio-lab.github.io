@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spatial Audio Lab — Archiwum VR</title>
+    <title>Spatial Audio Lab — narzędziownia dźwięku przestrzennego</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -454,6 +454,143 @@
         color: var(--cream-dim);
       }
 
+      /* TOP NAV */
+      .top-nav {
+        position: sticky;
+        top: 0;
+        z-index: 300;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 20px 48px;
+        background: rgba(8,10,7,0.85);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-soft);
+      }
+      .top-nav-brand {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        color: var(--cream);
+      }
+      .top-nav-brand em { color: var(--acid); font-style: normal; }
+      .top-nav-links {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+      }
+      .top-nav-links a {
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--cream-dim);
+        text-decoration: none;
+        transition: color 0.25s ease;
+      }
+      .top-nav-links a:hover { color: var(--acid); }
+
+      /* SECTION HEADER (reused above narzędzia / archiwum sections) */
+      .section-header {
+        padding: 72px 80px 8px;
+      }
+      .section-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        color: var(--acid);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .section-label::before {
+        content: '';
+        display: block;
+        width: 32px; height: 1px;
+        background: var(--acid);
+      }
+      .section-title {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: clamp(1.8rem, 3vw, 2.6rem);
+        color: var(--cream);
+        margin-bottom: 16px;
+      }
+      .section-sub {
+        font-size: 0.82rem;
+        line-height: 1.8;
+        color: var(--cream-dim);
+        max-width: 640px;
+      }
+
+      /* TOOLS GRID */
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--border-soft);
+        margin: 40px 0 1px;
+      }
+      .tool-card {
+        background: var(--bg);
+        padding: 40px 36px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        overflow: hidden;
+        text-decoration: none;
+      }
+      .tool-card::before {
+        content: '';
+        position: absolute; inset: 0;
+        background: radial-gradient(ellipse at 0% 0%, var(--acid-glow) 0%, transparent 60%);
+        opacity: 0;
+        transition: opacity 0.8s ease;
+        pointer-events: none;
+      }
+      .tool-card:hover::before { opacity: 1; }
+      .tool-card:hover .tool-name { color: var(--acid); }
+      .tool-tag {
+        font-size: 0.6rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--acid);
+        margin-bottom: 18px;
+        position: relative; z-index: 1;
+      }
+      .tool-name {
+        font-family: var(--display);
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: var(--cream);
+        margin-bottom: 14px;
+        transition: color 0.25s ease;
+        position: relative; z-index: 1;
+      }
+      .tool-desc {
+        font-size: 0.76rem;
+        line-height: 1.75;
+        color: var(--cream-dim);
+        margin-bottom: 20px;
+        position: relative; z-index: 1;
+        flex-grow: 1;
+      }
+      .tool-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.65rem;
+        letter-spacing: 0.05em;
+        color: var(--cream-dim);
+        border-top: 1px solid var(--border-soft);
+        padding-top: 16px;
+        position: relative; z-index: 1;
+      }
+      .tool-cta { color: var(--acid); }
+      .tool-card:hover .tool-cta { text-decoration: underline; }
+
       /* RESPONSIVE */
       @media (max-width: 1100px) {
         .hero { grid-template-columns: 1fr; padding: 60px 40px; }
@@ -461,12 +598,18 @@
         .main-grid { grid-template-columns: 1fr; }
         .cell-full { grid-template-columns: 1fr; gap: 32px; }
         .specs-row { grid-template-columns: 1fr 1fr; }
+        .tools-grid { grid-template-columns: 1fr 1fr; }
+        .section-header { padding: 56px 40px 8px; }
         footer { padding: 60px 40px; grid-template-columns: 1fr; }
         .footer-contact { text-align: left; }
       }
       @media (max-width: 640px) {
         .hero { padding: 40px 24px; }
         .grid-cell { padding: 40px 32px; }
+        .top-nav { padding: 16px 24px; }
+        .top-nav-links { gap: 16px; }
+        .tools-grid { grid-template-columns: 1fr; }
+        .section-header { padding: 48px 24px 8px; }
         footer { padding: 40px 24px; }
       }
     </style>
@@ -480,7 +623,18 @@
       <img src="KPO.jpg" alt="Logotypy KPO, Rzeczpospolita Polska i Unia Europejska" />
     </div>
 
-    <section class="hero">
+    <nav class="top-nav">
+      <span class="top-nav-brand">Spatial<em> </em>Audio<em> Lab</em></span>
+      <div class="top-nav-links">
+        <a href="#o-projekcie">O projekcie</a>
+        <a href="#narzedzia">Narzędzia</a>
+        <a href="#archiwum">Archiwum</a>
+        <a href="#kompetencje">Kompetencje</a>
+        <a href="#kontakt">Kontakt</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="o-projekcie">
       <div class="hero-bg-grid"></div>
 
       <div class="hero-left">
@@ -488,7 +642,7 @@
 
         <h1>Spatial<br>Audio<br><em>Lab</em></h1>
 
-        <p class="hero-sub">Archiwum dźwięku przestrzennego dla edukacji teatralnej.</p>
+        <p class="hero-sub">Darmowa narzędziownia i archiwum dźwięku przestrzennego — dla studentów i pedagogów szkół teatralnych oraz każdego, kto interesuje się dźwiękiem 3D.</p>
 
         <div class="hero-meta">
           <div class="meta-row">
@@ -574,7 +728,7 @@
 
     <div class="main-grid">
 
-      <div class="grid-cell">
+      <div class="grid-cell" id="kompetencje">
         <div class="cell-index">Wskaźnik Przedsięwzięcia 01</div>
         <div class="cell-num">01</div>
         <h2 class="cell-title">Kompetencje<br>i certyfikaty</h2>
@@ -584,6 +738,12 @@
           <li><span class="item-status">✓</span><span>REAPER DAW — Udemy</span></li>
           <li><span class="item-status">✓</span><span>Spatial Audio Processing — LSBA</span></li>
           <li><span class="item-status">✓</span><span>Immersive Audio · Advanced Spatial Processing — ASSR</span></li>
+        </ul>
+        <ul class="item-list" style="margin-top:16px;">
+          <li><span class="item-status">↗</span><span><a href="certyfikaty/certyfikat_mindfulness.pdf" style="color:var(--acid);text-decoration:none;" target="_blank">Certyfikat — Mindfulness (PDF)</a></span></li>
+          <li><span class="item-status">↗</span><span><a href="certyfikaty/certyfikat_reaper.pdf" style="color:var(--acid);text-decoration:none;" target="_blank">Certyfikat — REAPER DAW (PDF)</a></span></li>
+          <li><span class="item-status">↗</span><span><a href="certyfikaty/certyfikat_lsba.pdf" style="color:var(--acid);text-decoration:none;" target="_blank">Certyfikat — Spatial Audio Processing, LSBA (PDF)</a></span></li>
+          <li><span class="item-status">↗</span><span><a href="certyfikaty/certyfikat_ASSR_Immersive_Audio.pdf" style="color:var(--acid);text-decoration:none;" target="_blank">Certyfikat — Immersive Audio, ASSR (PDF)</a></span></li>
         </ul>
       </div>
 
@@ -621,14 +781,14 @@
         </ul>
       </div>
 
-      <div class="grid-cell cell-full">
+      <div class="grid-cell cell-full" id="archiwum">
         <div>
           <div class="cell-index">Wskaźniki Własne 02 · 03 · 04</div>
           <div class="cell-num">03</div>
           <h2 class="cell-title">Archiwum<br>dźwięku 3D</h2>
         </div>
         <div>
-          <p class="cell-desc">Kolekcja profesjonalnych nagrań przestrzennych: od naturalnych pejzaży dźwiękowych po industrialne przestrzenie miejskie. Realizowane w technice binauralnej i ambisonicznej (B-Format). Słuchaj wyłącznie na słuchawkach.</p>
+          <p class="cell-desc">Kolekcja profesjonalnych nagrań przestrzennych: od naturalnych pejzaży dźwiękowych po industrialne przestrzenie miejskie. Realizowane w technice binauralnej i ambisonicznej (B-Format). Słuchaj wyłącznie na słuchawkach. Całe archiwum jest dostępne do odsłuchu w aplikacji <strong style="color:var(--cream)">Ambisonic Web Player</strong> — <a href="/ambi/" style="color:var(--acid);">otwórz archiwum ↗</a></p>
           <ul class="item-list">
             <li>
               <span class="item-status">◈</span>
@@ -636,11 +796,11 @@
             </li>
             <li>
               <span class="item-status">◈</span>
-              <span><strong style="color:var(--cream)">5 Materiałów relaksacyjnych</strong> — Sesje mindfulness w audio przestrzennym</span>
+              <span><strong style="color:var(--cream)">5 Materiałów relaksacyjnych</strong> — Sesje mindfulness w audio przestrzennym (aplikacja Przestrzeń Relaksu)</span>
             </li>
             <li>
               <span class="item-status">◈</span>
-              <span><strong style="color:var(--cream)">5 Sesji nagraniowych ze studentami teatru</strong> — Praca z głosem i tekstem w przestrzeni immersyjnej</span>
+              <span><strong style="color:var(--cream)">5 Sesji nagraniowych ze studentami teatru</strong> — Przykładowe nagrania dźwięku przestrzennego z pracy nad głosem i tekstem, dostępne w Ambisonic Web Player</span>
             </li>
           </ul>
         </div>
@@ -648,7 +808,59 @@
 
     </div>
 
-    <footer>
+    <section class="section-header" id="narzedzia">
+      <p class="section-label">Narzędziownia</p>
+      <h2 class="section-title">Aplikacje do pracy z dźwiękiem przestrzennym</h2>
+      <p class="section-sub">Sześć darmowych, otwartych narzędzi webowych stworzonych w ramach projektu. Każde działa wyłącznie w przeglądarce — nic nie trzeba instalować. Do pełnego efektu 3D potrzebne są słuchawki.</p>
+    </section>
+
+    <div class="tools-grid">
+
+      <a class="tool-card" href="/audio-shapes/" target="_blank" rel="noopener">
+        <span class="tool-tag">Synteza · Three.js</span>
+        <h3 class="tool-name">Audio Shapes</h3>
+        <p class="tool-desc">Buduj dźwiękowe figury geometryczne — koło, trójkąt, piramidę — i słuchaj ich krążących wokół Ciebie w 3D dzięki renderingowi binauralnemu HRTF.</p>
+        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
+      </a>
+
+      <a class="tool-card" href="/ambi/" target="_blank" rel="noopener">
+        <span class="tool-tag">Odtwarzacz · Archiwum</span>
+        <h3 class="tool-name">Ambisonic Web Player</h3>
+        <p class="tool-desc">Odtwarzacz archiwum dźwięku przestrzennego: scenografie VR, sesje ze studentami teatru i nagrania ambisoniczne w formacie B-Format.</p>
+        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
+      </a>
+
+      <a class="tool-card" href="/projekty/sekwencer/" target="_blank" rel="noopener">
+        <span class="tool-tag">Sekwencer 3D</span>
+        <h3 class="tool-name">Harmonic Layers</h3>
+        <p class="tool-desc">Warstwowy sekwencer dźwiękowy w przestrzeni 3D — układaj i miksuj wiele źródeł dźwięku poruszających się wokół słuchacza.</p>
+        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
+      </a>
+
+      <a class="tool-card" href="/2D_Audio_Explorer/" target="_blank" rel="noopener">
+        <span class="tool-tag">Edytor scen · Eksport</span>
+        <h3 class="tool-name">2D Audio Explorer</h3>
+        <p class="tool-desc">Rozstaw dźwięki na płaszczyźnie 2D, przejdź się po scenie na słuchawkach i wyeksportuj gotowe nagranie binauralne oraz ambisoniczne (AmbiX). Zaprojektowany z myślą o dostępności.</p>
+        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
+      </a>
+
+      <a class="tool-card" href="/wywiady/" target="_blank" rel="noopener">
+        <span class="tool-tag">Reportaż · Ambisonics</span>
+        <h3 class="tool-name">Wywiady</h3>
+        <p class="tool-desc">Interaktywny odtwarzacz pięciu rozmów z liderami branży audio i teatru — nawigujesz w przestrzeni 2D między głosami rozmówców, w tle dźwięk ambisoniczny.</p>
+        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
+      </a>
+
+      <a class="tool-card" href="/relaxation-mixer/" target="_blank" rel="noopener">
+        <span class="tool-tag">Mikser · Mindfulness</span>
+        <h3 class="tool-name">Przestrzeń Relaksu</h3>
+        <p class="tool-desc">Binauralny mikser relaksacyjny łączący prowadzone medytacje z krajobrazami dźwiękowymi i przestrzennie pozycjonowanymi obiektami audio.</p>
+        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
+      </a>
+
+    </div>
+
+    <footer id="kontakt">
       <div class="footer-eu">
         <img src="NGEUkol.jpg" alt="NextGenerationEU" />
         <div>
