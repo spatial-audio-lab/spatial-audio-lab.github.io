@@ -1,0 +1,36 @@
+# Normalizacja końców linii — plik wprowadzony przed przebudową Huba.
+# Bez tego repo zgłasza cały plik jako zmieniony przy każdej edycji (szum CRLF).
+# Git przechowuje wszystko z LF, a na dysku Windows wystawia to, co ustawia core.autocrlf.
+
+* text=auto
+
+# Pliki tekstowe — w repozytorium zawsze LF
+*.html   text eol=lf
+*.css    text eol=lf
+*.js     text eol=lf
+*.mjs    text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.svg    text eol=lf
+*.yml    text eol=lf
+*.yaml   text eol=lf
+*.txt    text eol=lf
+
+# Pliki binarne — nigdy nie ruszać
+*.png    binary
+*.jpg    binary
+*.jpeg   binary
+*.gif    binary
+*.webp   binary
+*.ico    binary
+*.pdf    binary
+*.wav    binary
+*.opus   binary
+*.ogg    binary
+*.mp3    binary
+*.m4a    binary
+*.mp4    binary
+*.woff   binary
+*.woff2  binary
+*.ttf    binary
+*.otf    binary
