@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>O projekcie — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="Spatial Audio Lab — projekt stypendialny KPO 2025/2026. Wskaźniki przedsięwzięcia, kompetencje i certyfikaty, finansowanie, kontakt. Umowa 143/KPO.STYPENDIA/NIMIT/2025." />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="O projekcie — Spatial Audio Lab" />
+    <meta property="og:description" content="Projekt stypendialny KPO 2025/2026: wskaźniki, kompetencje, certyfikaty, finansowanie." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/o-projekcie/" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/shared.css" />
+
+    <style>
+      .page-head { padding: 64px 64px 44px; border-bottom: 1px solid var(--border); }
+      .page-label {
+        font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em;
+        text-transform: uppercase; color: var(--acid);
+        margin-bottom: 26px; display: flex; align-items: center; gap: 12px;
+      }
+      .page-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--acid); }
+
+      h1 {
+        font-family: var(--display); font-weight: 900;
+        font-size: clamp(2.6rem, 6vw, 4.6rem);
+        line-height: 0.94; letter-spacing: -0.035em; color: var(--cream);
+        margin-bottom: 24px;
+      }
+      .lead {
+        font-family: var(--mono); font-weight: 300;
+        font-size: clamp(0.84rem, 1.3vw, 0.95rem);
+        line-height: 1.85; color: var(--dim); max-width: 660px;
+      }
+      .lead b { color: var(--cream); font-weight: 400; }
+
+      .head-meta {
+        display: flex; flex-direction: column; gap: 9px;
+        border-top: 1px solid var(--border); padding-top: 22px;
+        margin-top: 34px; max-width: 660px;
+      }
+      .meta-row {
+        display: flex; flex-wrap: wrap; align-items: baseline;
+        gap: 4px 16px; font-family: var(--mono); font-size: 0.68rem;
+      }
+      .meta-key {
+        color: var(--dim); letter-spacing: 0.14em; text-transform: uppercase;
+        min-width: 148px; font-size: 0.6rem;
+      }
+      .meta-val { color: var(--cream); }
+      .meta-val .pos { color: var(--amber); }
+
+      /* ---- WSKAŹNIKI ---- */
+      .specs {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 1px; background: var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+      .spec {
+        background: var(--bg2); padding: 34px 30px; min-width: 0;
+      }
+      .spec-val {
+        font-family: var(--display); font-weight: 800;
+        font-size: clamp(2.2rem, 4vw, 3.4rem);
+        color: var(--acid); line-height: 1; margin-bottom: 10px;
+      }
+      .spec-key {
+        font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.16em;
+        text-transform: uppercase; color: var(--dim); line-height: 1.6;
+      }
+
+      /* ---- SEKCJE ---- */
+      .sec { padding: 52px 64px; border-bottom: 1px solid var(--border); }
+      .sec h2 {
+        font-family: var(--display); font-weight: 700;
+        font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+        color: var(--cream); margin-bottom: 16px; line-height: 1.15;
+      }
+      .sec > p {
+        font-size: 0.82rem; line-height: 1.85; color: var(--dim); max-width: 700px;
+      }
+      .sec > p + p { margin-top: 14px; }
+      .sec-index {
+        font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.22em;
+        text-transform: uppercase; color: var(--acid); margin-bottom: 18px;
+        display: flex; align-items: center; gap: 10px;
+      }
+      .sec-index::before { content: ''; display: block; width: 20px; height: 1px; background: var(--acid); }
+
+      .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+      .cols > * { min-width: 0; }
+
+      ul.items { list-style: none; margin-top: 24px; }
+      ul.items li {
+        font-size: 0.78rem; line-height: 1.9; color: var(--dim);
+        border-bottom: 1px solid var(--border);
+        display: flex; align-items: baseline; gap: 12px;
+        padding: 7px 0;
+      }
+      ul.items li:last-child { border-bottom: none; }
+      ul.items .st { color: var(--acid); font-size: 0.62rem; min-width: 12px; }
+      ul.items strong { color: var(--cream); font-weight: 500; }
+      ul.items .role {
+        margin-left: auto; font-family: var(--mono);
+        font-size: 0.6rem; letter-spacing: 0.08em; color: var(--dim);
+        white-space: nowrap;
+      }
+      ul.items a { color: var(--acid); text-decoration: none; }
+      ul.items a:hover { text-decoration: underline; }
+      .items-title {
+        font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em;
+        text-transform: uppercase; color: var(--dim); margin: 30px 0 -12px;
+      }
+
+      /* ---- FINANSOWANIE ---- */
+      .fund { padding: 52px 64px; border-bottom: 1px solid var(--border); }
+      .fund-inner { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
+      .fund-logo {
+        background: #fff; padding: 12px 16px; display: block; flex: 0 0 auto;
+      }
+      .fund-logo img { max-width: 240px; height: auto; display: block; }
+      .fund-text {
+        font-family: var(--mono); font-size: 0.7rem; line-height: 1.95;
+        color: var(--dim); max-width: 560px;
+      }
+      .fund-text b { color: var(--cream); font-weight: 400; }
+
+      /* ---- KONTAKT ---- */
+      .contact { padding: 52px 64px 64px; }
+      .contact-name {
+        font-family: var(--display); font-weight: 700; font-size: 1.5rem;
+        color: var(--cream); margin-bottom: 8px;
+      }
+      .contact-meta {
+        font-family: var(--mono); font-size: 0.72rem; line-height: 1.9; color: var(--dim);
+      }
+      .contact-meta a { color: var(--acid); text-decoration: none; }
+      .contact-meta a:hover { text-decoration: underline; }
+
+      @media (max-width: 1100px) {
+        .specs { grid-template-columns: 1fr 1fr; }
+        .cols { grid-template-columns: 1fr; gap: 34px; }
+      }
+      @media (max-width: 900px) {
+        .page-head { padding: 44px 24px 34px; }
+        .sec, .fund { padding: 40px 24px; }
+        .contact { padding: 40px 24px 52px; }
+        .spec { padding: 26px 22px; }
+        .meta-key { min-width: 120px; }
+      }
+    </style>
+  </head>
+
+  <body class="hub">
+
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <div class="kpo-banner">
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
+    </div>
+
+    <nav class="top-nav">
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/" aria-current="page">O projekcie</a>
+      </div>
+    </nav>
+
+    <header class="page-head">
+      <p class="page-label">Projekt stypendialny KPO · 2025/2026</p>
+      <h1>O projekcie</h1>
+      <p class="lead"><b>Spatial Audio Lab</b> to projekt stypendialny skupiony na tworzeniu
+        profesjonalnego archiwum dźwięku przestrzennego. W ramach działań powstaje baza nagrań
+        w technologii Virtual Reality, która łączy inżynierię dźwięku z edukacją teatralną
+        i technikami uważności. Równolegle powstał zestaw siedmiu otwartych narzędzi webowych,
+        żeby ten materiał dało się nie tylko odsłuchać, ale i wykorzystać we własnej pracy.</p>
+
+      <div class="head-meta">
+        <div class="meta-row"><span class="meta-key">Stypendysta</span><span class="meta-val">Oskar Hamerski</span></div>
+        <div class="meta-row"><span class="meta-key">Umowa</span><span class="meta-val">143/KPO.STYPENDIA/NIMIT/2025</span></div>
+        <div class="meta-row"><span class="meta-key">Instytucja wspierająca</span><span class="meta-val">Narodowy Instytut Muzyki i Tańca</span></div>
+        <div class="meta-row"><span class="meta-key">Finansowanie</span><span class="meta-val">36 000,00 zł brutto · <span class="pos">NextGenerationEU</span></span></div>
+        <div class="meta-row"><span class="meta-key">Format</span><span class="meta-val">Binaural · <span class="pos">Ambisonia FOA / AmbiX</span></span></div>
+      </div>
+    </header>
+
+    <section class="specs" aria-label="Wskaźniki przedsięwzięcia">
+      <div class="spec"><div class="spec-val">15</div><div class="spec-key">Scenografii dźwiękowych</div></div>
+      <div class="spec"><div class="spec-val">05</div><div class="spec-key">Materiałów relaksacyjnych</div></div>
+      <div class="spec"><div class="spec-val">05</div><div class="spec-key">Sesji ze studentami teatru</div></div>
+      <div class="spec"><div class="spec-val">05</div><div class="spec-key">Wywiadów z ekspertami</div></div>
+    </section>
+
+    <main>
+
+      <section class="sec">
+        <div class="sec-index">Wskaźnik przedsięwzięcia 01</div>
+        <div class="cols">
+          <div>
+            <h2>Kompetencje<br>i certyfikaty</h2>
+            <p>Specjalistyczne kursy podnoszące kwalifikacje zawodowe w obszarze immersywnego audio
+              i uważności. Wszystkie zakończone certyfikatem, dostępnym poniżej w PDF.</p>
+          </div>
+          <div>
+            <ul class="items">
+              <li><span class="st">✓</span><span>Mindfulness</span><span class="role">Universiteit Leiden / Coursera</span></li>
+              <li><span class="st">✓</span><span>REAPER DAW</span><span class="role">Udemy</span></li>
+              <li><span class="st">✓</span><span>Spatial Audio Processing</span><span class="role">LSBA</span></li>
+              <li><span class="st">✓</span><span>Immersive Audio · Advanced Spatial Processing</span><span class="role">ASSR</span></li>
+            </ul>
+            <p class="items-title">Certyfikaty</p>
+            <ul class="items">
+              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_mindfulness.pdf" target="_blank" rel="noopener">Mindfulness (PDF)</a></span></li>
+              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_reaper.pdf" target="_blank" rel="noopener">REAPER DAW (PDF)</a></span></li>
+              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_lsba.pdf" target="_blank" rel="noopener">Spatial Audio Processing, LSBA (PDF)</a></span></li>
+              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_ASSR_Immersive_Audio.pdf" target="_blank" rel="noopener">Immersive Audio, ASSR (PDF)</a></span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="sec-index">Wskaźniki przedsięwzięcia 02 · własny 01</div>
+        <div class="cols">
+          <div>
+            <h2>Konsultacje<br>i wywiady</h2>
+            <p>Rozmowy nagrane w formacie dźwięku przestrzennego z liderami branży audio i teatru.
+              Wszystkie pięć jest do odsłuchania w interaktywnym odtwarzaczu —
+              <a href="/wywiady/" style="color:var(--acid);text-decoration:none;">otwórz wywiady ↗</a></p>
+          </div>
+          <div>
+            <ul class="items">
+              <li><span class="st">✓</span><span>Izabela Dłużyk</span><span class="role">Nagrania natury</span></li>
+              <li><span class="st">✓</span><span>Zuzanna Całka</span><span class="role">Muzyka ambient</span></li>
+              <li><span class="st">✓</span><span>Rafał Ryterski</span><span class="role">Sound design</span></li>
+              <li><span class="st">✓</span><span>Andrzej Brzoska</span><span class="role">Reżyseria dźwięku</span></li>
+              <li><span class="st">✓</span><span>Krzysztof Garbaczewski</span><span class="role">VR w teatrze</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="sec">
+        <div class="sec-index">Wskaźniki własne 02 · 03 · 04</div>
+        <div class="cols">
+          <div>
+            <h2>Archiwum<br>dźwięku 3D</h2>
+            <p>Kolekcja nagrań przestrzennych: od naturalnych pejzaży dźwiękowych po industrialne
+              przestrzenie miejskie. Realizowane w technice binauralnej i ambisonicznej (B-Format).</p>
+            <p>Całe archiwum jest dostępne do odsłuchu w aplikacji
+              <a href="/ambi/" style="color:var(--acid);text-decoration:none;">Ambisonic Web Player ↗</a>
+              Słuchaj wyłącznie na słuchawkach.</p>
+          </div>
+          <div>
+            <ul class="items">
+              <li><span class="st">◈</span><span><strong>15 scenografii dźwiękowych</strong> — nagrania przestrzeni akustycznych w technice ambisonicznej i binauralnej</span></li>
+              <li><span class="st">◈</span><span><strong>5 materiałów relaksacyjnych</strong> — sesje mindfulness w audio przestrzennym, aplikacja Przestrzeń Relaksu</span></li>
+              <li><span class="st">◈</span><span><strong>5 sesji ze studentami teatru</strong> — nagrania z pracy nad głosem i tekstem, dostępne w Ambisonic Web Player</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="fund">
+        <div class="sec-index">Finansowanie</div>
+        <div class="fund-inner">
+          <span class="fund-logo"><img src="/NGEUkol.jpg" alt="Sfinansowane przez Unię Europejską — NextGenerationEU" /></span>
+          <p class="fund-text">
+            Projekt sfinansowany przez <b>Unię Europejską — NextGenerationEU</b>.<br>
+            Wsparcie udzielone w ramach <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>,
+            Inwestycja A2.5.1: Program wspierania działalności podmiotów sektora kultury
+            i przemysłów kreatywnych na rzecz stymulowania ich rozwoju.<br>
+            Instytucja wspierająca: <b>Narodowy Instytut Muzyki i Tańca</b>.<br>
+            Umowa <b>143/KPO.STYPENDIA/NIMIT/2025</b> · 36 000,00 zł brutto.
+          </p>
+        </div>
+      </section>
+
+      <section class="contact" id="kontakt">
+        <div class="sec-index">Kontakt</div>
+        <p class="contact-name">Oskar Hamerski</p>
+        <p class="contact-meta">
+          Stypendysta KPO dla Kultury 2025/2026<br>
+          <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+        </p>
+      </section>
+
+    </main>
+
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+      </div>
+    </footer>
+
+    <script src="/assets/hub.js" defer></script>
+  </body>
+</html>

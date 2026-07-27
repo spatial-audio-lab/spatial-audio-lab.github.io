@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Archiwum — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="Archiwum dźwięku przestrzennego Spatial Audio Lab: scenografie dźwiękowe, materiały relaksacyjne, sesje ze studentami teatru i wywiady. Strona w przygotowaniu." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Archiwum — Spatial Audio Lab" />
+    <meta property="og:description" content="Archiwum dźwięku przestrzennego. Strona w przygotowaniu." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/archiwum/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/shared.css" />
+
+    <style>
+      .page-head { padding: 64px 64px 56px; }
+      .page-label {
+        font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em;
+        text-transform: uppercase; color: var(--amber);
+        margin-bottom: 26px; display: flex; align-items: center; gap: 12px;
+      }
+      .page-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--amber); }
+      h1 {
+        font-family: var(--display); font-weight: 900;
+        font-size: clamp(2.6rem, 6vw, 4.6rem);
+        line-height: 0.94; letter-spacing: -0.035em; color: var(--cream);
+        margin-bottom: 24px;
+      }
+      .lead {
+        font-family: var(--mono); font-weight: 300; font-size: 0.88rem;
+        line-height: 1.85; color: var(--dim); max-width: 660px; margin-bottom: 34px;
+      }
+      .plan { padding: 0 64px 24px; }
+      /* cztery karty: 4 i 2 kolumny dzielą się bez reszty, więc bez pustych komórek */
+      .grid {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 1px; background: var(--border); border: 1px solid var(--border);
+      }
+      .card { background: var(--bg2); padding: 26px 24px; min-height: 150px; }
+      .card h3 {
+        font-family: var(--display); font-weight: 500; font-size: 1.05rem;
+        color: var(--cream); margin-bottom: 10px;
+      }
+      .card p { font-size: 0.78rem; color: var(--dim); line-height: 1.7; }
+      .card .n {
+        font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em;
+        color: var(--amber); display: block; margin-bottom: 14px;
+      }
+      .meanwhile { padding: 40px 64px 64px; }
+      @media (max-width: 1240px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 900px) {
+        .page-head { padding: 44px 24px 40px; }
+        .plan { padding: 0 24px 20px; }
+        .meanwhile { padding: 32px 24px 52px; }
+      }
+      @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+
+  <body class="hub">
+
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <div class="kpo-banner">
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
+    </div>
+
+    <nav class="top-nav">
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/">Narzędzia</a>
+        <a href="/archiwum/" aria-current="page">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </div>
+    </nav>
+
+    <main>
+      <header class="page-head">
+        <p class="page-label">Strona w przygotowaniu</p>
+        <h1>Archiwum</h1>
+        <p class="lead">Trwa porządkowanie katalogu nagrań. Każda pozycja dostanie własną kartę
+          z opisem, warunkami nagrania i odsłuchem bezpośrednio ze strony. Materiał już istnieje
+          i jest w całości dostępny w odtwarzaczu — poniżej skrót, dokąd iść w międzyczasie.</p>
+      </header>
+
+      <section class="plan">
+        <div class="sec-label">Co się tu pojawi</div>
+        <div class="grid">
+          <div class="card">
+            <span class="n">01</span>
+            <h3>Scenografie dźwiękowe</h3>
+            <p>Piętnaście nagrań przestrzeni akustycznych w technice ambisonicznej i binauralnej,
+              od pejzaży naturalnych po przestrzenie miejskie.</p>
+          </div>
+          <div class="card">
+            <span class="n">02</span>
+            <h3>Materiały relaksacyjne</h3>
+            <p>Pięć sesji uważności zrealizowanych w audio przestrzennym, przygotowanych pod
+              aplikację Przestrzeń Relaksu.</p>
+          </div>
+          <div class="card">
+            <span class="n">03</span>
+            <h3>Sesje ze studentami teatru</h3>
+            <p>Pięć nagrań z pracy nad głosem i tekstem — przykłady tego, jak dźwięk przestrzenny
+              zachowuje się z żywym głosem w sali.</p>
+          </div>
+          <div class="card">
+            <span class="n">04</span>
+            <h3>Wywiady</h3>
+            <p>Pięć rozmów z liderami branży audio i teatru, nagranych ambisonicznie, z osobnym
+              interaktywnym odtwarzaczem.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="meanwhile">
+        <p class="note"><b>W międzyczasie całe archiwum jest już do odsłuchania.</b>
+          Nagrania przestrzenne i sesje ze studentami znajdziesz w
+          <a href="/ambi/" style="color:var(--acid);text-decoration:none;">Ambisonic Web Player ↗</a>,
+          rozmowy z ekspertami w
+          <a href="/wywiady/" style="color:var(--acid);text-decoration:none;">Wywiadach ↗</a>,
+          a materiały relaksacyjne w
+          <a href="/relaxation-mixer/" style="color:var(--acid);text-decoration:none;">Przestrzeni Relaksu ↗</a>.
+          Wszystko odtwarzaj na słuchawkach.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+      </div>
+    </footer>
+
+    <script src="/assets/hub.js" defer></script>
+  </body>
+</html>

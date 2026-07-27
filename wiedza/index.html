@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dźwięk przestrzenny — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="Dźwięk przestrzenny od podstaw: pole dźwiękowe, ambisonia FOA i AmbiX, binauralizacja i HRTF, formaty plików, nagrywanie własnego materiału. Karta w przygotowaniu." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Dźwięk przestrzenny — Spatial Audio Lab" />
+    <meta property="og:description" content="Dźwięk przestrzenny od podstaw. Karta w przygotowaniu." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/wiedza/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/shared.css" />
+
+    <style>
+      .page-head { padding: 64px 64px 56px; }
+      .page-label {
+        font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em;
+        text-transform: uppercase; color: var(--amber);
+        margin-bottom: 26px; display: flex; align-items: center; gap: 12px;
+      }
+      .page-label::before { content: ''; display: block; width: 32px; height: 1px; background: var(--amber); }
+      h1 {
+        font-family: var(--display); font-weight: 900;
+        font-size: clamp(2.4rem, 5.4vw, 4.2rem);
+        line-height: 0.94; letter-spacing: -0.035em; color: var(--cream);
+        margin-bottom: 24px;
+      }
+      .lead {
+        font-family: var(--mono); font-weight: 300; font-size: 0.88rem;
+        line-height: 1.85; color: var(--dim); max-width: 660px;
+      }
+      .plan { padding: 0 64px 24px; }
+      /* sześć kart: 3 i 2 kolumny dzielą się bez reszty, więc bez pustych komórek */
+      .grid {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 1px; background: var(--border); border: 1px solid var(--border);
+      }
+      .card { background: var(--bg2); padding: 26px 24px; min-height: 176px; }
+      .card h3 {
+        font-family: var(--display); font-weight: 500; font-size: 1.05rem;
+        color: var(--cream); margin-bottom: 10px;
+      }
+      .card p { font-size: 0.78rem; color: var(--dim); line-height: 1.7; }
+      .card .n {
+        font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em;
+        color: var(--amber); display: block; margin-bottom: 14px;
+      }
+      .card .try {
+        display: block; margin-top: 14px; font-family: var(--mono);
+        font-size: 0.6rem; letter-spacing: 0.1em; color: var(--acid); text-decoration: none;
+      }
+      .card .try:hover { text-decoration: underline; }
+      .meanwhile { padding: 40px 64px 64px; }
+      @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 900px) {
+        .page-head { padding: 44px 24px 40px; }
+        .plan { padding: 0 24px 20px; }
+        .meanwhile { padding: 32px 24px 52px; }
+      }
+      @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+
+  <body class="hub">
+
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <div class="kpo-banner">
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
+    </div>
+
+    <nav class="top-nav">
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/" aria-current="page">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </div>
+    </nav>
+
+    <main>
+      <header class="page-head">
+        <p class="page-label">Karta w przygotowaniu</p>
+        <h1>Dźwięk<br>przestrzenny</h1>
+        <p class="lead">Pisana od zera karta informacyjna dla osób bez wykształcenia akustycznego —
+          studentów i pedagogów. Każde pojęcie ma być wyjaśnione po ludzku, pokazane do posłuchania
+          w konkretnym narzędziu i zakończone podpowiedzią, jak użyć tego u siebie. Poniżej zakres,
+          nad którym trwa praca.</p>
+      </header>
+
+      <section class="plan">
+        <div class="sec-label">Zakres</div>
+        <div class="grid">
+          <div class="card">
+            <span class="n">01</span>
+            <h3>Pole dźwiękowe</h3>
+            <p>Czym różni się dźwięk przestrzenny od stereo i dlaczego opisujemy go jako pole wokół
+              słuchacza, a nie jako zestaw kanałów.</p>
+            <a class="try" href="/ambi/">Posłuchaj w Ambisonic Web Player ↗</a>
+          </div>
+          <div class="card">
+            <span class="n">02</span>
+            <h3>Ambisonia FOA i AmbiX</h3>
+            <p>Cztery kanały W, X, Y, Z: co przenosi każdy z nich, czym AmbiX różni się od FuMa
+              i dlaczego kolejność kanałów potrafi popsuć całe nagranie.</p>
+            <a class="try" href="/sekwencer/">Zobacz w Harmonic Layers ↗</a>
+          </div>
+          <div class="card">
+            <span class="n">03</span>
+            <h3>Binauralizacja i HRTF</h3>
+            <p>Jak z pola dźwiękowego powstaje sygnał na słuchawki, czym jest funkcja przenoszenia
+              głowy i dlaczego u każdego brzmi trochę inaczej.</p>
+            <a class="try" href="/audio-shapes/">Posłuchaj w Audio Shapes ↗</a>
+          </div>
+          <div class="card">
+            <span class="n">04</span>
+            <h3>Formaty: WAV i Opus</h3>
+            <p>Kiedy potrzebny jest nieskompresowany WAV, kiedy wystarczy Opus, i jak nie stracić
+              kanałów przy konwersji wielokanałowego materiału.</p>
+            <a class="try" href="/opus-encoder/">Sprawdź w Opus Encoder ↗</a>
+          </div>
+          <div class="card">
+            <span class="n">05</span>
+            <h3>Dźwięk 3D u siebie</h3>
+            <p>Jak wpiąć dźwięk przestrzenny we własny projekt: stronę internetową, silnik gry
+              albo sesję w DAW-ie.</p>
+            <a class="try" href="/2D_Audio_Explorer/">Wyeksportuj z 2D Audio Explorer ↗</a>
+          </div>
+          <div class="card">
+            <span class="n">06</span>
+            <h3>Nagrywanie własnego materiału</h3>
+            <p>Czego potrzeba na starcie, jak ustawić mikrofon ambisoniczny i jakich błędów
+              w terenie nie da się później naprawić w montażu.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="meanwhile">
+        <p class="note"><b>Zanim ta karta powstanie, najszybciej nauczysz się przez odsłuch.</b>
+          Zacznij od <a href="/audio-shapes/" style="color:var(--acid);text-decoration:none;">Audio Shapes ↗</a>
+          — jedno źródło krążące wokół głowy pokazuje efekt najczytelniej — a potem przejdź do
+          <a href="/ambi/" style="color:var(--acid);text-decoration:none;">nagrań w Ambisonic Web Player ↗</a>.
+          Załóż słuchawki, bez nich nie usłyszysz różnicy.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+      </div>
+    </footer>
+
+    <script src="/assets/hub.js" defer></script>
+  </body>
+</html>
