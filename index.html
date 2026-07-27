@@ -9,10 +9,10 @@
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
 
-    <meta name="description" content="Narzędziownia i archiwum dźwięku przestrzennego dla studentów, pedagogów i twórców teatralnych. Projekt stypendialny KPO 2025/2026." />
+    <meta name="description" content="Siedem darmowych narzędzi webowych do pracy z dźwiękiem przestrzennym oraz archiwum nagrań ambisonicznych. Wszystko działa w przeglądarce, bez instalacji i bez konta." />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Spatial Audio Lab — narzędziownia dźwięku przestrzennego" />
-    <meta property="og:description" content="Narzędziownia i archiwum dźwięku przestrzennego dla studentów, pedagogów i twórców teatralnych." />
+    <meta property="og:description" content="Siedem darmowych narzędzi webowych do pracy z dźwiękiem przestrzennym oraz archiwum nagrań ambisonicznych." />
     <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
     <meta property="og:url" content="https://spatial-audio-lab.github.io/" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -20,1011 +20,369 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/assets/shared.css" />
 
     <style>
-      :root {
-        --bg:          #080A07;
-        --bg2:         #0f120d;
-        --cream:       #F0EBE0;
-        --cream-dim:   #b8b2a8;
-        --acid:        #BEFF00;
-        --acid-dim:    rgba(190,255,0,0.18);
-        --acid-glow:   rgba(190,255,0,0.07);
-        --border:      rgba(190,255,0,0.15);
-        --border-soft: rgba(240,235,224,0.08);
-        --display: 'Lexend', sans-serif;
-        --mono:  'Azeret Mono', monospace;
-        --ease:  cubic-bezier(0.23, 1, 0.32, 1);
-      }
-
-      *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-      html { scroll-behavior: smooth; overflow-x: hidden; }
-      img, svg { max-width: 100%; }
-
-      body {
-        font-family: var(--mono);
-        font-weight: 300;
-        background: var(--bg);
-        color: var(--cream);
-        overflow-x: hidden;
-        cursor: none;
-      }
-
-      /* CURSOR */
-      .cursor-dot {
-        width: 6px; height: 6px;
-        background: var(--acid);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9999;
-        transform: translate(-50%, -50%);
-        top: 0; left: 0;
-      }
-      .cursor-ring {
-        width: 28px; height: 28px;
-        border: 1px solid rgba(190,255,0,0.5);
-        border-radius: 50%;
-        position: fixed;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translate(-50%, -50%);
-        top: 0; left: 0;
-        transition: width 0.3s var(--ease), height 0.3s var(--ease), border-color 0.3s;
-      }
-      .cursor-ring.hover {
-        width: 48px; height: 48px;
-        border-color: var(--acid);
-      }
-
-      /* SCAN LINES */
-      body::before {
-        content: '';
-        position: fixed; inset: 0;
-        background: repeating-linear-gradient(
-          0deg, transparent, transparent 2px,
-          rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px
-        );
-        pointer-events: none;
-        z-index: 100;
-      }
-
-      /* GRAIN */
-      body::after {
-        content: '';
-        position: fixed; inset: 0;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-        pointer-events: none;
-        z-index: 99;
-        opacity: 0.35;
-      }
-
-      /* KPO BANNER */
-      .kpo-banner {
-        width: 100%;
-        background: #fff;
-        padding: 10px 0;
-        border-bottom: 1px solid #e0e0e0;
-        position: relative;
-        z-index: 200;
-      }
-      .kpo-banner img {
-        display: block;
-        margin: 0 auto;
-        max-width: 960px;
-        width: 90%;
-        max-height: 68px;
-        object-fit: contain;
-      }
-
-      /* HERO */
+      /* ====================================================================
+         HERO — wersja zaakceptowana (hero-v7)
+         ==================================================================== */
       .hero {
-        min-height: 100svh;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        align-items: center;
-        padding: 80px 64px 80px 80px;
         position: relative;
+        min-height: 82svh;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        align-items: center;
+        gap: 48px;
+        padding: 64px 64px 56px;
         overflow: hidden;
+        border-bottom: 1px solid var(--border);
       }
       .hero-bg-grid {
-        position: absolute; inset: 0;
+        position: absolute; inset: 0; pointer-events: none;
         background-image:
-          linear-gradient(rgba(190,255,0,0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(190,255,0,0.04) 1px, transparent 1px);
+          linear-gradient(rgba(190,255,0,0.035) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(190,255,0,0.035) 1px, transparent 1px);
         background-size: 48px 48px;
-        mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
-        pointer-events: none;
+        -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 30%, transparent 100%);
+                mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 30%, transparent 100%);
       }
-      .hero-left { z-index: 2; position: relative; min-width: 0; }
-
-      .hero-label {
-        font-size: 0.65rem;
-        letter-spacing: 0.2em;
-        color: var(--acid);
-        text-transform: uppercase;
-        margin-bottom: 32px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        opacity: 0;
-        animation: slide-in 0.8s var(--ease) 0.2s forwards;
-      }
-      .hero-label::before {
-        content: '';
-        display: block;
-        width: 32px; height: 1px;
-        background: var(--acid);
-      }
+      .hero-left { position: relative; z-index: 2; min-width: 0; }
 
       h1 {
         font-family: var(--display);
-        font-weight: 800;
-        font-size: clamp(3.5rem, 7vw, 6.5rem);
-        line-height: 0.95;
-        letter-spacing: -0.02em;
+        font-weight: 900;
+        font-size: clamp(3.2rem, 7.4vw, 6.8rem);
+        line-height: 0.9;
+        letter-spacing: -0.035em;
         color: var(--cream);
-        margin-bottom: 16px;
-        opacity: 0;
-        animation: slide-in 0.9s var(--ease) 0.4s forwards;
       }
-      h1 em {
-        font-style: normal;
-        color: var(--acid);
-        display: block;
-      }
+      h1 em { font-style: normal; color: var(--acid); display: block; }
 
       .hero-sub {
-        font-family: var(--mono);
-        font-size: clamp(0.85rem, 1.5vw, 1rem);
-        font-weight: 300;
-        color: var(--cream-dim);
-        margin: 24px 0 48px;
-        line-height: 1.7;
-        max-width: 460px;
-        opacity: 0;
-        animation: slide-in 0.9s var(--ease) 0.6s forwards;
+        font-family: var(--mono); font-weight: 300;
+        font-size: clamp(0.83rem, 1.4vw, 0.98rem);
+        line-height: 1.75; color: var(--dim);
+        max-width: 470px; margin: 26px 0 34px;
       }
-
+      .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 36px; }
       .hero-meta {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        opacity: 0;
-        animation: slide-in 0.9s var(--ease) 0.8s forwards;
+        display: flex; flex-direction: column; gap: 9px;
+        border-top: 1px solid var(--border); padding-top: 22px; max-width: 470px;
       }
       .meta-row {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: baseline;
-        gap: 4px 16px;
-        font-size: 0.72rem;
-        letter-spacing: 0.08em;
+        display: flex; flex-wrap: wrap; align-items: baseline;
+        gap: 4px 16px; font-family: var(--mono); font-size: 0.68rem;
       }
-      .meta-key { color: var(--acid); min-width: 120px; }
-      .meta-val { color: var(--cream-dim); min-width: 0; flex: 1 1 180px; overflow-wrap: break-word; }
+      .meta-key {
+        color: var(--dim); letter-spacing: 0.14em; text-transform: uppercase;
+        min-width: 104px; font-size: 0.6rem;
+      }
+      .meta-val { color: var(--cream); }
+      .meta-val .pos { color: var(--amber); }
 
-      /* SPHERE */
+      /* ---- POLE DŹWIĘKOWE (canvas) ---- */
       .hero-right {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-        position: relative;
+        position: relative; z-index: 1;
+        display: flex; align-items: center; justify-content: center; min-width: 0;
       }
-      .sphere-wrapper {
-        position: relative;
-        width: 420px; height: 420px;
-        opacity: 0;
-        animation: fade-in 1.2s var(--ease) 1s forwards;
+      .field-wrap { position: relative; width: 100%; max-width: 520px; aspect-ratio: 1 / 1; }
+      #field { width: 100%; height: 100%; display: block; }
+      .field-label {
+        position: absolute; font-family: var(--mono); font-size: 0.58rem;
+        letter-spacing: 0.16em; text-transform: uppercase;
+        color: var(--dim); pointer-events: none;
       }
-      .sphere-label {
-        position: absolute;
-        font-size: 0.6rem;
-        letter-spacing: 0.15em;
-        color: var(--acid);
-        text-transform: uppercase;
+      .fl-top    { top: 2%; left: 50%; transform: translateX(-50%); }
+      .fl-bottom { bottom: 2%; left: 50%; transform: translateX(-50%); }
+      .fl-left   { left: 0; top: 50%; transform: translateY(-50%); }
+      .fl-right  { right: 0; top: 50%; transform: translateY(-50%); }
+      .field-cap {
+        position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%);
+        white-space: nowrap; font-family: var(--mono); font-size: 0.58rem;
+        letter-spacing: 0.12em; color: var(--dim);
       }
-      .sphere-label.top    { top: -24px; left: 50%; transform: translateX(-50%); }
-      .sphere-label.bottom { bottom: -24px; left: 50%; transform: translateX(-50%); }
-      .sphere-label.left   { left: -40px; top: 50%; transform: translateY(-50%); }
-      .sphere-label.right  { right: -40px; top: 50%; transform: translateY(-50%); }
-      .sphere-svg { width: 100%; height: 100%; }
+      .field-cap b { color: var(--amber); font-weight: 400; }
 
-      /* SPECS */
-      .specs-row {
+      /* ====================================================================
+         NARZĘDZIOWNIA
+         ==================================================================== */
+      .tools { padding: 46px 64px 24px; }
+      .tools-intro {
+        font-family: var(--mono); font-size: 0.8rem; line-height: 1.8;
+        color: var(--dim); max-width: 700px; margin: -4px 0 26px;
+      }
+      /* Stała liczba kolumn zamiast auto-fill: osiem kart dzieli się bez reszty
+         przez 4, 2 i 1, więc w siatce nigdy nie zostaje pusta komórka. */
+      .grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 1px;
-        background: var(--border-soft);
-        margin-bottom: 1px;
+        gap: 1px; background: var(--border); border: 1px solid var(--border);
       }
-      .spec-cell {
-        background: var(--bg2);
-        padding: 40px 48px;
-        min-width: 0;
+      .card {
+        background: var(--bg2); padding: 28px 26px 22px;
+        text-decoration: none; display: flex; flex-direction: column;
+        min-height: 208px; position: relative; overflow: hidden;
+        transition: background 0.2s var(--ease);
       }
-      .spec-val {
-        font-family: var(--display);
-        font-size: clamp(2.5rem, 4vw, 4rem);
-        font-weight: 800;
-        color: var(--acid);
-        line-height: 1;
-        margin-bottom: 8px;
-      }
-      .spec-key {
-        font-size: 0.6rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--cream-dim);
-      }
-
-      /* GRID */
-      .main-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1px;
-        background: var(--border-soft);
-        margin-bottom: 1px;
-      }
-      .grid-cell {
-        background: var(--bg);
-        padding: 64px 72px;
-        position: relative;
-        overflow: hidden;
-        min-width: 0;
-      }
-      .grid-cell::before {
-        content: '';
-        position: absolute; inset: 0;
+      .card::before {
+        content: ''; position: absolute; inset: 0; pointer-events: none;
         background: radial-gradient(ellipse at 0% 0%, var(--acid-glow) 0%, transparent 60%);
-        opacity: 0;
-        transition: opacity 0.8s ease;
-        pointer-events: none;
+        opacity: 0; transition: opacity 0.6s ease;
       }
-      .grid-cell:hover::before { opacity: 1; }
+      .card:hover { background: #171B13; }
+      .card:hover::before { opacity: 1; }
+      .card > * { position: relative; z-index: 1; }
+      .card-tag {
+        font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em;
+        text-transform: uppercase; color: var(--dim); margin-bottom: 14px;
+      }
+      .card h3 {
+        font-family: var(--display); font-weight: 500; font-size: 1.12rem;
+        color: var(--cream); margin-bottom: 10px;
+        transition: color 0.2s var(--ease);
+      }
+      .card:hover h3 { color: var(--acid); }
+      .card p {
+        font-size: 0.79rem; color: var(--dim); line-height: 1.65;
+        margin-bottom: 18px; flex-grow: 1;
+      }
+      .card-foot {
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 12px; font-family: var(--mono); font-size: 0.6rem;
+        letter-spacing: 0.08em; color: var(--dim);
+        border-top: 1px solid var(--border); padding-top: 14px;
+      }
+      .card-foot .go { color: var(--acid); white-space: nowrap; }
+      .card:hover .card-foot .go { text-decoration: underline; }
 
-      .cell-index {
-        font-size: 0.6rem;
-        letter-spacing: 0.25em;
-        color: var(--acid);
-        text-transform: uppercase;
-        margin-bottom: 32px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .cell-index::before {
-        content: '';
-        display: inline-block;
-        width: 20px; height: 1px;
-        background: var(--acid);
-      }
-      .cell-num {
-        font-family: var(--display);
-        font-size: clamp(4rem, 8vw, 7rem);
-        font-weight: 800;
-        line-height: 1;
-        margin-bottom: 16px;
-        background: linear-gradient(135deg, var(--acid-dim), transparent);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        transition: all 0.4s ease;
-      }
-      .grid-cell:hover .cell-num {
-        background: linear-gradient(135deg, var(--acid), rgba(190,255,0,0.4));
-        -webkit-background-clip: text;
-        background-clip: text;
-      }
-      .cell-title {
-        font-family: var(--display);
-        font-size: clamp(1.6rem, 2.5vw, 2.2rem);
-        font-weight: 700;
-        color: var(--cream);
-        margin-bottom: 24px;
-        line-height: 1.15;
-        position: relative;
-        z-index: 1;
-      }
-      .cell-desc {
-        font-size: 0.78rem;
-        line-height: 1.8;
-        color: var(--cream-dim);
-        margin-bottom: 32px;
-        position: relative;
-        z-index: 1;
-      }
-      .item-list {
-        list-style: none;
-        position: relative;
-        z-index: 1;
-      }
-      .item-list li {
-        font-size: 0.75rem;
-        line-height: 2;
-        color: var(--cream-dim);
-        border-bottom: 1px solid var(--border-soft);
-        display: flex;
-        align-items: baseline;
-        gap: 12px;
-      }
-      .item-list li:last-child { border-bottom: none; }
-      .item-status { color: var(--acid); font-size: 0.6rem; min-width: 12px; }
-
-      /* FULL WIDTH CELL */
-      .cell-full {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-template-columns: 1fr 2fr;
-        align-items: start;
-        gap: 80px;
-      }
-      .cell-full > * { min-width: 0; }
-
-      /* FOOTER */
-      footer {
-        padding: 80px;
-        border-top: 1px solid var(--border-soft);
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: end;
-        gap: 48px;
-        position: relative;
-        z-index: 150;
-      }
-      footer > * { min-width: 0; }
-      .footer-eu { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-      .footer-eu img {
-        max-width: 240px;
-        height: auto;
-        background: white;
-        padding: 8px 12px;
-        border-radius: 4px;
-      }
-      .footer-text {
-        font-size: 0.65rem;
-        line-height: 1.8;
-        color: var(--cream-dim);
-        letter-spacing: 0.04em;
-        max-width: 480px;
-      }
-      .footer-contact { text-align: right; }
-      .footer-contact-label {
-        font-size: 0.6rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--acid);
-        margin-bottom: 8px;
-      }
-      .footer-contact-name {
-        font-family: var(--display);
-        font-size: 1.4rem;
-        font-weight: 700;
-        color: var(--cream);
-        margin-bottom: 4px;
-      }
-      .footer-contact-email { font-size: 0.72rem; color: var(--cream-dim); }
-      .footer-contact-email a { color: var(--acid); text-decoration: none; }
-
-      .hero-about {
-        margin-top: 40px;
-        padding-top: 32px;
-        border-top: 1px solid var(--border-soft);
-        opacity: 0;
-        animation: slide-in 0.9s var(--ease) 1s forwards;
-      }
-      .hero-about-label {
-        font-size: 0.6rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--acid);
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .hero-about-label::before {
-        content: '';
-        display: inline-block;
-        width: 20px; height: 1px;
-        background: var(--acid);
-      }
-      .hero-about-text {
-        font-family: var(--mono);
-        font-size: 0.82rem;
-        font-weight: 300;
-        color: var(--cream-dim);
-        line-height: 1.8;
-        max-width: 500px;
+      /* ====================================================================
+         DOKĄD DALEJ — trzy pozostałe karty strony
+         ==================================================================== */
+      .onward { padding: 34px 64px 0; }
+      .onward .grid { grid-template-columns: repeat(3, 1fr); }
+      .onward .card { min-height: 150px; background: var(--black); }
+      .onward .card:hover { background: var(--bg2); }
+      .onward .card-num {
+        font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em;
+        color: var(--acid); margin-bottom: 14px;
       }
 
-      /* KEYFRAMES */
-      @keyframes slide-in {
-        from { opacity: 0; transform: translateY(24px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-      @keyframes fade-in {
-        from { opacity: 0; }
-        to   { opacity: 1; }
-      }
+      .tools-note { padding: 36px 64px 8px; }
 
-      .footer-financing {
-        display: flex;
-        align-items: baseline;
-        gap: 16px;
-        margin-top: 16px;
-        padding-top: 16px;
-        border-top: 1px solid var(--border-soft);
+      @media (max-width: 1240px) {
+        .grid { grid-template-columns: repeat(2, 1fr); }
       }
-      .footer-financing-label {
-        font-size: 0.6rem;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--acid);
-        white-space: nowrap;
+      @media (max-width: 900px) {
+        .hero { grid-template-columns: 1fr; padding: 44px 24px 40px; min-height: 0; gap: 36px; }
+        .hero-right { order: -1; }
+        .field-wrap { max-width: 340px; }
+        .tools   { padding: 34px 24px 20px; }
+        .onward  { padding: 28px 24px 0; }
+        .onward .grid { grid-template-columns: 1fr; }
+        .tools-note { padding: 30px 24px 8px; }
       }
-      .footer-financing-val {
-        font-size: 0.72rem;
-        color: var(--cream-dim);
+      @media (max-width: 700px) {
+        .grid { grid-template-columns: 1fr; }
       }
-
-      /* TOP NAV */
-      .top-nav {
-        position: sticky;
-        top: 0;
-        z-index: 300;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        padding: 20px 48px;
-        background: rgba(8,10,7,0.85);
-        backdrop-filter: blur(10px);
-        border-bottom: 1px solid var(--border-soft);
-      }
-      .top-nav-brand {
-        font-family: var(--display);
-        font-weight: 700;
-        font-size: 0.95rem;
-        color: var(--cream);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .top-nav-brand em { color: var(--acid); font-style: normal; margin-left: -4px; }
-      .top-nav-brand img { width: 24px; height: 24px; display: block; }
-      .top-nav-links {
-        display: flex;
-        gap: 28px;
-        flex-wrap: wrap;
-      }
-      .top-nav-links a {
-        font-size: 0.68rem;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--cream-dim);
-        text-decoration: none;
-        transition: color 0.25s ease;
-      }
-      .top-nav-links a:hover { color: var(--acid); }
-
-      /* NAV TOGGLE (hamburger) — hidden on desktop */
-      .nav-toggle {
-        display: none;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        width: 32px;
-        height: 32px;
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        z-index: 301;
-        flex-shrink: 0;
-      }
-      .nav-toggle span {
-        display: block;
-        width: 100%;
-        height: 2px;
-        background: var(--cream);
-        transition: transform 0.3s var(--ease), opacity 0.2s ease;
-      }
-      .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-      .nav-toggle.open span:nth-child(2) { opacity: 0; }
-      .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-      @media (max-width: 860px) {
-        .nav-toggle { display: flex; }
-        .top-nav-links {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          right: 0;
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 0;
-          background: rgba(8,10,7,0.98);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid var(--border-soft);
-          padding: 0 24px;
-          max-height: 0;
-          overflow: hidden;
-          opacity: 0;
-          transition: max-height 0.35s var(--ease), opacity 0.25s ease, padding 0.35s var(--ease);
-        }
-        .top-nav-links.open {
-          max-height: 400px;
-          opacity: 1;
-          padding: 8px 24px 20px;
-        }
-        .top-nav-links a {
-          width: 100%;
-          padding: 14px 0;
-          font-size: 0.8rem;
-          border-bottom: 1px solid var(--border-soft);
-        }
-      }
-
-      /* Custom cursor is meaningless on touch/thumb navigation — turn it off */
-      @media (hover: none) and (pointer: coarse) {
-        body { cursor: auto; }
-        .cursor-dot, .cursor-ring { display: none; }
-      }
-
-      /* SECTION HEADER (reused above narzędzia / archiwum sections) */
-      .section-header {
-        padding: 72px 80px 8px;
-      }
-      .section-label {
-        font-size: 0.65rem;
-        letter-spacing: 0.2em;
-        color: var(--acid);
-        text-transform: uppercase;
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-      }
-      .section-label::before {
-        content: '';
-        display: block;
-        width: 32px; height: 1px;
-        background: var(--acid);
-      }
-      .section-title {
-        font-family: var(--display);
-        font-weight: 700;
-        font-size: clamp(1.8rem, 3vw, 2.6rem);
-        color: var(--cream);
-        margin-bottom: 16px;
-      }
-      .section-sub {
-        font-size: 0.82rem;
-        line-height: 1.8;
-        color: var(--cream-dim);
-        max-width: 640px;
-      }
-
-      /* TOOLS GRID */
-      .tools-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1px;
-        background: var(--border-soft);
-        margin: 40px 0 1px;
-      }
-      .tool-card {
-        background: var(--bg);
-        padding: 40px 36px;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        overflow: hidden;
-        text-decoration: none;
-        min-width: 0;
-      }
-      .tool-card::before {
-        content: '';
-        position: absolute; inset: 0;
-        background: radial-gradient(ellipse at 0% 0%, var(--acid-glow) 0%, transparent 60%);
-        opacity: 0;
-        transition: opacity 0.8s ease;
-        pointer-events: none;
-      }
-      .tool-card:hover::before { opacity: 1; }
-      .tool-card:hover .tool-name { color: var(--acid); }
-      .tool-tag {
-        font-size: 0.6rem;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--acid);
-        margin-bottom: 18px;
-        position: relative; z-index: 1;
-      }
-      .tool-name {
-        font-family: var(--display);
-        font-weight: 700;
-        font-size: 1.25rem;
-        color: var(--cream);
-        margin-bottom: 14px;
-        transition: color 0.25s ease;
-        position: relative; z-index: 1;
-      }
-      .tool-desc {
-        font-size: 0.76rem;
-        line-height: 1.75;
-        color: var(--cream-dim);
-        margin-bottom: 20px;
-        position: relative; z-index: 1;
-        flex-grow: 1;
-      }
-      .tool-meta {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 0.65rem;
-        letter-spacing: 0.05em;
-        color: var(--cream-dim);
-        border-top: 1px solid var(--border-soft);
-        padding-top: 16px;
-        position: relative; z-index: 1;
-      }
-      .tool-cta { color: var(--acid); }
-      .tool-card:hover .tool-cta { text-decoration: underline; }
-
-      /* RESPONSIVE */
-      @media (max-width: 1100px) {
-        .hero { grid-template-columns: 1fr; padding: 60px 40px; }
-        .hero-right { display: none; }
-        .main-grid { grid-template-columns: 1fr; }
-        .cell-full { grid-template-columns: 1fr; gap: 32px; }
-        .specs-row { grid-template-columns: 1fr 1fr; }
-        .tools-grid { grid-template-columns: 1fr 1fr; }
-        .section-header { padding: 56px 40px 8px; }
-        footer { padding: 60px 40px; grid-template-columns: 1fr; }
-        .footer-contact { text-align: left; }
-      }
-      @media (max-width: 640px) {
-        .hero { padding: 40px 24px; }
-        .grid-cell { padding: 40px 32px; }
-        .top-nav { padding: 16px 24px; }
-        .top-nav-links { gap: 16px; }
-        .tools-grid { grid-template-columns: 1fr; }
-        .section-header { padding: 48px 24px 8px; }
-        footer { padding: 40px 24px; }
-      }
+      @media (prefers-reduced-motion: reduce) { .hero-bg-grid { opacity: 0.6; } }
     </style>
   </head>
-  <body>
 
-    <div class="cursor-dot" id="dot"></div>
-    <div class="cursor-ring" id="ring"></div>
+  <body class="hub">
 
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <!-- ============ 1. PASEK KPO — same logotypy, manifest §13 ============ -->
     <div class="kpo-banner">
-      <img src="KPO.jpg" alt="Logotypy KPO, Rzeczpospolita Polska i Unia Europejska" />
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
     </div>
 
+    <!-- ============ 2. NAWIGACJA ============ -->
     <nav class="top-nav">
-      <span class="top-nav-brand"><img src="/assets/brand/icon-192.png" alt="" />Spatial Audio <em>Lab</em></span>
-      <button type="button" class="nav-toggle" id="navToggle" aria-label="Otwórz menu" aria-expanded="false" aria-controls="topNavLinks">
-        <span></span><span></span><span></span>
-      </button>
-      <div class="top-nav-links" id="topNavLinks">
-        <a href="#o-projekcie">O projekcie</a>
-        <a href="#narzedzia">Narzędzia</a>
-        <a href="#archiwum">Archiwum</a>
-        <a href="#kompetencje">Kompetencje</a>
-        <a href="#kontakt">Kontakt</a>
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/" aria-current="page">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
       </div>
     </nav>
 
-    <section class="hero" id="o-projekcie">
-      <div class="hero-bg-grid"></div>
+    <!-- ============ 3. HERO ============ -->
+    <header class="hero">
+      <div class="hero-bg-grid" aria-hidden="true"></div>
 
       <div class="hero-left">
-        <p class="hero-label">Projekt stypendialny KPO · 2025/2026</p>
+        <h1>Spatial<br>Audio<em>Lab</em></h1>
 
-        <h1>Spatial<br>Audio<br><em>Lab</em></h1>
+        <p class="hero-sub">Otwarte narzędzia i archiwum dźwięku przestrzennego. Wszystko działa
+          w przeglądarce, bez instalacji i bez konta — dla studentów, pedagogów i każdego, kto chce
+          pracować z dźwiękiem 3D.</p>
 
-        <p class="hero-sub">Darmowa narzędziownia i archiwum dźwięku przestrzennego — dla studentów i pedagogów szkół teatralnych oraz każdego, kto interesuje się dźwiękiem 3D.</p>
-
-        <div class="hero-meta">
-          <div class="meta-row">
-            <span class="meta-key">FORMAT</span>
-            <span class="meta-val">Binaural · Ambisonics B-Format</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-key">STYPENDYSTA</span>
-            <span class="meta-val">Oskar Hamerski</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-key">UMOWA</span>
-            <span class="meta-val">143/KPO.STYPENDIA/NIMIT/2025</span>
-          </div>
+        <div class="hero-cta">
+          <a class="btn primary" href="#narzedzia">Otwórz narzędziownię</a>
+          <a class="btn" href="/wiedza/">Zacznij od podstaw</a>
         </div>
 
-        <div class="hero-about">
-          <p class="hero-about-label">O projekcie</p>
-          <p class="hero-about-text">„Spatial Audio Lab" to projekt stypendialny skupiony na tworzeniu profesjonalnego archiwum dźwięku przestrzennego. W ramach działań powstaje baza nagrań w technologii Virtual Reality (VR), która łączy nowoczesną inżynierię dźwięku z edukacją teatralną i technikami uważności (mindfulness).</p>
+        <div class="hero-meta">
+          <div class="meta-row"><span class="meta-key">Narzędzia</span><span class="meta-val">7 aplikacji webowych</span></div>
+          <div class="meta-row"><span class="meta-key">Formaty</span><span class="meta-val">Binaural · <span class="pos">Ambisonia FOA / AmbiX</span></span></div>
+          <div class="meta-row"><span class="meta-key">Licencja</span><span class="meta-val">Otwarta, do użytku edukacyjnego</span></div>
         </div>
       </div>
 
       <div class="hero-right">
-        <div class="sphere-wrapper">
-          <span class="sphere-label top">+Z (Height)</span>
-          <span class="sphere-label bottom">−Z</span>
-          <span class="sphere-label left">W</span>
-          <span class="sphere-label right">X</span>
-          <svg class="sphere-svg" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-            </defs>
-            <circle cx="210" cy="210" r="180" stroke="rgba(190,255,0,0.05)" stroke-width="80"/>
-            <circle cx="210" cy="210" r="160" stroke="rgba(190,255,0,0.12)" stroke-width="1"/>
-            <ellipse cx="210" cy="210" rx="160" ry="40" stroke="rgba(190,255,0,0.25)" stroke-width="1"/>
-            <ellipse cx="210" cy="210" rx="160" ry="55" stroke="rgba(190,255,0,0.4)" stroke-width="1.5" filter="url(#glow)">
-              <animateTransform attributeName="transform" type="rotate" from="0 210 210" to="360 210 210" dur="8s" repeatCount="indefinite"/>
-            </ellipse>
-            <ellipse cx="210" cy="210" rx="130" ry="40" stroke="rgba(190,255,0,0.3)" stroke-width="1" transform="rotate(40 210 210)">
-              <animateTransform attributeName="transform" type="rotate" from="40 210 210" to="400 210 210" dur="12s" repeatCount="indefinite"/>
-            </ellipse>
-            <ellipse cx="210" cy="210" rx="100" ry="30" stroke="rgba(190,255,0,0.2)" stroke-width="1" transform="rotate(-25 210 210)">
-              <animateTransform attributeName="transform" type="rotate" from="-25 210 210" to="335 210 210" dur="16s" repeatCount="indefinite" additive="sum"/>
-            </ellipse>
-            <line x1="210" y1="40" x2="210" y2="380" stroke="rgba(190,255,0,0.1)" stroke-width="1" stroke-dasharray="4 8"/>
-            <line x1="40" y1="210" x2="380" y2="210" stroke="rgba(190,255,0,0.1)" stroke-width="1" stroke-dasharray="4 8"/>
-            <ellipse id="path1" cx="210" cy="210" rx="160" ry="55"/>
-            <circle r="4" fill="var(--acid)" filter="url(#glow)">
-              <animateMotion dur="8s" repeatCount="indefinite"><mpath href="#path1"/></animateMotion>
-            </circle>
-            <ellipse id="path2" cx="210" cy="210" rx="130" ry="40" transform="rotate(40 210 210)"/>
-            <circle r="3" fill="rgba(190,255,0,0.6)" filter="url(#glow)">
-              <animateMotion dur="12s" repeatCount="indefinite" begin="3s"><mpath href="#path2"/></animateMotion>
-            </circle>
-            <circle cx="210" cy="210" r="5" fill="var(--acid)" opacity="0.9" filter="url(#glow)"/>
-            <circle cx="210" cy="210" r="2" fill="#080A07"/>
-          </svg>
+        <div class="field-wrap">
+          <canvas id="field" aria-hidden="true"></canvas>
+          <span class="field-label fl-top">+Z</span>
+          <span class="field-label fl-bottom">−Z</span>
+          <span class="field-label fl-left">−X</span>
+          <span class="field-label fl-right">+X</span>
+          <span class="field-cap">Pole dźwiękowe pierwszego rzędu · <b>4 źródła w ruchu</b></span>
         </div>
       </div>
-    </section>
+    </header>
 
-    <div class="specs-row">
-      <div class="spec-cell">
-        <div class="spec-val">15</div>
-        <div class="spec-key">Scenografii dźwiękowych</div>
-      </div>
-      <div class="spec-cell">
-        <div class="spec-val">05</div>
-        <div class="spec-key">Materiałów relaksacyjnych</div>
-      </div>
-      <div class="spec-cell">
-        <div class="spec-val">05</div>
-        <div class="spec-key">Sesji ze studentami teatru</div>
-      </div>
-      <div class="spec-cell">
-        <div class="spec-val">05</div>
-        <div class="spec-key">Wywiadów z ekspertami</div>
-      </div>
-    </div>
+    <!-- ============ 4. NARZĘDZIOWNIA ============ -->
+    <main>
+      <section class="tools" id="narzedzia">
+        <div class="sec-label">Narzędziownia</div>
+        <p class="tools-intro">Siedem darmowych, otwartych aplikacji webowych. Każda działa wyłącznie
+          w przeglądarce — nic nie trzeba instalować, nie ma logowania, żaden plik nie wychodzi
+          z Twojego komputera. Do pełnego efektu 3D potrzebne są słuchawki.</p>
 
-    <div class="main-grid">
+        <div class="grid">
 
-      <div class="grid-cell" id="kompetencje">
-        <div class="cell-index">Wskaźnik Przedsięwzięcia 01</div>
-        <div class="cell-num">01</div>
-        <h2 class="cell-title">Kompetencje<br>i certyfikaty</h2>
-        <p class="cell-desc">Specjalistyczne kursy podnoszące kwalifikacje zawodowe w obszarze immersywnego audio i mindfulness.</p>
-        <ul class="item-list">
-          <li><span class="item-status">✓</span><span>Mindfulness — Universiteit Leiden / Coursera</span></li>
-          <li><span class="item-status">✓</span><span>REAPER DAW — Udemy</span></li>
-          <li><span class="item-status">✓</span><span>Spatial Audio Processing — LSBA</span></li>
-          <li><span class="item-status">✓</span><span>Immersive Audio · Advanced Spatial Processing — ASSR</span></li>
-        </ul>
-        <ul class="item-list" style="margin-top:16px;">
-          <li><span class="item-status">↗</span><span><a href="certyfikaty/certyfikat_mindfulness.pdf" style="color:var(--acid);text-decoration:none;" target="_blank">Certyfikat — Mindfulness (PDF)</a></span></li>
-          <li><span class="item-status">↗</span><span><a href="certyfikaty/certyfikat_reaper.pdf" style="color:var(--acid);text-decoration:none;" target="_blank">Certyfikat — REAPER DAW (PDF)</a></span></li>
-          <li><span class="item-status">↗</span><span><a href="certyfikaty/certyfikat_lsba.pdf" style="color:var(--acid);text-decoration:none;" target="_blank">Certyfikat — Spatial Audio Processing, LSBA (PDF)</a></span></li>
-          <li><span class="item-status">↗</span><span><a href="certyfikaty/certyfikat_ASSR_Immersive_Audio.pdf" style="color:var(--acid);text-decoration:none;" target="_blank">Certyfikat — Immersive Audio, ASSR (PDF)</a></span></li>
-        </ul>
-      </div>
+          <a class="card" href="/ambi/">
+            <span class="card-tag">Odtwarzacz · Archiwum</span>
+            <h3>Ambisonic Web Player</h3>
+            <p>Odtwarzacz archiwum dźwięku przestrzennego z podglądem kierunku źródeł: scenografie VR,
+              sesje ze studentami teatru i nagrania w formacie B-Format.</p>
+            <div class="card-foot"><span>🎧 Słuchawki · FOA AmbiX</span><span class="go">Uruchom ↗</span></div>
+          </a>
 
-      <div class="grid-cell">
-        <div class="cell-index">Wskaźniki Przedsięwzięcia 02 · Własny 01</div>
-        <div class="cell-num">02</div>
-        <h2 class="cell-title">Konsultacje<br>i wywiady</h2>
-        <p class="cell-desc">Rozmowy w formacie dźwięku przestrzennego z liderami branży audio i teatru.</p>
-        <ul class="item-list">
-          <li>
-            <span class="item-status">✓</span>
-            <span>Izabela Dłużyk</span>
-            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">Nagrania natury</span>
-          </li>
-          <li>
-            <span class="item-status">✓</span>
-            <span>Zuzanna Całka</span>
-            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">Muzyka ambient</span>
-          </li>
-          <li>
-            <span class="item-status">✓</span>
-            <span>Rafał Ryterski</span>
-            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">Sound design</span>
-          </li>
-          <li>
-            <span class="item-status">✓</span>
-            <span>Andrzej Brzoska</span>
-            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">Reżyseria dźwięku</span>
-          </li>
-          <li>
-            <span class="item-status">✓</span>
-            <span>Krzysztof Garbaczewski</span>
-            <span style="color:var(--cream-dim);font-size:0.65rem;margin-left:auto;">VR w teatrze</span>
-          </li>
-        </ul>
-      </div>
+          <a class="card" href="/sekwencer/">
+            <span class="card-tag">Sekwencer · Three.js</span>
+            <h3>Harmonic Layers</h3>
+            <p>Warstwowy sekwencer w przestrzeni 3D. Układasz trajektorie ruchu wielu źródeł wokół
+              słuchacza i nagrywasz wynik do WAV — binauralnie i w AmbiX.</p>
+            <div class="card-foot"><span>🎧 Słuchawki · Nagrywanie</span><span class="go">Uruchom ↗</span></div>
+          </a>
 
-      <div class="grid-cell cell-full" id="archiwum">
-        <div>
-          <div class="cell-index">Wskaźniki Własne 02 · 03 · 04</div>
-          <div class="cell-num">03</div>
-          <h2 class="cell-title">Archiwum<br>dźwięku 3D</h2>
+          <a class="card" href="/audio-shapes/">
+            <span class="card-tag">Synteza · Three.js</span>
+            <h3>Audio Shapes</h3>
+            <p>Figury geometryczne jako ścieżki ruchu dźwięku — koło, trójkąt, piramida. Słyszysz je
+              krążące wokół siebie dzięki renderingowi binauralnemu HRTF.</p>
+            <div class="card-foot"><span>🎧 Słuchawki · Binaural</span><span class="go">Uruchom ↗</span></div>
+          </a>
+
+          <a class="card" href="/2D_Audio_Explorer/">
+            <span class="card-tag">Edytor scen · Eksport</span>
+            <h3>2D Audio Explorer</h3>
+            <p>Rozstawiasz dźwięki na płaszczyźnie, przechodzisz się po scenie na słuchawkach
+              i eksportujesz gotowe nagranie binauralne oraz AmbiX. Projektowany pod dostępność.</p>
+            <div class="card-foot"><span>🎧 Słuchawki · Eksport</span><span class="go">Uruchom ↗</span></div>
+          </a>
+
+          <a class="card" href="/wywiady/">
+            <span class="card-tag">Reportaż · Ambisonia</span>
+            <h3>Wywiady</h3>
+            <p>Interaktywny odtwarzacz pięciu rozmów z liderami branży audio i teatru. Nawigujesz
+              w przestrzeni 2D między głosami rozmówców, w tle dźwięk ambisoniczny.</p>
+            <div class="card-foot"><span>🎧 Słuchawki · 5 rozmów</span><span class="go">Uruchom ↗</span></div>
+          </a>
+
+          <a class="card" href="/relaxation-mixer/">
+            <span class="card-tag">Mikser · Mindfulness</span>
+            <h3>Przestrzeń Relaksu</h3>
+            <p>Binauralny mikser relaksacyjny: prowadzone medytacje zestawione z krajobrazami
+              dźwiękowymi i przestrzennie pozycjonowanymi obiektami audio.</p>
+            <div class="card-foot"><span>🎧 Słuchawki · Binaural</span><span class="go">Uruchom ↗</span></div>
+          </a>
+
+          <a class="card" href="/opus-encoder/">
+            <span class="card-tag">Konwersja · WASM</span>
+            <h3>Opus Encoder</h3>
+            <p>Konwersja WAV do Opus/WebM w przeglądarce, z zachowaniem wszystkich kanałów — także
+              czterokanałowego AmbiX, który zwykły zapis z przeglądarki spłaszcza do stereo.</p>
+            <div class="card-foot"><span>Bez słuchawek · Lokalnie</span><span class="go">Uruchom ↗</span></div>
+          </a>
+
+          <a class="card" href="https://github.com/spatial-audio-lab" target="_blank" rel="noopener">
+            <span class="card-tag">Kod źródłowy · GitHub</span>
+            <h3>Wszystkie repozytoria</h3>
+            <p>Każde z narzędzi jest otwarte. Kod, historia zmian i pliki do pobrania są publiczne —
+              możesz je czytać, kopiować i przerabiać pod własne zajęcia.</p>
+            <div class="card-foot"><span>Otwarte źródła</span><span class="go">Zobacz ↗</span></div>
+          </a>
+
         </div>
-        <div>
-          <p class="cell-desc">Kolekcja profesjonalnych nagrań przestrzennych: od naturalnych pejzaży dźwiękowych po industrialne przestrzenie miejskie. Realizowane w technice binauralnej i ambisonicznej (B-Format). Słuchaj wyłącznie na słuchawkach. Całe archiwum jest dostępne do odsłuchu w aplikacji <strong style="color:var(--cream)">Ambisonic Web Player</strong> — <a href="/ambi/" style="color:var(--acid);">otwórz archiwum ↗</a></p>
-          <ul class="item-list">
-            <li>
-              <span class="item-status">◈</span>
-              <span><strong style="color:var(--cream)">15 Scenografii dźwiękowych</strong> — Nagrania przestrzeni akustycznych w technice ambisonicznej i binauralnej</span>
-            </li>
-            <li>
-              <span class="item-status">◈</span>
-              <span><strong style="color:var(--cream)">5 Materiałów relaksacyjnych</strong> — Sesje mindfulness w audio przestrzennym (aplikacja Przestrzeń Relaksu)</span>
-            </li>
-            <li>
-              <span class="item-status">◈</span>
-              <span><strong style="color:var(--cream)">5 Sesji nagraniowych ze studentami teatru</strong> — Przykładowe nagrania dźwięku przestrzennego z pracy nad głosem i tekstem, dostępne w Ambisonic Web Player</span>
-            </li>
-          </ul>
+      </section>
+
+      <!-- ============ 5. DOKĄD DALEJ ============ -->
+      <section class="onward">
+        <div class="sec-label">Dalej na stronie</div>
+        <div class="grid">
+          <a class="card" href="/archiwum/">
+            <span class="card-num">01</span>
+            <h3>Archiwum</h3>
+            <p>Scenografie dźwiękowe, materiały relaksacyjne, sesje ze studentami teatru i wywiady —
+              wszystko nagrane przestrzennie.</p>
+            <div class="card-foot"><span></span><span class="go">Otwórz ↗</span></div>
+          </a>
+          <a class="card" href="/wiedza/">
+            <span class="card-num">02</span>
+            <h3>Dźwięk przestrzenny</h3>
+            <p>Od czego zacząć: pole dźwiękowe, ambisonia FOA i AmbiX, binauralizacja i HRTF, formaty,
+              nagrywanie własnego materiału.</p>
+            <div class="card-foot"><span></span><span class="go">Otwórz ↗</span></div>
+          </a>
+          <a class="card" href="/o-projekcie/">
+            <span class="card-num">03</span>
+            <h3>O projekcie</h3>
+            <p>Stypendium KPO, wskaźniki przedsięwzięcia, kompetencje i certyfikaty, finansowanie
+              i kontakt.</p>
+            <div class="card-foot"><span></span><span class="go">Otwórz ↗</span></div>
+          </a>
         </div>
-      </div>
+      </section>
 
-    </div>
+      <section class="tools-note">
+        <p class="note"><b>Wszystko odtwarzaj na słuchawkach.</b> Dźwięk przestrzenny opiera się na
+          różnicach między tym, co słyszy lewe i prawe ucho. Na głośnikach komputera te różnice się
+          zacierają i efekt 3D znika — nagrania zabrzmią po prostu jak zwykłe stereo.</p>
+      </section>
+    </main>
 
-    <section class="section-header" id="narzedzia">
-      <p class="section-label">Narzędziownia</p>
-      <h2 class="section-title">Aplikacje do pracy z dźwiękiem przestrzennym</h2>
-      <p class="section-sub">Sześć darmowych, otwartych narzędzi webowych stworzonych w ramach projektu. Każde działa wyłącznie w przeglądarce — nic nie trzeba instalować. Do pełnego efektu 3D potrzebne są słuchawki.</p>
-    </section>
-
-    <div class="tools-grid">
-
-      <a class="tool-card" href="/audio-shapes/" target="_blank" rel="noopener">
-        <span class="tool-tag">Synteza · Three.js</span>
-        <h3 class="tool-name">Audio Shapes</h3>
-        <p class="tool-desc">Buduj dźwiękowe figury geometryczne — koło, trójkąt, piramidę — i słuchaj ich krążących wokół Ciebie w 3D dzięki renderingowi binauralnemu HRTF.</p>
-        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
-      </a>
-
-      <a class="tool-card" href="/ambi/" target="_blank" rel="noopener">
-        <span class="tool-tag">Odtwarzacz · Archiwum</span>
-        <h3 class="tool-name">Ambisonic Web Player</h3>
-        <p class="tool-desc">Odtwarzacz archiwum dźwięku przestrzennego: scenografie VR, sesje ze studentami teatru i nagrania ambisoniczne w formacie B-Format.</p>
-        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
-      </a>
-
-      <a class="tool-card" href="/sekwencer/" target="_blank" rel="noopener">
-        <span class="tool-tag">Sekwencer 3D</span>
-        <h3 class="tool-name">Harmonic Layers</h3>
-        <p class="tool-desc">Warstwowy sekwencer dźwiękowy w przestrzeni 3D — układaj i miksuj wiele źródeł dźwięku poruszających się wokół słuchacza.</p>
-        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
-      </a>
-
-      <a class="tool-card" href="/2D_Audio_Explorer/" target="_blank" rel="noopener">
-        <span class="tool-tag">Edytor scen · Eksport</span>
-        <h3 class="tool-name">2D Audio Explorer</h3>
-        <p class="tool-desc">Rozstaw dźwięki na płaszczyźnie 2D, przejdź się po scenie na słuchawkach i wyeksportuj gotowe nagranie binauralne oraz ambisoniczne (AmbiX). Zaprojektowany z myślą o dostępności.</p>
-        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
-      </a>
-
-      <a class="tool-card" href="/wywiady/" target="_blank" rel="noopener">
-        <span class="tool-tag">Reportaż · Ambisonics</span>
-        <h3 class="tool-name">Wywiady</h3>
-        <p class="tool-desc">Interaktywny odtwarzacz pięciu rozmów z liderami branży audio i teatru — nawigujesz w przestrzeni 2D między głosami rozmówców, w tle dźwięk ambisoniczny.</p>
-        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
-      </a>
-
-      <a class="tool-card" href="/relaxation-mixer/" target="_blank" rel="noopener">
-        <span class="tool-tag">Mikser · Mindfulness</span>
-        <h3 class="tool-name">Przestrzeń Relaksu</h3>
-        <p class="tool-desc">Binauralny mikser relaksacyjny łączący prowadzone medytacje z krajobrazami dźwiękowymi i przestrzennie pozycjonowanymi obiektami audio.</p>
-        <div class="tool-meta"><span>🎧 Wymaga słuchawek</span><span class="tool-cta">Uruchom ↗</span></div>
-      </a>
-
-    </div>
-
-    <footer id="kontakt">
-      <div class="footer-eu">
-        <img src="NGEUkol.jpg" alt="NextGenerationEU" />
-        <div>
-          <p class="footer-text">
-            Projekt sfinansowany przez Unię Europejską — NextGenerationEU.<br>
-            Wsparcie udzielone w ramach Krajowego Planu Odbudowy i Zwiększania Odporności,<br>
-            Inwestycja A2.5.1: Program wspierania działalności podmiotów sektora kultury<br>
-            i przemysłów kreatywnych na rzecz stymulowania ich rozwoju.<br>
-            Instytucja Wspierająca: Narodowy Instytut Muzyki i Tańca (NIMiT).
-          </p>
-          <div class="footer-financing">
-            <span class="footer-financing-label">Finansowanie</span>
-            <span class="footer-financing-val">36 000,00 zł brutto · NextGenerationEU</span>
-          </div>
-        </div>
-      </div>
-      <div class="footer-contact">
-        <div class="footer-contact-label">Kontakt</div>
-        <div class="footer-contact-name">Oskar Hamerski</div>
-        <div class="footer-contact-email">
-          Stypendysta KPO dla Kultury 2025/2026<br>
-          <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
-        </div>
+    <!-- ============ 6. STOPKA ============ -->
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
       </div>
     </footer>
 
-    <script>
-      // Custom cursor: only makes sense for a real mouse pointer.
-      // On phones/tablets navigation happens with a thumb, so skip it entirely.
-      const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-
-      if (!isTouch) {
-        const dot  = document.getElementById('dot');
-        const ring = document.getElementById('ring');
-        let mx = -100, my = -100, rx = -100, ry = -100;
-
-        document.addEventListener('mousemove', e => {
-          mx = e.clientX;
-          my = e.clientY;
-          dot.style.left = mx + 'px';
-          dot.style.top  = my + 'px';
-        });
-
-        (function loop() {
-          rx += (mx - rx) * 0.1;
-          ry += (my - ry) * 0.1;
-          ring.style.left = rx + 'px';
-          ring.style.top  = ry + 'px';
-          requestAnimationFrame(loop);
-        })();
-
-        document.querySelectorAll('a, .grid-cell, .spec-cell').forEach(el => {
-          el.addEventListener('mouseenter', () => ring.classList.add('hover'));
-          el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
-        });
-      }
-
-      // Hamburger menu (mobile nav)
-      const navToggle = document.getElementById('navToggle');
-      const navLinks  = document.getElementById('topNavLinks');
-
-      navToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('open');
-        navToggle.classList.toggle('open', isOpen);
-        navToggle.setAttribute('aria-expanded', isOpen);
-      });
-
-      // Close the menu automatically after tapping a link
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('open');
-          navToggle.classList.remove('open');
-          navToggle.setAttribute('aria-expanded', 'false');
-        });
-      });
-    </script>
+    <script src="/assets/hub.js" defer></script>
+    <script src="/assets/field.js" defer></script>
   </body>
 </html>
