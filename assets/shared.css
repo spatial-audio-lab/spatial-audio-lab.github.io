@@ -63,7 +63,14 @@ body {
   color: var(--cream);
   font-family: var(--display);
   font-weight: 300;
+  /* clip, nie hidden. Zmierzone 25.08: overflow-x: hidden na BODY robi z body
+     kontener przewijania (overflow-y wylicza sie wtedy na auto), a wtedy
+     position: sticky w nawigacji czepia sie body zamiast okna — pasek odjezdzal
+     w gore razem z trescia na wszystkich czterech stronach Hubu. clip przycina
+     tak samo, ale kontenera przewijania nie tworzy. Deklaracja z hidden zostaje
+     nizej w kodzie jako zapas dla starszych przegladarek — nie usuwaj jej. */
   overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; }

@@ -9,10 +9,10 @@
     <link rel="alternate icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
 
-    <meta name="description" content="Siedem darmowych narzędzi webowych do pracy z dźwiękiem przestrzennym oraz archiwum nagrań ambisonicznych. Wszystko działa w przeglądarce, bez instalacji i bez konta." />
+    <meta name="description" content="Sześć darmowych narzędzi webowych do pracy z dźwiękiem przestrzennym oraz archiwum nagrań ambisonicznych. Wszystko działa w przeglądarce, bez instalacji i bez konta." />
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Spatial Audio Lab — narzędziownia dźwięku przestrzennego" />
-    <meta property="og:description" content="Siedem darmowych narzędzi webowych do pracy z dźwiękiem przestrzennym oraz archiwum nagrań ambisonicznych." />
+    <meta property="og:description" content="Sześć darmowych narzędzi webowych do pracy z dźwiękiem przestrzennym oraz archiwum nagrań ambisonicznych." />
     <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
     <meta property="og:url" content="https://spatial-audio-lab.github.io/" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -109,16 +109,36 @@
       /* ====================================================================
          NARZĘDZIOWNIA
          ==================================================================== */
-      .tools { padding: 46px 64px 24px; }
+      /* Kotwica #narzedzia — nagłówek nie może wpaść pod przyklejoną nawigację,
+         która ma 58 px wysokości. */
+      .tools { padding: 46px 64px 24px; scroll-margin-top: 74px; }
+
+      /* Nagłówek NARZĘDZIOWNI. Reszta sekcji strony zostaje przy drobnym
+         .sec-label — dzięki temu widać, która sekcja jest tu główna. */
+      .sec-head { margin-bottom: 22px; }
+      .sec-head .sec-kicker {
+        display: block; font-family: var(--mono); font-size: 0.6rem;
+        letter-spacing: 0.2em; text-transform: uppercase; color: var(--acid);
+        margin-bottom: 12px;
+      }
+      .sec-head h2 {
+        font-family: var(--display); font-weight: 800;
+        font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+        line-height: 0.95; letter-spacing: -0.03em; color: var(--cream);
+        display: flex; align-items: center; gap: 20px;
+      }
+      .sec-head h2::after {
+        content: ''; height: 1px; flex: 1; background: var(--border);
+      }
       .tools-intro {
         font-family: var(--mono); font-size: 0.8rem; line-height: 1.8;
         color: var(--dim); max-width: 700px; margin: -4px 0 26px;
       }
-      /* Stała liczba kolumn zamiast auto-fill: osiem kart dzieli się bez reszty
-         przez 4, 2 i 1, więc w siatce nigdy nie zostaje pusta komórka. */
+      /* Stała liczba kolumn zamiast auto-fill: sześć kart dzieli się bez reszty
+         przez 3, 2 i 1, więc w siatce nigdy nie zostaje pusta komórka. */
       .grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         gap: 1px; background: var(--border); border: 1px solid var(--border);
       }
       .card {
@@ -135,6 +155,12 @@
       .card:hover { background: #171B13; }
       .card:hover::before { opacity: 1; }
       .card > * { position: relative; z-index: 1; }
+      /* Numer porządkowy karty. Daje wspólny język: „kafel 03" wskazuje
+         jednoznacznie to samo w rozmowie i w markupie. */
+      .card-num {
+        font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em;
+        color: var(--acid); margin-bottom: 10px;
+      }
       .card-tag {
         font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.15em;
         text-transform: uppercase; color: var(--dim); margin-bottom: 14px;
@@ -165,10 +191,7 @@
       .onward .grid { grid-template-columns: repeat(3, 1fr); }
       .onward .card { min-height: 150px; background: var(--black); }
       .onward .card:hover { background: var(--bg2); }
-      .onward .card-num {
-        font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em;
-        color: var(--acid); margin-bottom: 14px;
-      }
+      .onward .card-num { margin-bottom: 14px; }
 
       .tools-note { padding: 36px 64px 8px; }
 
@@ -208,7 +231,7 @@
         <span class="wm">Spatial Audio <em>Lab</em></span>
       </a>
       <div class="top-nav-links">
-        <a href="/" aria-current="page">Narzędzia</a>
+        <a href="/#narzedzia" aria-current="page">Narzędzia</a>
         <a href="/archiwum/">Archiwum</a>
         <a href="/wiedza/">Dźwięk przestrzenny</a>
         <a href="/o-projekcie/">O projekcie</a>
@@ -232,7 +255,7 @@
         </div>
 
         <div class="hero-meta">
-          <div class="meta-row"><span class="meta-key">Narzędzia</span><span class="meta-val">7 aplikacji webowych</span></div>
+          <div class="meta-row"><span class="meta-key">Narzędzia</span><span class="meta-val">6 aplikacji webowych</span></div>
           <div class="meta-row"><span class="meta-key">Formaty</span><span class="meta-val">Binaural · <span class="pos">Ambisonia FOA / AmbiX</span></span></div>
           <div class="meta-row"><span class="meta-key">Licencja</span><span class="meta-val">Otwarta, do użytku edukacyjnego</span></div>
         </div>
@@ -253,14 +276,28 @@
     <!-- ============ 4. NARZĘDZIOWNIA ============ -->
     <main>
       <section class="tools" id="narzedzia">
-        <div class="sec-label">Narzędziownia</div>
-        <p class="tools-intro">Siedem darmowych, otwartych aplikacji webowych. Każda działa wyłącznie
+        <div class="sec-head">
+          <span class="sec-kicker">Aplikacje webowe</span>
+          <h2>Narzędziownia</h2>
+        </div>
+        <p class="tools-intro">Sześć darmowych, otwartych aplikacji webowych. Każda działa wyłącznie
           w przeglądarce — nic nie trzeba instalować, nie ma logowania, żaden plik nie wychodzi
           z Twojego komputera. Do pełnego efektu 3D potrzebne są słuchawki.</p>
 
         <div class="grid">
 
+          <a class="card" href="/2D_Audio_Explorer/">
+            <span class="card-num">01</span>
+            <span class="card-tag">Warsztat · Eksport</span>
+            <h3>Scena</h3>
+            <p>Rozstawiasz dźwięki wokół słuchacza, przechodzisz się po scenie na słuchawkach
+              i eksportujesz pięć plików naraz: binaural, AmbiX, mapę, metadane i opis sceny dla Sfery.
+              Projektowana pod dostępność.</p>
+            <div class="card-foot"><span>🎧 Słuchawki · Eksport 5 plików</span><span class="go">Uruchom ↗</span></div>
+          </a>
+
           <a class="card" href="/ambi/">
+            <span class="card-num">02</span>
             <span class="card-tag">Odsłuch · Archiwum</span>
             <h3>Sfera</h3>
             <p>Obracasz polem dźwiękowym wokół nieruchomej głowy i widzisz podpisane, pulsujące punkty
@@ -270,39 +307,25 @@
           </a>
 
           <a class="card" href="/sekwencer/">
+            <span class="card-num">03</span>
             <span class="card-tag">Sekwencer · Three.js</span>
-            <h3>Harmonic Layers</h3>
+            <h3>Orbita</h3>
             <p>Warstwowy sekwencer w przestrzeni 3D. Układasz trajektorie ruchu wielu źródeł wokół
               słuchacza i nagrywasz wynik do WAV — binauralnie i w AmbiX.</p>
             <div class="card-foot"><span>🎧 Słuchawki · Nagrywanie</span><span class="go">Uruchom ↗</span></div>
           </a>
 
           <a class="card" href="/audio-shapes/">
+            <span class="card-num">04</span>
             <span class="card-tag">Synteza · Three.js</span>
-            <h3>Audio Shapes</h3>
+            <h3>Kształty</h3>
             <p>Figury geometryczne jako ścieżki ruchu dźwięku — koło, trójkąt, piramida. Słyszysz je
               krążące wokół siebie dzięki renderingowi binauralnemu HRTF.</p>
             <div class="card-foot"><span>🎧 Słuchawki · Binaural</span><span class="go">Uruchom ↗</span></div>
           </a>
 
-          <a class="card" href="/2D_Audio_Explorer/">
-            <span class="card-tag">Warsztat · Eksport</span>
-            <h3>Scena</h3>
-            <p>Rozstawiasz dźwięki wokół słuchacza, przechodzisz się po scenie na słuchawkach
-              i eksportujesz pięć plików naraz: binaural, AmbiX, mapę, metadane i opis sceny dla Sfery.
-              Projektowana pod dostępność.</p>
-            <div class="card-foot"><span>🎧 Słuchawki · Eksport 5 plików</span><span class="go">Uruchom ↗</span></div>
-          </a>
-
-          <a class="card" href="/wywiady/">
-            <span class="card-tag">Reportaż · Ambisonia</span>
-            <h3>Wywiady</h3>
-            <p>Interaktywny odtwarzacz pięciu rozmów z liderami branży audio i teatru. Nawigujesz
-              w przestrzeni 2D między głosami rozmówców, w tle dźwięk ambisoniczny.</p>
-            <div class="card-foot"><span>🎧 Słuchawki · 5 rozmów</span><span class="go">Uruchom ↗</span></div>
-          </a>
-
           <a class="card" href="/relaxation-mixer/">
+            <span class="card-num">05</span>
             <span class="card-tag">Mikser · Mindfulness</span>
             <h3>Przestrzeń Relaksu</h3>
             <p>Binauralny mikser relaksacyjny: prowadzone medytacje zestawione z krajobrazami
@@ -311,19 +334,12 @@
           </a>
 
           <a class="card" href="/opus-encoder/">
+            <span class="card-num">06</span>
             <span class="card-tag">Konwersja · WASM</span>
             <h3>Opus Encoder</h3>
             <p>Konwersja WAV do Opus/WebM w przeglądarce, z zachowaniem wszystkich kanałów — także
               czterokanałowego AmbiX, który zwykły zapis z przeglądarki spłaszcza do stereo.</p>
             <div class="card-foot"><span>Bez słuchawek · Lokalnie</span><span class="go">Uruchom ↗</span></div>
-          </a>
-
-          <a class="card" href="https://github.com/spatial-audio-lab" target="_blank" rel="noopener">
-            <span class="card-tag">Kod źródłowy · GitHub</span>
-            <h3>Wszystkie repozytoria</h3>
-            <p>Każde z narzędzi jest otwarte. Kod, historia zmian i pliki do pobrania są publiczne —
-              możesz je czytać, kopiować i przerabiać pod własne zajęcia.</p>
-            <div class="card-foot"><span>Otwarte źródła</span><span class="go">Zobacz ↗</span></div>
           </a>
 
         </div>
@@ -372,7 +388,7 @@
         Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
       </p>
       <nav class="foot-links" aria-label="Stopka">
-        <a href="/">Narzędzia</a>
+        <a href="/#narzedzia">Narzędzia</a>
         <a href="/archiwum/">Archiwum</a>
         <a href="/wiedza/">Dźwięk przestrzenny</a>
         <a href="/o-projekcie/">O projekcie</a>
