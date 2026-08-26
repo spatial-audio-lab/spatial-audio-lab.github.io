@@ -120,11 +120,6 @@
       }
       ul.items a { color: var(--acid); text-decoration: none; }
       ul.items a:hover { text-decoration: underline; }
-      .items-title {
-        font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em;
-        text-transform: uppercase; color: var(--dim); margin: 30px 0 -12px;
-      }
-
       /* ---- FINANSOWANIE ---- */
       .fund { padding: 52px 64px; border-bottom: 1px solid var(--border); }
       .fund-inner { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
@@ -222,18 +217,14 @@
               i uważności. Wszystkie zakończone certyfikatem, dostępnym poniżej w PDF.</p>
           </div>
           <div>
+            <!-- Jedna lista, nie dwie. Wczesniej te same cztery kursy byly wypisane
+                 dwa razy: raz z wystawca, raz z odnosnikiem do PDF-a. Zostaje wersja
+                 z odnosnikiem, a wystawca przeniesiony do kolumny .role. -->
             <ul class="items">
-              <li><span class="st">✓</span><span>Mindfulness</span><span class="role">Universiteit Leiden / Coursera</span></li>
-              <li><span class="st">✓</span><span>REAPER DAW</span><span class="role">Udemy</span></li>
-              <li><span class="st">✓</span><span>Spatial Audio Processing</span><span class="role">LSBA</span></li>
-              <li><span class="st">✓</span><span>Immersive Audio · Advanced Spatial Processing</span><span class="role">ASSR</span></li>
-            </ul>
-            <p class="items-title">Certyfikaty</p>
-            <ul class="items">
-              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_mindfulness.pdf" target="_blank" rel="noopener">Mindfulness (PDF)</a></span></li>
-              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_reaper.pdf" target="_blank" rel="noopener">REAPER DAW (PDF)</a></span></li>
-              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_lsba.pdf" target="_blank" rel="noopener">Spatial Audio Processing, LSBA (PDF)</a></span></li>
-              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_ASSR_Immersive_Audio.pdf" target="_blank" rel="noopener">Immersive Audio, ASSR (PDF)</a></span></li>
+              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_mindfulness.pdf" target="_blank" rel="noopener">Mindfulness (PDF)</a></span><span class="role">Universiteit Leiden / Coursera</span></li>
+              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_reaper.pdf" target="_blank" rel="noopener">REAPER DAW (PDF)</a></span><span class="role">Udemy</span></li>
+              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_lsba.pdf" target="_blank" rel="noopener">Spatial Audio Processing (PDF)</a></span><span class="role">LSBA</span></li>
+              <li><span class="st">↗</span><span><a href="/certyfikaty/certyfikat_ASSR_Immersive_Audio.pdf" target="_blank" rel="noopener">Immersive Audio · Advanced Spatial Processing (PDF)</a></span><span class="role">ASSR</span></li>
             </ul>
           </div>
         </div>
@@ -267,15 +258,15 @@
             <h2>Archiwum<br>dźwięku 3D</h2>
             <p>Kolekcja nagrań przestrzennych: od naturalnych pejzaży dźwiękowych po industrialne
               przestrzenie miejskie. Realizowane w technice binauralnej i ambisonicznej (B-Format).</p>
-            <p>Całe archiwum jest dostępne do odsłuchu w aplikacji
-              <a href="/ambi/" style="color:var(--acid);text-decoration:none;">Ambisonic Web Player ↗</a>
+            <p>Całe archiwum jest dostępne do odsłuchu w
+              <a href="/ambi/" style="color:var(--acid);text-decoration:none;">Sferze ↗</a>.
               Słuchaj wyłącznie na słuchawkach.</p>
           </div>
           <div>
             <ul class="items">
               <li><span class="st">◈</span><span><strong>15 scenografii dźwiękowych</strong> — nagrania przestrzeni akustycznych w technice ambisonicznej i binauralnej</span></li>
               <li><span class="st">◈</span><span><strong>5 materiałów relaksacyjnych</strong> — sesje mindfulness w audio przestrzennym, aplikacja Przestrzeń Relaksu</span></li>
-              <li><span class="st">◈</span><span><strong>5 sesji ze studentami teatru</strong> — nagrania z pracy nad głosem i tekstem, dostępne w Ambisonic Web Player</span></li>
+              <li><span class="st">◈</span><span><strong>5 sesji ze studentami teatru</strong> — nagrania z pracy nad głosem i tekstem, dostępne w Sferze</span></li>
             </ul>
           </div>
         </div>
