@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skąd wiesz, gdzie coś jest, kiedy tego nie widzisz? — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="Masz dwoje uszu i każde słyszy trochę co innego. Z tej różnicy mózg wylicza kierunek. Trzy wskazówki, które robią całą robotę — plus odsłuch w przeglądarce." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Skąd wiesz, gdzie coś jest, kiedy tego nie widzisz?" />
+    <meta property="og:description" content="Masz dwoje uszu i każde słyszy trochę co innego. Z tej różnicy mózg wylicza kierunek." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/wiedza/skad-wiesz-gdzie-cos-jest/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/shared.css" />
+    <link rel="stylesheet" href="/assets/wiedza.css" />
+  </head>
+
+  <body class="hub">
+
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <!-- ============ 1. PASEK KPO ============ -->
+    <div class="kpo-banner">
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
+    </div>
+
+    <!-- ============ 2. NAWIGACJA ============ -->
+    <nav class="top-nav">
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/" aria-current="page">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- ============ 3. PYTANIE ============ -->
+      <header class="page-head pytanie">
+        <p class="page-label"><a href="/wiedza/" style="color:inherit;text-decoration:none;">Ścieżka od zera</a> · Krok 01</p>
+        <h1>Skąd wiesz, gdzie coś jest, kiedy tego nie widzisz?</h1>
+      </header>
+
+      <div class="tresc">
+
+        <!-- ============ 4. KRÓTKA ODPOWIEDŹ ============ -->
+        <section class="krotka-odpowiedz">
+          <div class="czesc-label">Krótka odpowiedź</div>
+          <p>Masz dwoje uszu i każde słyszy trochę co innego. Dźwięk z lewej strony
+            dociera do lewego ucha wcześniej i jest w nim głośniejszy. Mózg mierzy tę
+            różnicę i odczytuje z niej kierunek.</p>
+        </section>
+
+        <!-- ============ 5. POSŁUCHAJ ============ -->
+        <section class="posluchaj">
+          <div class="czesc-label">Posłuchaj</div>
+          <ol>
+            <li>Załóż słuchawki i otwórz <a href="/audio-shapes/">Kształty ↗</a></li>
+            <li>Wybierz koło i włącz dźwięk. Jedno źródło zacznie krążyć wokół twojej głowy.</li>
+            <li>Zamknij oczy. Pokaż palcem miejsce, w którym właśnie jest.</li>
+            <li>Otwórz oczy i sprawdź na ekranie, czy trafiłeś.</li>
+          </ol>
+          <p>W pokoju nic nie krąży. Cały ruch dzieje się w słuchawkach. Komputer
+            odtwarza dla każdego ucha nieco inny dźwięk i to wystarczy, żebyś pokazał
+            palcem kierunek.</p>
+        </section>
+
+        <!-- ============ 6. DLACZEGO TAK JEST ============ -->
+        <section class="dlaczego">
+          <div class="czesc-label">Dlaczego tak jest</div>
+
+          <p>Twoje uszy dzieli szerokość głowy, jakieś dwadzieścia centymetrów.
+            To wystarczy, żeby powstały trzy różnice. Mózg czyta je wszystkie naraz.</p>
+
+          <p><b>Jedno ucho słyszy wcześniej.</b> Dźwięk z prawej strony trafia najpierw
+            do prawego ucha. Do lewego ma dalej, więc przychodzi później. Różnica wynosi
+            około pół tysięcznej sekundy. Wydaje się śmiesznie mała, a mózg wyłapuje ją
+            bez trudu.</p>
+
+          <p><b>Jedno ucho słyszy głośniej.</b> Głowa jest przeszkodą. Dźwięk z prawej
+            musi ją obejść, żeby dotrzeć do lewego ucha, i po drodze cichnie. Wysokie
+            dźwięki tracą przy tym najwięcej, a niskie prawie nic. Dlatego tak trudno
+            wskazać, skąd dochodzi bas.</p>
+
+          <p><b>Ucho zmienia brzmienie.</b> Małżowina nie jest ozdobą. Jej fałdki inaczej
+            odbijają dźwięk idący z góry, inaczej ten z dołu, a jeszcze inaczej ten zza
+            pleców. Dzięki temu odróżniasz górę od dołu, choć oba uszy słyszą wtedy
+            to samo i w tej samej chwili.</p>
+
+          <p>Te trzy różnice to wszystko, czym dysponujesz. Całą resztę dorabia mózg.</p>
+        </section>
+
+        <!-- ============ 7. SPRAWDŹ NA SOBIE ============ -->
+        <section class="sprawdz-na-sobie">
+          <div class="czesc-label">Sprawdź na sobie, bez komputera</div>
+          <p>Zatkaj palcem jedno ucho. Poproś kogoś, żeby chodził po pokoju i pstrykał
+            palcami, a ty pokazuj, gdzie jest.</p>
+          <p>Z jednym uchem zaczniesz mylić lewo z prawem. Zniknęły dwie wskazówki
+            z trzech i od razu to słychać.</p>
+        </section>
+
+        <!-- ============ 8. DOROSŁE SŁOWO ============ -->
+        <section class="dorosle-slowo">
+          <div class="czesc-label">Dorosłe słowo</div>
+          <p>Różnicę czasu między uszami fachowcy nazywają <dfn>ITD</dfn>, a różnicę
+            głośności <dfn>ILD</dfn>. To, że mózg układa z tych wskazówek kierunek,
+            nazywa się <dfn>lokalizacją</dfn> dźwięku. Nie musisz tego pamiętać. Warto
+            tylko wiedzieć, że gdy spotkasz gdzieś te skróty, chodzi dokładnie o to,
+            co przed chwilą przeczytałeś.</p>
+        </section>
+
+      </div>
+
+      <!-- ============ 9. DALEJ ============ -->
+      <section class="dalej">
+        <div class="czesc-label" style="max-width:860px;">Dalej</div>
+        <div class="dalej-siatka">
+          <div class="dalej-karta wkrotce">
+            <span class="kier">Następne pytanie · wkrótce</span>
+            <span class="tyt">Dlaczego w słuchawkach dźwięk gra w środku głowy?</span>
+          </div>
+          <a class="dalej-karta" href="/audio-shapes/">
+            <span class="kier">Posłuchaj jeszcze raz</span>
+            <span class="tyt">Kształty ↗</span>
+          </a>
+        </div>
+        <p style="margin-top:22px;font-family:var(--mono);font-size:0.66rem;color:var(--dim);">
+          <a class="zwykly" href="/wiedza/">← Wróć do wszystkich pytań</a>
+        </p>
+      </section>
+
+    </main>
+
+    <!-- ============ 10. STOPKA ============ -->
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+      </div>
+    </footer>
+
+    <script src="/assets/hub.js" defer></script>
+  </body>
+</html>

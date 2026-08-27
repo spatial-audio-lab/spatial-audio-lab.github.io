@@ -1,0 +1,189 @@
+/* ==========================================================================
+   Spatial Audio Lab — karta DŹWIĘK PRZESTRZENNY i jej podstrony.
+   Dołącz PO shared.css:  <link rel="stylesheet" href="/assets/wiedza.css">
+
+   Dlaczego osobny plik, skoro reszta Hubu trzyma style w <style> na stronie:
+   podstron wiedzy jest osiem i wszystkie mają ten sam rytm (pytanie, krótka
+   odpowiedź, posłuchaj, dlaczego, dorosłe słowo, dalej). Wklejenie tego samego
+   bloku osiem razy znaczyłoby osiem miejsc do poprawienia przy każdej zmianie.
+
+   NAZEWNICTWO. Klasy nazywają się tak samo jak części strony w
+   `_SAL-docs\slownik-strony.md`. Gdy Oskar mówi „w sekcji posłuchaj", chodzi
+   o `.posluchaj`. Nie zmieniaj jednego bez drugiego.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. NAGŁÓWEK STRONY — wspólny dla rozdzielnika i podstron
+   -------------------------------------------------------------------------- */
+.page-head { padding: 64px 64px 48px; }
+
+.page-label {
+  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--acid);
+  margin-bottom: 26px; display: flex; align-items: center; gap: 12px;
+}
+.page-label::before { content: ''; display: block; width: 32px; height: 1px; background: currentColor; }
+.page-label.wkrotce { color: var(--amber); }
+
+.page-head h1 {
+  font-family: var(--display); font-weight: 900;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 0.96; letter-spacing: -0.03em; color: var(--cream);
+  margin-bottom: 24px; max-width: 16ch;
+}
+/* Pytanie w tytule podstrony bywa długie — tam potrzeba więcej znaków w wierszu. */
+.pytanie h1 { max-width: 22ch; font-size: clamp(1.9rem, 4vw, 3.1rem); }
+
+.lead {
+  font-family: var(--mono); font-weight: 300; font-size: 0.88rem;
+  line-height: 1.85; color: var(--dim); max-width: 660px;
+}
+
+/* --------------------------------------------------------------------------
+   2. ŚCIEŻKA — lista ośmiu pytań na rozdzielniku
+
+   Pionowa lista, nie siatka kafli. Siatka mówi „osiem równorzędnych tematów,
+   wybierz sobie", a to jest droga, którą przechodzi się po kolei.
+   -------------------------------------------------------------------------- */
+.sciezka { padding: 0 64px 8px; }
+
+.krok {
+  display: grid;
+  grid-template-columns: 76px 1fr auto;
+  align-items: baseline;
+  gap: 0 24px;
+  padding: 26px 0;
+  border-top: 1px solid var(--border);
+  text-decoration: none;
+  transition: background 0.2s var(--ease);
+}
+.sciezka .krok:last-of-type { border-bottom: 1px solid var(--border); }
+
+.krok-nr {
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.2em;
+  color: var(--acid);
+}
+.krok h2 {
+  font-family: var(--display); font-weight: 500;
+  font-size: clamp(1.05rem, 2.1vw, 1.4rem);
+  line-height: 1.3; color: var(--cream); margin-bottom: 8px;
+  transition: color 0.2s var(--ease);
+}
+.krok p {
+  font-size: 0.79rem; line-height: 1.7; color: var(--dim); max-width: 58ch;
+}
+.krok-stan {
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--acid); white-space: nowrap;
+}
+
+a.krok:hover { background: var(--bg2); }
+a.krok:hover h2 { color: var(--acid); }
+a.krok:hover .krok-stan { text-decoration: underline; }
+
+/* Krok, którego jeszcze nie napisano. Nie jest odnośnikiem — nie ma dokąd wieść. */
+.krok.wkrotce { opacity: 0.5; }
+.krok.wkrotce .krok-nr { color: var(--dim); }
+.krok.wkrotce .krok-stan { color: var(--amber); }
+
+@media (max-width: 700px) {
+  .krok { grid-template-columns: 52px 1fr; gap: 0 16px; }
+  .krok-stan { grid-column: 2; margin-top: 10px; }
+}
+
+/* --------------------------------------------------------------------------
+   3. PODSTRONA — siedem części, zawsze w tej samej kolejności
+
+   Tekst dostaje wąską kolumnę. Reszta Hubu jest pełnoekranowa, ale wiersz
+   długi na całą szerokość monitora czyta się źle: oko gubi początek
+   następnej linii.
+   -------------------------------------------------------------------------- */
+.tresc { padding: 0 64px 8px; max-width: 860px; }
+.tresc > section { padding: 34px 0; border-top: 1px solid var(--border); }
+.tresc > section:first-child { border-top: none; padding-top: 6px; }
+
+.czesc-label {
+  font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--dim); margin-bottom: 18px;
+  display: flex; align-items: center; gap: 12px;
+}
+.czesc-label::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+
+.tresc p { font-size: 0.94rem; line-height: 1.85; color: var(--dim); max-width: 62ch; }
+.tresc p + p { margin-top: 16px; }
+.tresc b, .tresc strong { color: var(--cream); font-weight: 500; }
+
+/* 2. KRÓTKA ODPOWIEDŹ — kto przeczyta tylko to, już wie. Stąd większy stopień. */
+.krotka-odpowiedz p {
+  font-size: clamp(1.02rem, 1.9vw, 1.24rem);
+  line-height: 1.7; color: var(--cream); font-weight: 300; max-width: 46ch;
+}
+
+/* 3. POSŁUCHAJ — jedyne miejsce, które każe coś zrobić. Cyan, bo to działanie. */
+.posluchaj {
+  border-left: 2px solid var(--cyan);
+  background: var(--bg2);
+  padding: 26px 28px !important;
+  margin: 6px 0;
+}
+.posluchaj .czesc-label { color: var(--cyan); }
+.posluchaj .czesc-label::after { background: rgba(0,229,204,0.25); }
+.posluchaj ol { margin: 0 0 22px 20px; }
+.posluchaj li {
+  font-size: 0.94rem; line-height: 1.8; color: var(--dim);
+  padding-left: 6px; max-width: 58ch;
+}
+.posluchaj li::marker { color: var(--cyan); font-family: var(--mono); font-size: 0.8rem; }
+
+/* 5. DOROSŁE SŁOWO — jedyne miejsce na stronie, gdzie wolno użyć żargonu.
+   Celowo przygaszone: to warstwa dla ciekawych, nie treść główna. */
+.dorosle-slowo {
+  border: 1px solid var(--border2);
+  padding: 24px 26px !important;
+  margin: 6px 0;
+}
+.dorosle-slowo p { font-size: 0.85rem; max-width: 60ch; }
+.dorosle-slowo dfn { font-style: normal; color: var(--cream); font-weight: 500; }
+
+/* 6. DALEJ */
+.dalej { padding: 30px 64px 64px; }
+.dalej-siatka {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+  max-width: 860px;
+}
+.dalej-karta {
+  background: var(--bg2); padding: 24px 26px; text-decoration: none;
+  display: flex; flex-direction: column; gap: 8px;
+  transition: background 0.2s var(--ease);
+}
+a.dalej-karta:hover { background: #171B13; }
+.dalej-karta .kier {
+  font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--dim);
+}
+.dalej-karta .tyt {
+  font-family: var(--display); font-size: 1rem; color: var(--cream); line-height: 1.35;
+  transition: color 0.2s var(--ease);
+}
+a.dalej-karta:hover .tyt { color: var(--acid); }
+.dalej-karta.wkrotce { opacity: 0.5; }
+.dalej-karta.wkrotce .kier { color: var(--amber); }
+
+/* Odnośniki w treści */
+.tresc a, .dalej a.zwykly { color: var(--acid); text-decoration: none; }
+.tresc a:hover, .dalej a.zwykly:hover { text-decoration: underline; }
+
+.uwaga { padding: 8px 64px 64px; }
+
+/* --------------------------------------------------------------------------
+   4. WĄSKI EKRAN
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .page-head { padding: 44px 24px 36px; }
+  .sciezka   { padding: 0 24px 8px; }
+  .tresc     { padding: 0 24px 8px; }
+  .dalej     { padding: 26px 24px 52px; }
+  .uwaga     { padding: 8px 24px 52px; }
+  .dalej-siatka { grid-template-columns: 1fr; }
+}
