@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zbuduj swoją pierwszą scenę — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="Dziesięć minut i słuchawki. Rozstawisz dźwięki wokół siebie, przejdziesz się między nimi i zapiszesz wynik jako plik." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Zbuduj swoją pierwszą scenę" />
+    <meta property="og:description" content="Dziesięć minut i słuchawki. Rozstawisz dźwięki wokół siebie, przejdziesz się między nimi i zapiszesz wynik jako plik." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/wiedza/pierwsza-scena/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/shared.css" />
+    <link rel="stylesheet" href="/assets/wiedza.css" />
+  </head>
+
+  <body class="hub">
+
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <!-- ============ 1. PASEK KPO ============ -->
+    <div class="kpo-banner">
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
+    </div>
+
+    <!-- ============ 2. NAWIGACJA ============ -->
+    <nav class="top-nav">
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/" aria-current="page">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- ============ PYTANIE ============ -->
+      <header class="page-head pytanie">
+        <p class="page-label"><a href="/wiedza/" style="color:inherit;text-decoration:none;">Ścieżka od zera</a> · Krok 05</p>
+        <h1>Zbuduj swoją pierwszą scenę</h1>
+      </header>
+
+      <div class="tresc">
+
+        <section class="krotka-odpowiedz">
+          <div class="czesc-label">Krótka odpowiedź</div>
+          <p>Potrzebujesz dziesięciu minut i słuchawek. Rozstawisz kilka dźwięków wokół siebie, przejdziesz się między nimi i zapiszesz wynik jako plik na dysku.</p>
+        </section>
+
+        <section class="posluchaj">
+          <div class="czesc-label">Zrób to</div>
+          <ol>
+            <li>Załóż słuchawki i otwórz <a href="/2D_Audio_Explorer/">Scenę ↗</a></li>
+            <li>Kliknij <b>◈ Biblioteka SAL</b>. W polu <b>Szukaj dźwięków…</b> wpisz na przykład „woda".</li>
+            <li>Kliknij wybrany dźwięk i poczekaj, aż się pobierze. Idzie z sieci, więc chwilę to trwa.</li>
+            <li>Przeciągnij jego kropkę tam, gdzie ma stać. Środek mapy to ty.</li>
+            <li>Dołóż drugi i trzeci dźwięk, każdy z innej strony. Jeden postaw za sobą.</li>
+            <li>Naciśnij <b>▶ Wszystkie</b> i posłuchaj.</li>
+            <li>Przeciągnij teraz siebie po mapie. Usłyszysz, jak zmieniają się odległości.</li>
+            <li>Na koniec kliknij <b>⬇ Eksportuj scenę (archiwum .zip)</b>.</li>
+          </ol>
+          <p>Dostaniesz jedno archiwum. W środku jest pięć plików. Co z nimi zrobić, mówi następne pytanie.</p>
+        </section>
+
+        <section class="dlaczego">
+          <div class="czesc-label">Co warto wiedzieć przy pierwszym podejściu</div>
+          <p><b>Trzy dźwięki wystarczą.</b> Przy ośmiu nie usłyszysz już, który jest gdzie. Lepiej zacząć od małej sceny i ją dopieścić.</p>
+          <p><b>Rozstaw je szeroko.</b> Dwa dźwięki obok siebie zleją się w jeden. Daj im różne strony i różne odległości.</p>
+          <p><b>Postaw coś za sobą.</b> To najciekawszy moment przy pierwszym odsłuchu i najlepszy sprawdzian, czy słuchawki masz założone dobrze.</p>
+          <p><b>Dźwięk nie musi stać w miejscu.</b> Tryb <b>Orbita</b> każe mu krążyć wokół ciebie, <b>Ścieżka</b> prowadzi go po zadanej trasie. Zacznij od <b>Statyczny</b>, ruch dołóż później.</p>
+          <p><b>Biblioteka pobiera z sieci.</b> Jeśli dźwięk długo się ładuje, nie klikaj go drugi raz. Możesz też użyć <b>⇧ Twój komputer</b> i wziąć własny plik.</p>
+          <p><b>Nie da się tego zepsuć.</b> Nic nie zapisuje się poza twoją przeglądarką, dopóki sam nie klikniesz eksportu.</p>
+        </section>
+
+        <section class="dorosle-slowo">
+          <div class="czesc-label">Dorosłe słowo</div>
+          <p>To, co budujesz, nazywa się <dfn>sceną</dfn>. Pojedynczy dźwięk w scenie to <dfn>źródło</dfn>, a trasa, po której się porusza, to <dfn>trajektoria</dfn>.</p>
+          <p>Przełącznik <b>◎ Spatial</b> i <b>♫ Direct Stereo</b> decyduje o <dfn>routingu</dfn> źródła. Po polsku: czy dźwięk idzie przez udawanie głowy, czy prosto do słuchawek.</p>
+          <p>Eksport liczy całą scenę od nowa, poza czasem rzeczywistym. Nazywa się to <dfn>renderowaniem offline</dfn> i dlatego wynik jest zawsze taki sam.</p>
+        </section>
+
+      </div>
+
+      <!-- ============ DALEJ ============ -->
+      <section class="dalej">
+        <div class="czesc-label" style="max-width:860px;">Dalej</div>
+        <div class="dalej-siatka">
+          <a class="dalej-karta" href="/wiedza/co-zrobic-z-plikiem/">
+            <span class="kier">Następne pytanie · 06</span>
+            <span class="tyt">Co zrobić z plikiem, który zrobiłeś?</span>
+          </a>
+          <a class="dalej-karta" href="/2D_Audio_Explorer/">
+            <span class="kier">Otwórz warsztat</span>
+            <span class="tyt">Scena ↗</span>
+          </a>
+        </div>
+        <p style="margin-top:22px;font-family:var(--mono);font-size:0.66rem;color:var(--dim);">
+          <a class="zwykly" href="/wiedza/">← Wróć do wszystkich pytań</a>
+        </p>
+      </section>
+
+    </main>
+
+    <!-- ============ STOPKA ============ -->
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+      </div>
+    </footer>
+
+    <script src="/assets/hub.js" defer></script>
+  </body>
+</html>

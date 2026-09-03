@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dlaczego w słuchawkach dźwięk gra w środku głowy? — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="Zwykłe nagranie nie wie nic o twojej głowie. Dzieli dźwięk na lewo i prawo, i na tym kończy. Posłuchaj różnicy w Scenie." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Dlaczego w słuchawkach dźwięk gra w środku głowy?" />
+    <meta property="og:description" content="Zwykłe nagranie nie wie nic o twojej głowie. Dzieli dźwięk na lewo i prawo, i na tym kończy. Posłuchaj różnicy w Scenie." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/wiedza/dlaczego-dzwiek-gra-w-glowie/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/shared.css" />
+    <link rel="stylesheet" href="/assets/wiedza.css" />
+  </head>
+
+  <body class="hub">
+
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <!-- ============ 1. PASEK KPO ============ -->
+    <div class="kpo-banner">
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
+    </div>
+
+    <!-- ============ 2. NAWIGACJA ============ -->
+    <nav class="top-nav">
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/" aria-current="page">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- ============ PYTANIE ============ -->
+      <header class="page-head pytanie">
+        <p class="page-label"><a href="/wiedza/" style="color:inherit;text-decoration:none;">Ścieżka od zera</a> · Krok 02</p>
+        <h1>Dlaczego w słuchawkach dźwięk gra w środku głowy?</h1>
+      </header>
+
+      <div class="tresc">
+
+        <section class="krotka-odpowiedz">
+          <div class="czesc-label">Krótka odpowiedź</div>
+          <p>Bo zwykłe nagranie nic nie wie o twojej głowie. Dzieli dźwięk na lewo i prawo, i na tym kończy. Brakuje mu trzech zmian, które w prawdziwym świecie robi twoja głowa.</p>
+        </section>
+
+        <section class="posluchaj">
+          <div class="czesc-label">Posłuchaj</div>
+          <ol>
+            <li>Załóż słuchawki i otwórz <a href="/2D_Audio_Explorer/">Scenę ↗</a></li>
+            <li>Kliknij <b>◈ Biblioteka SAL</b> i wybierz dowolny dźwięk. Poczekaj, aż się pobierze.</li>
+            <li>Przeciągnij go daleko w lewo od kropki, która oznacza ciebie.</li>
+            <li>Naciśnij <b>▶ Wszystkie</b>. Dźwięk przyjdzie z lewej strony.</li>
+            <li>Kliknij <b>♫ Direct Stereo</b>. Ten sam dźwięk wskoczy do środka głowy.</li>
+            <li>Kliknij <b>◎ Spatial</b>. Wyjdzie z powrotem na zewnątrz.</li>
+          </ol>
+          <p>To jest cała różnica. Plik się nie zmienił. Zmieniło się tylko to, czy program udaje twoją głowę.</p>
+        </section>
+
+        <section class="dlaczego">
+          <div class="czesc-label">Dlaczego tak jest</div>
+          <p><b>Zwykłe stereo to dwie ścieżki.</b> Jedna idzie do lewego ucha, druga do prawego. Nagranie potrafi powiedzieć tylko „bardziej z lewej" albo „bardziej z prawej". Nic więcej w nim nie ma.</p>
+          <p><b>Twoja głowa robi trzy rzeczy naraz.</b> Opóźnia dźwięk, przygłusza go i zmienia jego brzmienie. Za każdym razem inaczej, zależnie od kierunku. To są dokładnie te trzy wskazówki z pierwszego pytania.</p>
+          <p><b>Program potrafi to policzyć.</b> Bierze zwykły dźwięk i dokłada mu te trzy zmiany. Potem podaje osobno do lewego i prawego ucha. Mózg kupuje to od razu.</p>
+          <p><b>Bez tych zmian mózg nie ma wyboru.</b> Skoro dźwięk nie przyszedł znikąd, musi być tuż przy tobie. Najbliżej jest środek głowy i tam go umieszcza.</p>
+          <p><b>Na głośnikach to nie zadziała.</b> Lewe ucho słyszy wtedy również prawy głośnik. Różnice, które program tak starannie policzył, mieszają się w powietrzu i znikają.</p>
+        </section>
+
+        <section class="sprawdz-na-sobie">
+          <div class="czesc-label">Sprawdź na sobie, bez komputera</div>
+          <p>Puść to samo nagranie na głośnikach laptopa. Potem wróć na słuchawki.</p>
+          <p>Na głośnikach dźwięk zrobi się płaski i przyklei się do ekranu. To nie jest wada nagrania. Tak działa fizyka pokoju.</p>
+        </section>
+
+        <section class="dorosle-slowo">
+          <div class="czesc-label">Dorosłe słowo</div>
+          <p>Udawanie głowy przez program nazywa się <dfn>binauralizacją</dfn>. Słowo pochodzi od łacińskiego <i>bini aures</i>, czyli „dwoje uszu".</p>
+          <p>Zestaw pomiarów, który opisuje, jak głowa i małżowiny zmieniają dźwięk, to <dfn>HRTF</dfn>. Skrót od <i>Head-Related Transfer Function</i>, czyli funkcja przenoszenia związana z głową.</p>
+          <p>Wrażenie, że dźwięk siedzi w środku głowy, ma własną nazwę: <dfn>lateralizacja</dfn>. Przeciwieństwem jest <dfn>eksternalizacja</dfn>, czyli wyjście dźwięku na zewnątrz.</p>
+        </section>
+
+      </div>
+
+      <!-- ============ DALEJ ============ -->
+      <section class="dalej">
+        <div class="czesc-label" style="max-width:860px;">Dalej</div>
+        <div class="dalej-siatka">
+          <a class="dalej-karta" href="/wiedza/jak-nagrac-cala-przestrzen/">
+            <span class="kier">Następne pytanie · 03</span>
+            <span class="tyt">Jak nagrać całą przestrzeń naraz?</span>
+          </a>
+          <a class="dalej-karta" href="/2D_Audio_Explorer/">
+            <span class="kier">Posłuchaj jeszcze raz</span>
+            <span class="tyt">Scena ↗</span>
+          </a>
+        </div>
+        <p style="margin-top:22px;font-family:var(--mono);font-size:0.66rem;color:var(--dim);">
+          <a class="zwykly" href="/wiedza/">← Wróć do wszystkich pytań</a>
+        </p>
+      </section>
+
+    </main>
+
+    <!-- ============ STOPKA ============ -->
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+      </div>
+    </footer>
+
+    <script src="/assets/hub.js" defer></script>
+  </body>
+</html>

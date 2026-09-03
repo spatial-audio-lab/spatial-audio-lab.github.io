@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Co zrobić z plikiem, który zrobiłeś? — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="W archiwum jest pięć plików i każdy ma inne zadanie. Jeden puścisz każdemu, drugi trzymaj — z niego da się jeszcze wyciągnąć kierunki." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Co zrobić z plikiem, który zrobiłeś?" />
+    <meta property="og:description" content="W archiwum jest pięć plików i każdy ma inne zadanie. Jeden puścisz każdemu, drugi trzymaj — z niego da się jeszcze wyciągnąć kierunki." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/wiedza/co-zrobic-z-plikiem/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/shared.css" />
+    <link rel="stylesheet" href="/assets/wiedza.css" />
+  </head>
+
+  <body class="hub">
+
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <!-- ============ 1. PASEK KPO ============ -->
+    <div class="kpo-banner">
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
+    </div>
+
+    <!-- ============ 2. NAWIGACJA ============ -->
+    <nav class="top-nav">
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/" aria-current="page">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- ============ PYTANIE ============ -->
+      <header class="page-head pytanie">
+        <p class="page-label"><a href="/wiedza/" style="color:inherit;text-decoration:none;">Ścieżka od zera</a> · Krok 06</p>
+        <h1>Co zrobić z plikiem, który zrobiłeś?</h1>
+      </header>
+
+      <div class="tresc">
+
+        <section class="krotka-odpowiedz">
+          <div class="czesc-label">Krótka odpowiedź</div>
+          <p>W archiwum jest pięć plików i każdy ma inne zadanie. Jeden puścisz każdemu. Drugi zachowaj, bo tylko z niego da się jeszcze wyciągnąć kierunki. Reszta to opis twojej sceny.</p>
+        </section>
+
+        <section class="posluchaj">
+          <div class="czesc-label">Zrób to</div>
+          <ol>
+            <li>Rozpakuj archiwum. Wszystko siedzi w katalogu nazwanym tak, jak twoja scena.</li>
+            <li>Plik z napisem <b>BINAURAL</b> w nazwie puść w czymkolwiek. To zwykłe nagranie na słuchawki.</li>
+            <li>Całe archiwum przeciągnij na <a href="/ambi/">Sferę ↗</a>. Sama wybierze z niego, czego potrzebuje.</li>
+            <li>W Sferze pokręć polem. Kierunki zareagują, bo w tym pliku wciąż są zapisane.</li>
+          </ol>
+          <p>Ten sam moment sceny masz więc w dwóch postaciach: gotowej do słuchania i takiej, którą da się jeszcze obracać.</p>
+        </section>
+
+        <section class="dlaczego">
+          <div class="czesc-label">Dlaczego tak jest</div>
+          <p><b>Plik na słuchawki.</b> Gotowe nagranie, działa wszędzie: w telefonie, w odtwarzaczu, na stronie. Kierunki są w nim zapisane na stałe i nic już z nimi nie zrobisz.</p>
+          <p><b>Plik przestrzenny.</b> Ma cztery ścieżki zamiast dwóch i trzyma cały rozkład dźwięku. Z niego można jeszcze obracać sceną. To ten, który warto zachować.</p>
+          <p><b>Mapa.</b> Czarno-biały obrazek pokazujący, gdzie co stało. Zrobiony pod druk, więc można go wkleić do pracy albo powiesić na ścianie.</p>
+          <p><b>Opis dla ciebie.</b> Zwykły tekst: co, gdzie, jak daleko, jak długo. Do przeczytania za pół roku, gdy zapomnisz, co to za nagranie.</p>
+          <p><b>Opis dla programu.</b> To samo, tylko w formie, którą czyta Sfera. Dzięki niemu na kuli zapalają się nazwane punkty.</p>
+          <p><b>Uwaga na pułapkę.</b> Wiele zwykłych programów spłaszcza cztery ścieżki do dwóch i nawet o tym nie mówi. Kierunki znikają wtedy bezpowrotnie. Jeśli musisz zmniejszyć plik przestrzenny, użyj <a href="/opus-encoder/">Opus Encoder ↗</a> — ustawienia domyślne są już dobre.</p>
+        </section>
+
+        <section class="sprawdz-na-sobie">
+          <div class="czesc-label">Sprawdź na sobie</div>
+          <p>Wyślij komuś sam plik na słuchawki i poproś, żeby posłuchał w drodze do pracy.</p>
+          <p>To najprostszy test twojej sceny. Jeśli obca osoba pokaże palcem właściwą stronę, scena jest czytelna.</p>
+        </section>
+
+        <section class="dorosle-slowo">
+          <div class="czesc-label">Dorosłe słowo</div>
+          <p>Pięć plików w archiwum ma końcówki <dfn>_BINAURAL.wav</dfn>, <dfn>_AMBIX.wav</dfn>, <dfn>_MAPA.jpg</dfn>, <dfn>_META.txt</dfn> i <dfn>_SCENA.json</dfn>.</p>
+          <p><dfn>WAV</dfn> to zapis bez kompresji: duży, ale nic nie traci. <dfn>Opus</dfn> to zapis skompresowany, kilka razy mniejszy, dla ucha praktycznie taki sam.</p>
+          <p>Przy pakowaniu czterech ścieżek trzeba powiedzieć programowi, że to nie są cztery osobne nagrania. Odpowiada za to ustawienie <dfn>mapping family 255</dfn>. Opus Encoder ma je włączone od początku.</p>
+        </section>
+
+      </div>
+
+      <!-- ============ DALEJ ============ -->
+      <section class="dalej">
+        <div class="czesc-label" style="max-width:860px;">Dalej</div>
+        <div class="dalej-siatka">
+          <a class="dalej-karta" href="/wiedza/nagraj-sam/">
+            <span class="kier">Następne pytanie · 07</span>
+            <span class="tyt">Nagraj sam</span>
+          </a>
+          <a class="dalej-karta" href="/opus-encoder/">
+            <span class="kier">Zmniejsz plik bez straty</span>
+            <span class="tyt">Opus Encoder ↗</span>
+          </a>
+        </div>
+        <p style="margin-top:22px;font-family:var(--mono);font-size:0.66rem;color:var(--dim);">
+          <a class="zwykly" href="/wiedza/">← Wróć do wszystkich pytań</a>
+        </p>
+      </section>
+
+    </main>
+
+    <!-- ============ STOPKA ============ -->
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+      </div>
+    </footer>
+
+    <script src="/assets/hub.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Słownik dorosłych słów — Spatial Audio Lab</title>
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/brand/apple-touch-icon.png" />
+
+    <meta name="description" content="Ambisonia, AmbiX, HRTF, FOA. Co te słowa znaczą po polsku, gdy spotkasz je poza tą stroną." />
+    <meta name="robots" content="noindex" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Słownik dorosłych słów" />
+    <meta property="og:description" content="Ambisonia, AmbiX, HRTF, FOA. Co te słowa znaczą po polsku, gdy spotkasz je poza tą stroną." />
+    <meta property="og:image" content="https://spatial-audio-lab.github.io/assets/brand/og-image.png" />
+    <meta property="og:url" content="https://spatial-audio-lab.github.io/wiedza/slownik/" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&family=Azeret+Mono:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/shared.css" />
+    <link rel="stylesheet" href="/assets/wiedza.css" />
+  </head>
+
+  <body class="hub">
+
+    <div class="cursor-dot" id="dot" aria-hidden="true"></div>
+    <div class="cursor-ring" id="ring" aria-hidden="true"></div>
+
+    <!-- ============ 1. PASEK KPO ============ -->
+    <div class="kpo-banner">
+      <img src="/KPO.jpg" alt="Logotypy: Krajowy Plan Odbudowy, Rzeczpospolita Polska, Unia Europejska — NextGenerationEU" />
+    </div>
+
+    <!-- ============ 2. NAWIGACJA ============ -->
+    <nav class="top-nav">
+      <a class="top-nav-brand" href="/">
+        <img src="/assets/brand/icon-192.png" alt="" />
+        <span class="wm">Spatial Audio <em>Lab</em></span>
+      </a>
+      <div class="top-nav-links">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/" aria-current="page">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </div>
+    </nav>
+
+    <main>
+
+      <!-- ============ PYTANIE ============ -->
+      <header class="page-head pytanie">
+        <p class="page-label"><a href="/wiedza/" style="color:inherit;text-decoration:none;">Ścieżka od zera</a> · Krok 08</p>
+        <h1>Słownik dorosłych słów</h1>
+      </header>
+
+      <div class="tresc">
+
+        <section class="krotka-odpowiedz">
+          <div class="czesc-label">Krótka odpowiedź</div>
+          <p>Tu wolno używać fachowych słów. Zebrane są wszystkie, które pojawiły się na poprzednich stronach. Każde ma jedno zdanie wyjaśnienia i wskazówkę, skąd się wzięło.</p>
+        </section>
+
+        <section class="dlaczego">
+          <div class="czesc-label">Słowa od A do Z</div>
+          <p><b>Ambisonia</b> — sposób zapisu, który przechowuje rozkład dźwięku dookoła, a nie gotowy wynik dla dwóch uszu. Dzięki temu sceną można obracać po nagraniu.</p>
+          <p><b>AmbiX</b> — umowa co do kolejności i głośności ścieżek w zapisie ambisonicznym. Bez niej programy czytałyby ten sam plik różnie i myliły strony.</p>
+          <p><b>A-format i B-format</b> — surowy zapis prosto z kapsuł mikrofonu i ten sam materiał po przeliczeniu na osie. Obracać można dopiero B-format.</p>
+          <p><b>Binauralny</b> — zrobiony pod dwoje uszu, do słuchania w słuchawkach. Od łacińskiego <i>bini aures</i>, czyli „dwoje uszu".</p>
+          <p><b>Binauralizacja</b> — policzenie przez program tego, co z dźwiękiem robi ludzka głowa. To ona sprawia, że dźwięk wychodzi ze środka głowy na zewnątrz.</p>
+          <p><b>Eksternalizacja</b> — wrażenie, że dźwięk jest na zewnątrz ciebie. Jej przeciwieństwo, czyli dźwięk w środku głowy, to <b>lateralizacja</b>.</p>
+          <p><b>FOA</b> — <i>First Order Ambisonics</i>, ambisonia pierwszego rzędu. Cztery ścieżki: W, X, Y i Z. Wyższe rzędy mają ich dziewięć albo szesnaście i opisują kierunek dokładniej.</p>
+          <p><b>Front-back confusion</b> — mylenie przodu z tyłem. Bierze się stąd, że dla obu tych kierunków różnice między uszami są takie same.</p>
+          <p><b>HRTF</b> — <i>Head-Related Transfer Function</i>, funkcja przenoszenia związana z głową. Zestaw pomiarów opisujących, jak twoja głowa i małżowiny zmieniają dźwięk zależnie od kierunku.</p>
+          <p><b>ILD</b> — <i>Interaural Level Difference</i>, międzyuszna różnica poziomu. Prościej: jedno ucho słyszy głośniej, bo głowa zasłania drugie.</p>
+          <p><b>ITD</b> — <i>Interaural Time Difference</i>, międzyuszna różnica czasu. Prościej: jedno ucho słyszy wcześniej, bo ma bliżej.</p>
+          <p><b>Lokalizacja</b> — to, że mózg z kilku wskazówek układa jeden kierunek i mówi ci, gdzie coś jest.</p>
+          <p><b>Mapping family 255</b> — ustawienie przy pakowaniu, które mówi programowi, że cztery ścieżki należą do siebie. Bez niego wyjdą z tego cztery osobne nagrania.</p>
+          <p><b>Opus</b> — nowoczesny zapis skompresowany. Kilka razy mniejszy od WAV-a i dla ucha praktycznie nie do odróżnienia.</p>
+          <p><b>Pogłos</b> — ogon dźwięku odbijający się od ścian. Mówi mózgowi, jak duże i jak twarde jest pomieszczenie.</p>
+          <p><b>Renderowanie offline</b> — policzenie całego nagrania szybciej niż w czasie rzeczywistym. Dzięki temu wynik jest za każdym razem identyczny.</p>
+          <p><b>Routing</b> — decyzja, którą drogą idzie dany dźwięk. W Scenie: przez udawanie głowy albo prosto do słuchawek.</p>
+          <p><b>Scena, źródło, trajektoria</b> — to, co budujesz; pojedynczy dźwięk w środku; oraz trasa, po której się porusza.</p>
+          <p><b>Stożek nieoznaczoności</b> — zbiór wszystkich punktów, które dają dokładnie te same różnice między uszami. Po angielsku <i>cone of confusion</i>.</p>
+          <p><b>WAV</b> — zapis bez kompresji. Duży, ale nic nie gubi. Dobry na materiał źródłowy i na archiwum.</p>
+        </section>
+
+        <section class="dorosle-slowo">
+          <div class="czesc-label">Dorosłe słowo</div>
+          <p>Ta strona jest jedynym miejscem w tej karcie, gdzie fachowe słowa mogą stać w tekście głównym. Na pozostałych siedmiu wolno im występować tylko w takiej ramce jak ta.</p>
+          <p>Nie jest to widzimisię. Pilnuje tego skrypt, który sprawdza każdą stronę przed publikacją.</p>
+        </section>
+
+      </div>
+
+      <!-- ============ DALEJ ============ -->
+      <section class="dalej">
+        <div class="czesc-label" style="max-width:860px;">Dalej</div>
+        <div class="dalej-siatka">
+          <a class="dalej-karta" href="/wiedza/skad-wiesz-gdzie-cos-jest/">
+            <span class="kier">Wróć na początek · 01</span>
+            <span class="tyt">Skąd wiesz, gdzie coś jest, kiedy tego nie widzisz?</span>
+          </a>
+          <a class="dalej-karta" href="/#narzedzia">
+            <span class="kier">Wypróbuj to wszystko</span>
+            <span class="tyt">Narzędziownia ↗</span>
+          </a>
+        </div>
+        <p style="margin-top:22px;font-family:var(--mono);font-size:0.66rem;color:var(--dim);">
+          <a class="zwykly" href="/wiedza/">← Wróć do wszystkich pytań</a>
+        </p>
+      </section>
+
+    </main>
+
+    <!-- ============ STOPKA ============ -->
+    <footer class="site-footer">
+      <p class="foot-note">
+        Sfinansowano ze środków <b>Krajowego Planu Odbudowy i Zwiększania Odporności</b>.
+        Stypendium Narodowego Instytutu Muzyki i Tańca, umowa 143/KPO.STYPENDIA/NIMIT/2025.
+        Szczegóły przedsięwzięcia i sprawozdawczość: <a href="/o-projekcie/">O projekcie</a>.
+      </p>
+      <nav class="foot-links" aria-label="Stopka">
+        <a href="/#narzedzia">Narzędzia</a>
+        <a href="/archiwum/">Archiwum</a>
+        <a href="/wiedza/">Dźwięk przestrzenny</a>
+        <a href="/o-projekcie/">O projekcie</a>
+      </nav>
+      <div class="foot-contact">
+        <b>Oskar Hamerski</b>
+        Stypendysta KPO dla Kultury 2025/2026<br>
+        <a href="mailto:oskar.hamerski@gmail.com">oskar.hamerski@gmail.com</a>
+      </div>
+    </footer>
+
+    <script src="/assets/hub.js" defer></script>
+  </body>
+</html>
