@@ -163,5 +163,16 @@
     </footer>
 
     <script src="/assets/hub.js" defer></script>
+  <!-- Licznik odwiedzin GoatCounter. Milczy poza spatial-audio-lab.github.io,
+       wiec aplikacja otwarta z dysku nie laczy sie z siecia. -->
+  <script>
+    if (location.hostname === 'spatial-audio-lab.github.io') {
+      var gc = document.createElement('script');
+      gc.async = true;
+      gc.src = 'https://gc.zgo.at/count.js';
+      gc.setAttribute('data-goatcounter', 'https://sal.goatcounter.com/count');
+      document.head.appendChild(gc);
+    }
+  </script>
   </body>
 </html>
